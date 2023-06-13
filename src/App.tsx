@@ -1,7 +1,8 @@
 import "./App.css";
+import View from "./components/View";
 
-function App() {
-  return <></>;
-}
+const App = () => {
+  return <View />;
+};
 
 export default App;
