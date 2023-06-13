@@ -1,13 +1,24 @@
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Form from "./Form";
-import styles from "../modules/styles.module.css";
+import wrapperStyles from "../modules/wrappers.module.css";
 
 const View = () => {
+  const [step, setStep] = useState<number>(1);
+
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+
+  const handlePrevStep = () => {
+    setStep(step - 1);
+  };
+
   return (
-    <div id="container" className={styles.container}>
-      <div id="view-wrapper" className={styles.viewWrapper}>
+    <div id="container" className={wrapperStyles.container}>
+      <div id="view-wrapper" className={wrapperStyles.viewWrapper}>
         <Sidebar />
-        <Form />
+        <Form prev={handlePrevStep} next={handleNextStep} step={step} />
       </div>
     </div>
   );

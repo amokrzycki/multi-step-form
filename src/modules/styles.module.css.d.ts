@@ -1,6 +1,6 @@
 declare const styles: {
-  readonly viewWrapper: string;
-  readonly container: string;
-  readonly sidebarWrapper: string;
+  readonly number: string;
+  readonly circle: string;
+  readonly border: string;
 };
 export default styles;

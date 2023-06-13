@@ -1,7 +1,8 @@
+import React from "react";
 import "./App.css";
 import View from "./components/View";
 
-const App = () => {
+const App: React.FC = () => {
   return <View />;
 };
 

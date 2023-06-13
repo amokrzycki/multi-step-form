@@ -1,30 +1,22 @@
-.viewWrapper {
-    width: 50vw;
-    height: 50vh;
-    display: flex;
-    padding: 1em;
+.circle {
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-weight: bold;
 }
 
-.container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.sidebarWrapper {
-    width: 12em;
-    background-image: url(../../assets/images/bg-sidebar-desktop.svg);
-    border-radius: 1em;
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
+.border {
+    border: 1px gray solid;
 }
-
-.sidebarWrapper > div {
-    padding: 0.2em;
-    display: flex;
-    height: 5em;
-}
-
