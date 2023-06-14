@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import View from "./components/View";
+import View from "./components/View/View";
 
 const App: React.FC = () => {
   return <View />;

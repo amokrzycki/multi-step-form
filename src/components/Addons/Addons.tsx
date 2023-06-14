@@ -1,5 +1,5 @@
-import wrapperStyles from "../modules/wrappers.module.css";
-import Button from "./Button";
+import Button from "../../layout/Button/Button";
+import buttonStyles from "../../layout/Button/button.module.css";
 
 type Props = {
   handleNextStep: () => void;
@@ -31,7 +31,7 @@ const Addons = (props: Props) => {
           <p>+$2/mo</p>
         </div>
       </div>
-      <div className={wrapperStyles.navigationWrapper}>
+      <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"
           color="transparent"

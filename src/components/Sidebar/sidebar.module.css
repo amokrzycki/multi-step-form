@@ -1,0 +1,23 @@
+.sidebarWrapper {
+  width: 25%;
+  background-image: url(../../assets/images/bg-sidebar-desktop.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.sidebarWrapper > div {
+  padding: 1em;
+  display: flex;
+  text-transform: uppercase;
+}
+
+.sidebarWrapper p {
+  margin: 0;
+  margin-left: 1em;
+  color: white;
+}

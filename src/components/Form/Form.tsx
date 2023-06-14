@@ -1,10 +1,10 @@
 import React from "react";
-import wrapperStyles from "../modules/wrappers.module.css";
-import Info from "./Info";
-import Addons from "./Addons";
-import Summary from "./Summary";
-import Plan from "./Plan";
-import Confirmation from "./Confirmation";
+import Info from "../Info/Info";
+import Addons from "../Addons/Addons";
+import Summary from "../Summary/Summary";
+import Plan from "../Plan/Plan";
+import Confirmation from "../Confirmation/Confirmation";
+import formStyles from "./form.module.css";
 
 type Props = {
   prev: () => void;
@@ -35,7 +35,7 @@ const Form: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div id="form-wrapper" className={wrapperStyles.formWrapper}>
+    <div id="form-wrapper" className={formStyles.formWrapper}>
       {renderStep()}
     </div>
   );
