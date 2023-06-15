@@ -1,5 +1,7 @@
 import sidebarStyles from "./sidebar.module.css";
 import Step from "../../layout/Step/Step";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const steps = [
   {
@@ -25,6 +27,8 @@ const steps = [
 ];
 
 const Sidebar = () => {
+  const stepNumber = useSelector((state: RootState) => state.step).toString();
+
   return (
     <div id="sidebar-wrapper" className={sidebarStyles.sidebarWrapper}>
       {steps.map((step) => (
@@ -33,6 +37,7 @@ const Sidebar = () => {
           number={step.number}
           title={step.title}
           description={step.description}
+          filled={stepNumber === step.number ? true : false}
         />
       ))}
     </div>
