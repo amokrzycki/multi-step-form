@@ -3,7 +3,7 @@ import React from "react";
 type ClickableDivProps = {
   onClick: React.MouseEventHandler<HTMLDivElement>;
   children: React.ReactNode;
-  id: string;
+  id?: string;
 };
 
 const ClickableDiv: React.FC<ClickableDivProps> = ({
@@ -12,7 +12,7 @@ const ClickableDiv: React.FC<ClickableDivProps> = ({
   id,
 }) => {
   return (
-    <div id={id} onClick={onClick}>
+    <div id={id} onClick={onClick} style={{ cursor: "pointer" }}>
       {children}
     </div>
   );

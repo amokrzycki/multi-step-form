@@ -1,4 +1,4 @@
 declare const addonsStyles: {
-  readonly formWrapper: string;
+  readonly addonsPickWrapper: string;
 };
 export default addonsStyles;

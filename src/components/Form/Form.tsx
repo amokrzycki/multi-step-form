@@ -17,25 +17,37 @@ type Props = {
 };
 
 const Form: React.FC<Props> = (props: Props) => {
+  const stepElements = [
+    {
+      number: 1,
+      component: (
+        <Info handleNextStep={props.next} change={props.handleChange} />
+      ),
+    },
+    {
+      number: 2,
+      component: (
+        <Plan handleNextStep={props.next} handlePrevStep={props.prev} />
+      ),
+    },
+    {
+      number: 3,
+      component: (
+        <Addons handleNextStep={props.next} handlePrevStep={props.prev} />
+      ),
+    },
+    {
+      number: 4,
+      component: (
+        <Summary handleConfirm={props.confirm} handlePrevStep={props.prev} />
+      ),
+    },
+    { number: 5, component: <Confirmation /> },
+  ];
+
   const renderStep = () => {
-    switch (props.step) {
-      case 1:
-        return <Info handleNextStep={props.next} change={props.handleChange} />;
-      case 2:
-        return <Plan handleNextStep={props.next} handlePrevStep={props.prev} />;
-      case 3:
-        return (
-          <Addons handleNextStep={props.next} handlePrevStep={props.prev} />
-        );
-      case 4:
-        return (
-          <Summary handleConfirm={props.confirm} handlePrevStep={props.prev} />
-        );
-      case 5:
-        return <Confirmation />;
-      default:
-        return null;
-    }
+    const step = stepElements.find((s) => s.number === props.step);
+    return step ? step.component : null;
   };
 
   return (

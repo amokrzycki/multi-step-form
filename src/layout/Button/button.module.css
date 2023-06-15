@@ -2,13 +2,14 @@
   display: flex;
   justify-content: space-between;
   height: -webkit-fill-available;
+  align-items: flex-end;
 }
 
 .button {
   width: 8em;
   height: 3.5em;
   border-radius: 0.6em;
-  padding: 1em;
   font-family: "Ubuntu", sans-serif;
   font-weight: 500;
+  cursor: pointer;
 }

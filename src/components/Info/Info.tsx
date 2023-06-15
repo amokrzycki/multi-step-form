@@ -1,6 +1,7 @@
 import infoStyles from "./info.module.css";
 import Button from "../../layout/Button/Button";
 import Headline from "../../layout/Headline/Headline";
+import Wrapper from "../../layout/Wrapper/Wrapper";
 
 type Props = {
   handleNextStep: () => void;
@@ -9,10 +10,10 @@ type Props = {
 
 const Info = (props: Props) => {
   return (
-    <div id="info-wrapper" className={infoStyles.infoWrapper}>
+    <Wrapper>
       <Headline
         title="Personal info"
-        description="Please provide your name, email address, and phone number"
+        description="Please provide your name, email address, and phone number."
       />
       <label htmlFor="name">Name</label>
       <input
@@ -44,7 +45,7 @@ const Info = (props: Props) => {
           click={props.handleNextStep}
         />
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

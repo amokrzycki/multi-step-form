@@ -3,6 +3,8 @@ import Button from "../../layout/Button/Button";
 import Card from "../../layout/Card/Card";
 import planStyles from "./plan.module.css";
 import Headline from "../../layout/Headline/Headline";
+import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
+import Wrapper from "../../layout/Wrapper/Wrapper";
 
 type Props = {
   handleNextStep: () => void;
@@ -28,25 +30,28 @@ const plans = [
 ];
 
 const Plan = (props: Props) => {
+  const handleClick = () => {
+    console.log("clicked");
+  };
   return (
-    <div className={planStyles.planWrapper}>
+    <Wrapper>
       <Headline
         title="Select your plan"
         description="You have the option of monthly or yearly billing"
       />
       <div className={planStyles.optionsWrapper}>
-        {plans.map((plan) => (
-          <Card
-            key={plan.title}
-            src={plan.src}
-            title={plan.title}
-            price={plan.price}
-          />
+        {plans.map((plan, index) => (
+          <ClickableDiv key={index} onClick={handleClick}>
+            <Card src={plan.src} title={plan.title} price={plan.price} />
+          </ClickableDiv>
         ))}
       </div>
-      <div>
+      <div className={planStyles.switchWrapper}>
         <p>Monthly</p>
-        <input type="radio" />
+        <label className={planStyles.switch}>
+          <input type="checkbox" />
+          <span className={`${planStyles.slider} ${planStyles.round}`}></span>
+        </label>
         <p>Yearly</p>
       </div>
       <div className={buttonStyles.navigationWrapper}>
@@ -63,7 +68,7 @@ const Plan = (props: Props) => {
           click={props.handleNextStep}
         />
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

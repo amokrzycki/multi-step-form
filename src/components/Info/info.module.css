@@ -1,31 +1,5 @@
-.infoWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-}
-
 .navWrapper {
   display: flex;
   justify-content: flex-end;
   height: -webkit-fill-available;
 }
-
-.infoWrapper > input {
-  font-weight: 800;
-  padding: 1em;
-  border-radius: 8px;
-  border: 1px hsl(229, 24%, 87%) solid;
-  margin: 0.5em 0 1.4em 0;
-  font-size: 16px;
-}
-
-.infoWrapper > input:focus {
-  outline: none;
-  border: 1px hsl(231, 11%, 63%) solid;
-}
-
-.infoWrapper > input::placeholder {
-  color: hsl(229, 6%, 66%);
-  font-weight: 500;
-}
-

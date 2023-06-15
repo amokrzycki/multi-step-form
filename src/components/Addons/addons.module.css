@@ -1,0 +1,4 @@
+.addonsPickWrapper {
+    display: flex;
+    flex-direction: column;
+}

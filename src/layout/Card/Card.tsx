@@ -10,8 +10,8 @@ const Card = (props: Props) => {
   return (
     <div className={cardStyles.cardWrapper}>
       <img src={props.src} alt={props.title} />
-      <p>{props.title}</p>
-      <p>{props.price}</p>
+      <p className={cardStyles.title}>{props.title}</p>
+      <p className={cardStyles.price}>{props.price}</p>
     </div>
   );
 };

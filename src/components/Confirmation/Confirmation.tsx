@@ -1,6 +1,8 @@
+import Wrapper from "../../layout/Wrapper/Wrapper";
+
 const Confirmation = () => {
   return (
-    <div id="confirmation-wrapper">
+    <Wrapper>
       <img src="../../assets/images/icon-thank-you.svg" />
       <h1>Thank you!</h1>
       <p>
@@ -10,7 +12,7 @@ const Confirmation = () => {
         <br />
         free to email us at support@loremgaming.com.
       </p>
-    </div>
+    </Wrapper>
   );
 };
 

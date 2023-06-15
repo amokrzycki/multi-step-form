@@ -1,5 +1,5 @@
 .sidebarWrapper {
-  width: 25%;
+  width: 30%;
   background-image: url(../../assets/images/bg-sidebar-desktop.svg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -14,4 +14,5 @@
   padding: 1em;
   display: flex;
   text-transform: uppercase;
+  width: fit-content;
 }
