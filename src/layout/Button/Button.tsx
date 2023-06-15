@@ -1,3 +1,5 @@
+import buttonStyles from "./button.module.css";
+
 type Props = {
   text: string;
   color: string;
@@ -11,15 +13,11 @@ const Button = (props: Props) => {
     <button
       style={{
         backgroundColor: props.color,
-        width: "7em",
-        borderRadius: "0.6em",
-        padding: "1em",
         color: props.textColor,
-        fontFamily: "Ubuntu",
         alignSelf: props.alignSelf,
-        fontWeight: 500,
       }}
       onClick={props.click}
+      className={buttonStyles.button}
     >
       {props.text}
     </button>

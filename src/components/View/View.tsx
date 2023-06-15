@@ -1,24 +1,46 @@
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Sidebar from "../Sidebar/Sidebar";
 import Form from "../Form/Form";
 import viewStyles from "./view.module.css";
+import { setFormData, setStep } from "../../store/actions";
+import { RootState, AppDispatch } from "../../store/store";
 
-const View = () => {
-  const [step, setStep] = useState<number>(1);
+const View: React.FC = () => {
+  const step = useSelector((state: RootState) => state.step);
+  const formData = useSelector((state: RootState) => state.formData);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleNextStep = () => {
-    setStep(step + 1);
+    dispatch(setStep(step + 1));
   };
 
   const handlePrevStep = () => {
-    setStep(step - 1);
+    dispatch(setStep(step - 1));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    dispatch(setFormData({ ...formData, [name]: value }));
+  };
+
+  const handleConfirm = () => {
+    dispatch(setStep(step + 1));
+    console.log(formData);
   };
 
   return (
     <div id="container" className={viewStyles.container}>
       <div id="view-wrapper" className={viewStyles.viewWrapper}>
         <Sidebar />
-        <Form prev={handlePrevStep} next={handleNextStep} step={step} />
+        <Form
+          prev={handlePrevStep}
+          next={handleNextStep}
+          confirm={handleConfirm}
+          step={step}
+          formData={formData}
+          handleChange={handleChange}
+        />
       </div>
     </div>
   );
