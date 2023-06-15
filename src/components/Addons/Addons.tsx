@@ -1,5 +1,6 @@
 import Button from "../../layout/Button/Button";
 import buttonStyles from "../../layout/Button/button.module.css";
+import Headline from "../../layout/Headline/Headline";
 
 type Props = {
   handleNextStep: () => void;
@@ -9,8 +10,10 @@ type Props = {
 const Addons = (props: Props) => {
   return (
     <div id="addons-wrapper">
-      <h1>Pick add-ons</h1>
-      <p>Add-ons help enchance your gaming experience</p>
+      <Headline
+        title="Pick add-ons"
+        description="Add-ons help enchance your gaming experience"
+      />
       <div id="addons-pick-wrapper">
         <div>
           <input type="select" />

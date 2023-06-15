@@ -29,10 +29,14 @@ const View: React.FC = () => {
     console.log(formData);
   };
 
+  const handleStepNavigation: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    dispatch(setStep(parseInt(e.currentTarget.id)));
+  };
+
   return (
     <div id="container" className={viewStyles.container}>
       <div id="view-wrapper" className={viewStyles.viewWrapper}>
-        <Sidebar />
+        <Sidebar navigate={handleStepNavigation} />
         <Form
           prev={handlePrevStep}
           next={handleNextStep}

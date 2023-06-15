@@ -1,6 +1,8 @@
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
 import Card from "../../layout/Card/Card";
+import planStyles from "./plan.module.css";
+import Headline from "../../layout/Headline/Headline";
 
 type Props = {
   handleNextStep: () => void;
@@ -27,10 +29,12 @@ const plans = [
 
 const Plan = (props: Props) => {
   return (
-    <div id="plan-wrapper">
-      <h1>Select your plan</h1>
-      <p>You have the option of monthly or yearly billing</p>
-      <div id="options-wrapper">
+    <div className={planStyles.planWrapper}>
+      <Headline
+        title="Select your plan"
+        description="You have the option of monthly or yearly billing"
+      />
+      <div className={planStyles.optionsWrapper}>
         {plans.map((plan) => (
           <Card
             key={plan.title}

@@ -1,5 +1,6 @@
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
+import Headline from "../../layout/Headline/Headline";
 
 type Props = {
   handleConfirm: () => void;
@@ -9,8 +10,10 @@ type Props = {
 const Summary = (props: Props) => {
   return (
     <div id="summary-wrapper">
-      <h1>Finishing up</h1>
-      <p>Double-check everything looks OK before confirming</p>
+      <Headline
+        title="Finishing up"
+        description="Double-check everything looks OK before confirming"
+      />
       <div id="summary-info">
         <div>
           <p>Arcade 9$/mo</p>

@@ -1,5 +1,6 @@
 import infoStyles from "./info.module.css";
 import Button from "../../layout/Button/Button";
+import Headline from "../../layout/Headline/Headline";
 
 type Props = {
   handleNextStep: () => void;
@@ -9,10 +10,10 @@ type Props = {
 const Info = (props: Props) => {
   return (
     <div id="info-wrapper" className={infoStyles.infoWrapper}>
-      <h1 id="title">Personal info</h1>
-      <p className={infoStyles.desc}>
-        Please provide your name, email address, and phone number
-      </p>
+      <Headline
+        title="Personal info"
+        description="Please provide your name, email address, and phone number"
+      />
       <label htmlFor="name">Name</label>
       <input
         type="text"

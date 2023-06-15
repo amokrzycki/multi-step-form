@@ -1,4 +1,5 @@
 declare const planStyles: {
-  readonly formWrapper: string;
+  readonly planWrapper: string;
+  readonly optionsWrapper: string;
 };
 export default planStyles;

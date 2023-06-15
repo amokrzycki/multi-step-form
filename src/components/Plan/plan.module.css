@@ -1,0 +1,12 @@
+.optionsWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1em 0 1em 0;
+}
+
+.planWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+}

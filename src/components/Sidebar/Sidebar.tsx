@@ -3,6 +3,10 @@ import Step from "../../layout/Step/Step";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
+type Props = {
+  navigate: React.MouseEventHandler<HTMLDivElement>;
+};
+
 const steps = [
   {
     number: "1",
@@ -26,7 +30,7 @@ const steps = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = (props: Props) => {
   const stepNumber = useSelector((state: RootState) => state.step).toString();
 
   return (
@@ -38,6 +42,7 @@ const Sidebar = () => {
           title={step.title}
           description={step.description}
           filled={stepNumber === step.number ? true : false}
+          navigate={props.navigate}
         />
       ))}
     </div>
