@@ -14,6 +14,8 @@ type Props = {
   step: number;
   formData: FormInterface;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCheck: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked: boolean[];
 };
 
 const Form: React.FC<Props> = (props: Props) => {
@@ -33,7 +35,12 @@ const Form: React.FC<Props> = (props: Props) => {
     {
       number: 3,
       component: (
-        <Addons handleNextStep={props.next} handlePrevStep={props.prev} />
+        <Addons
+          handleNextStep={props.next}
+          handlePrevStep={props.prev}
+          change={props.handleCheck}
+          checked={props.checked}
+        />
       ),
     },
     {

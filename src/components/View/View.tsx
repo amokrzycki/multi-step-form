@@ -4,11 +4,17 @@ import Form from "../Form/Form";
 import viewStyles from "./view.module.css";
 import { setFormData, setStep } from "../../store/actions";
 import { RootState, AppDispatch } from "../../store/store";
+import React from "react";
 
 const View: React.FC = () => {
   const step = useSelector((state: RootState) => state.step);
   const formData = useSelector((state: RootState) => state.formData);
   const dispatch: AppDispatch = useDispatch();
+  const [checked, setChecked] = React.useState<boolean[]>([
+    false,
+    false,
+    false,
+  ]);
 
   const handleNextStep = () => {
     dispatch(setStep(step + 1));
@@ -33,6 +39,33 @@ const View: React.FC = () => {
     dispatch(setStep(parseInt(e.currentTarget.id)));
   };
 
+  const handleAddonsCheck = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newChecked = [...checked];
+    newChecked[index] = !newChecked[index];
+    setChecked(newChecked);
+
+    if (e.target.checked === true) {
+      dispatch(
+        setFormData({
+          ...formData,
+          [e.target.name]: [...formData.addons, e.target.value],
+        })
+      );
+    } else {
+      dispatch(
+        setFormData({
+          ...formData,
+          [e.target.name]: formData.addons.filter(
+            (addon) => addon !== e.target.value
+          ),
+        })
+      );
+    }
+  };
+
   return (
     <div id="container" className={viewStyles.container}>
       <div id="view-wrapper" className={viewStyles.viewWrapper}>
@@ -44,6 +77,8 @@ const View: React.FC = () => {
           step={step}
           formData={formData}
           handleChange={handleChange}
+          handleCheck={handleAddonsCheck}
+          checked={checked}
         />
       </div>
     </div>

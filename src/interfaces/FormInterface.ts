@@ -1,4 +1,3 @@
-import Addons from "../enums/Addons";
 import Billing from "../enums/Billing";
 import Plan from "../enums/Plan";
 
@@ -8,7 +7,7 @@ interface FormInterface {
   number: string;
   billing: Billing;
   plan: Plan;
-  addons: Addons[];
+  addons: string[];
 }
 
 export default FormInterface;
