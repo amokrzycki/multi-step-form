@@ -4,11 +4,12 @@ type Props = {
   src: string;
   title: string;
   price: string;
+  id?: string;
 };
 
 const Card = (props: Props) => {
   return (
-    <div className={cardStyles.cardWrapper}>
+    <div id={props.id?.toString()} className={cardStyles.cardWrapper}>
       <img src={props.src} alt={props.title} />
       <p className={cardStyles.title}>{props.title}</p>
       <p className={cardStyles.price}>{props.price}</p>

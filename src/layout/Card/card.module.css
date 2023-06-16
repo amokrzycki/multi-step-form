@@ -5,9 +5,12 @@
     width: 7em;
 }
 
+.active {
+    border: 1px solid hsl(213, 96%, 18%);
+}
+
 .cardWrapper:hover {
-    border: 1px solid #aaa;
-    box-shadow: 0 0 5px 1px #aaa;
+    border: 1px solid hsl(213, 96%, 18%);
 }
 
 .title {

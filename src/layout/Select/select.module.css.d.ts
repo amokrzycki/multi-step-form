@@ -5,5 +5,6 @@ declare const selectStyles: {
   readonly infoWrapper: string;
   readonly name: string;
   readonly desc: string;
+  readonly active: string;
 };
 export default selectStyles;

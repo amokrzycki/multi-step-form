@@ -1,6 +1,6 @@
-enum Plan {
+enum PlanEnum {
   ARCADE,
   ADVANCED,
   PRO,
 }
-export default Plan;
+export default PlanEnum;
