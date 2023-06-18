@@ -3,5 +3,6 @@ declare const cardStyles: {
   readonly title: string;
   readonly price: string;
   readonly active: string;
+  readonly dealText: string;
 };
 export default cardStyles;

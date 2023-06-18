@@ -1,13 +1,14 @@
-import AddonsEnum from "../../enums/AddonsEnum";
+import BillingEnum from "../../enums/BillingEnum";
 import selectStyles from "./select.module.css";
 
 type Props = {
   name: string;
   description: string;
-  price: string;
+  price: number;
   change?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked?: boolean;
-  value: AddonsEnum;
+  value: string;
+  billing: string;
 };
 
 const Select = (props: Props) => {
@@ -29,7 +30,9 @@ const Select = (props: Props) => {
           <p className={selectStyles.name}>{props.name}</p>
           <p className={selectStyles.desc}>{props.description}</p>
         </div>
-        <p className={selectStyles.price}>{props.price}</p>
+        <p className={selectStyles.price}>{`+${props.price}/${
+          props.billing === BillingEnum[0] ? "mo" : "yr"
+        }`}</p>
       </div>
     </div>
   );

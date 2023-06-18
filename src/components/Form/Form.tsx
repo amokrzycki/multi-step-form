@@ -19,6 +19,8 @@ type Props = {
 };
 
 const Form: React.FC<Props> = (props: Props) => {
+  const [billingTypechecked, setBillingTypeChecked] = React.useState(false);
+
   const stepElements = [
     {
       number: 1,
@@ -29,7 +31,12 @@ const Form: React.FC<Props> = (props: Props) => {
     {
       number: 2,
       component: (
-        <Plan handleNextStep={props.next} handlePrevStep={props.prev} />
+        <Plan
+          handleNextStep={props.next}
+          handlePrevStep={props.prev}
+          checked={billingTypechecked}
+          billingUpdate={setBillingTypeChecked}
+        />
       ),
     },
     {

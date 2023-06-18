@@ -5,7 +5,7 @@
 }
 
 .wrapper > input[type="text"] {
-    font-weight: 800;
+    font-weight: 600;
     padding: 1em;
     border-radius: 8px;
     border: 1px hsl(229, 24%, 87%) solid;

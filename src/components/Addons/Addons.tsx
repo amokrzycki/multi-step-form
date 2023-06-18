@@ -5,7 +5,11 @@ import Headline from "../../layout/Headline/Headline";
 import Select from "../../layout/Select/Select";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import addonsStyles from "./addons.module.css";
-import AddonsEnum from "../../enums/AddonsEnum";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { setFormData } from "../../store/actions";
+import BillingEnum from "../../enums/BillingEnum";
+import selectStyles from "../../layout/Select/select.module.css";
 
 type Props = {
   handleNextStep: () => void;
@@ -14,25 +18,36 @@ type Props = {
   change: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+const addonsTypes = [
+  "Online service",
+  "Larger storage",
+  "Customizable profile",
+] as const;
+
 const Addons = (props: Props) => {
+  const formData = useSelector((state: RootState) => state.formData);
+  const dispatch: AppDispatch = useDispatch();
   const addons = [
     {
       name: "Online service",
       description: "Access to multiplayer games",
-      price: "+$1/mo",
-      value: AddonsEnum.ONLINE_SERVICE,
+      priceMonthly: 1,
+      priceYearly: 10,
+      value: addonsTypes,
     },
     {
       name: "Larger storage",
       description: "Extra 1TB of cloud save",
-      price: "+$2/mo",
-      value: AddonsEnum.LARGER_STORAGE,
+      priceMonthly: 2,
+      priceYearly: 20,
+      value: addonsTypes,
     },
     {
       name: "Customizable Profile",
       description: "Custom theme on your profile",
-      price: "+$2/mo",
-      value: AddonsEnum.CUSTOMIZABLE_PROFILE,
+      priceMonthly: 2,
+      priceYearly: 20,
+      value: addonsTypes,
     },
   ];
 
@@ -48,10 +63,15 @@ const Addons = (props: Props) => {
             key={index}
             name={addon.name}
             description={addon.description}
-            price={addon.price}
+            price={
+              formData.billing === BillingEnum[0]
+                ? addon.priceMonthly
+                : addon.priceYearly
+            }
             checked={props.checked[index]}
             change={(e) => props.change(index, e)}
-            value={addon.value}
+            value={addon.value[index]}
+            billing={formData.billing}
           />
         ))}
       </div>
@@ -59,14 +79,35 @@ const Addons = (props: Props) => {
         <Button
           text="Go back"
           color="transparent"
-          textColor="hsl(213, 96%, 18%)"
+          textColor="hsl(231, 11%, 63%)"
           click={props.handlePrevStep}
         />
         <Button
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={props.handleNextStep}
+          click={() => {
+            const checkedAddons = document.getElementsByClassName(
+              selectStyles.active
+            );
+            const prices: number[] = [];
+            for (let i = 0; i < checkedAddons.length; i++) {
+              prices.push(
+                parseFloat(checkedAddons[i].children[1].children[1].innerHTML)
+              );
+            }
+
+            dispatch(
+              setFormData({
+                ...formData,
+                ["prices"]: [...formData.prices, ...prices],
+                ["total"]:
+                  formData.billingPrice + prices.reduce((a, b) => a + b, 0),
+              })
+            );
+
+            props.handleNextStep();
+          }}
         />
       </div>
     </Wrapper>

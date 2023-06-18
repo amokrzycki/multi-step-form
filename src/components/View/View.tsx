@@ -47,6 +47,8 @@ const View: React.FC = () => {
     newChecked[index] = !newChecked[index];
     setChecked(newChecked);
 
+    console.log(e.target);
+
     if (e.target.checked === true) {
       dispatch(
         setFormData({

@@ -1,12 +1,13 @@
-import Billing from "../enums/Billing";
-
 interface FormInterface {
   name: string;
   email: string;
   number: string;
-  billing: Billing;
+  billing: string;
+  billingPrice: number;
   plan: string;
   addons: string[];
+  prices: number[];
+  total: number;
 }
 
 export default FormInterface;

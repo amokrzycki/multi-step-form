@@ -1,8 +1,7 @@
 import { Reducer } from "redux";
 import FormData from "../interfaces/FormInterface";
 import { ActionTypes, SetFormDataAction, SetStepAction } from "./actions";
-import Billing from "../enums/Billing";
-import Plan from "../enums/Plan";
+import BillingEnum from "../enums/BillingEnum";
 
 export interface AppState {
   formData: FormData;
@@ -14,9 +13,12 @@ const initialState: AppState = {
     name: "",
     email: "",
     number: "",
-    billing: Billing.MONTHLY,
-    plan: Plan.ARCADE,
+    billing: BillingEnum[0],
+    billingPrice: 0,
+    plan: "",
     addons: [],
+    prices: [],
+    total: 0,
   },
   step: 1,
 };

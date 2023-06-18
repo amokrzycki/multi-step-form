@@ -4,5 +4,7 @@ declare const planStyles: {
   readonly switch: string;
   readonly slider: string;
   readonly round: string;
+  readonly active: string;
+  readonly inactive: string;
 };
 export default planStyles;

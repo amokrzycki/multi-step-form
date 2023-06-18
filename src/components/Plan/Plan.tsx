@@ -5,34 +5,42 @@ import planStyles from "./plan.module.css";
 import Headline from "../../layout/Headline/Headline";
 import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
 import Wrapper from "../../layout/Wrapper/Wrapper";
-import PlanEnum from "../../enums/Plan";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { setFormData } from "../../store/actions";
 import cardStyles from "../../layout/Card/card.module.css";
+import React from "react";
+import BillingEnum from "../../enums/BillingEnum";
 
 type Props = {
   handleNextStep: () => void;
   handlePrevStep: () => void;
+  checked: boolean;
+  billingUpdate: (value: boolean) => void;
 };
 
-const plans = [
+const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
+
+const plansMonthly = [
   {
     src: "../../assets/images/icon-arcade.svg",
     title: "Arcade",
-    price: "$9/mo",
+    priceMonthly: 9,
+    priceYearly: 90,
     type: PlanEnum,
   },
   {
     src: "../../assets/images/icon-advanced.svg",
     title: "Advanced",
-    price: "$12/mo",
+    priceMonthly: 12,
+    priceYearly: 120,
     type: PlanEnum,
   },
   {
     src: "../../assets/images/icon-pro.svg",
     title: "Pro",
-    price: "$15/mo",
+    priceMonthly: 15,
+    priceYearly: 150,
     type: PlanEnum,
   },
 ];
@@ -51,7 +59,20 @@ const Plan = (props: Props) => {
     e.currentTarget.children[0].classList.add(`${cardStyles.active}`);
 
     dispatch(
-      setFormData({ ...formData, ["plan"]: e.currentTarget.children[0].id })
+      setFormData({
+        ...formData,
+        ["plan"]: e.currentTarget.children[0].id,
+      })
+    );
+  };
+
+  const handleSwitch: React.ChangeEventHandler<HTMLLabelElement> = () => {
+    props.billingUpdate(!props.checked);
+    dispatch(
+      setFormData({
+        ...formData,
+        ["billing"]: !props.checked ? BillingEnum[1] : BillingEnum[0],
+      })
     );
   };
 
@@ -62,37 +83,49 @@ const Plan = (props: Props) => {
         description="You have the option of monthly or yearly billing"
       />
       <div className={planStyles.optionsWrapper}>
-        {plans.map((plan, index) => (
+        {plansMonthly.map((plan, index) => (
           <ClickableDiv key={index} onClick={handleClick}>
             <Card
               src={plan.src}
               title={plan.title}
-              price={plan.price}
+              price={!props.checked ? plan.priceMonthly : plan.priceYearly}
               id={plan.type[index]}
+              billing={formData.billing}
             />
           </ClickableDiv>
         ))}
       </div>
       <div className={planStyles.switchWrapper}>
-        <p>Monthly</p>
-        <label className={planStyles.switch}>
-          <input type="checkbox" />
+        <p className={!props.checked ? planStyles.active : planStyles.inactive}>
+          Monthly
+        </p>
+        <label className={planStyles.switch} onChange={handleSwitch}>
+          <input type="checkbox" defaultChecked={props.checked} />
           <span className={`${planStyles.slider} ${planStyles.round}`}></span>
         </label>
-        <p>Yearly</p>
+        <p className={props.checked ? planStyles.active : planStyles.inactive}>
+          Yearly
+        </p>
       </div>
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"
           color="transparent"
-          textColor="hsl(213, 96%, 18%)"
+          textColor="hsl(231, 11%, 63%)"
           click={props.handlePrevStep}
         />
         <Button
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={props.handleNextStep}
+          click={() => {
+            const price = parseFloat(
+              document.getElementsByClassName(cardStyles.active)[0].children[2]
+                .innerHTML
+            );
+            dispatch(setFormData({ ...formData, ["billingPrice"]: price }));
+            props.handleNextStep();
+          }}
         />
       </div>
     </Wrapper>
