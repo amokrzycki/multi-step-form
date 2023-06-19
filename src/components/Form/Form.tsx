@@ -1,11 +1,14 @@
 import React from "react";
-import Info from "../Info/Info";
-import Addons from "../Addons/Addons";
-import Summary from "../Summary/Summary";
-import Plan from "../Plan/Plan";
-import Confirmation from "../Confirmation/Confirmation";
-import formStyles from "./form.module.css";
 import FormInterface from "../../interfaces/FormInterface";
+import {
+  Info,
+  Plan,
+  Addons,
+  Summary,
+  Confirmation,
+  formStyles,
+  Fallback,
+} from "../index";
 
 type Props = {
   prev: () => void;
@@ -19,7 +22,7 @@ type Props = {
 };
 
 const Form: React.FC<Props> = (props: Props) => {
-  const [billingTypechecked, setBillingTypeChecked] = React.useState(false);
+  const [billingTypeChecked, setBillingTypeChecked] = React.useState(false);
 
   const stepElements = [
     {
@@ -34,7 +37,7 @@ const Form: React.FC<Props> = (props: Props) => {
         <Plan
           handleNextStep={props.next}
           handlePrevStep={props.prev}
-          checked={billingTypechecked}
+          checked={billingTypeChecked}
           billingUpdate={setBillingTypeChecked}
         />
       ),
@@ -61,7 +64,7 @@ const Form: React.FC<Props> = (props: Props) => {
 
   const renderStep = () => {
     const step = stepElements.find((s) => s.number === props.step);
-    return step ? step.component : null;
+    return step ? step.component : <Fallback />;
   };
 
   return (

@@ -1,53 +1,51 @@
-import { useSelector, useDispatch } from "react-redux";
-import Sidebar from "../Sidebar/Sidebar";
-import Form from "../Form/Form";
-import viewStyles from "./view.module.css";
-import { setFormData, setStep } from "../../store/actions";
-import { RootState, AppDispatch } from "../../store/store";
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setFormData } from "../../store/actions";
+import { RootState, AppDispatch } from "../../store/store";
+import { Sidebar, Form, viewStyles } from "../index";
 
 const View: React.FC = () => {
-  const step = useSelector((state: RootState) => state.step);
-  const formData = useSelector((state: RootState) => state.formData);
+  const [step, setStep] = React.useState<number>(1);
+  const formData = useSelector((state: RootState) => state);
   const dispatch: AppDispatch = useDispatch();
-  const [checked, setChecked] = React.useState<boolean[]>([
+  const [addonsChecked, setAddonsChecked] = React.useState<boolean[]>([
     false,
     false,
     false,
   ]);
 
   const handleNextStep = () => {
-    dispatch(setStep(step + 1));
+    setStep(step + 1);
   };
 
   const handlePrevStep = () => {
-    dispatch(setStep(step - 1));
+    setStep(step - 1);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInfoFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
     dispatch(setFormData({ ...formData, [name]: value }));
   };
 
-  const handleConfirm = () => {
-    dispatch(setStep(step + 1));
+  const handleFormConfirm = () => {
+    setStep(step + 1);
     console.log(formData);
   };
 
-  const handleStepNavigation: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    dispatch(setStep(parseInt(e.currentTarget.id)));
+  const handleSidebarNavigation: React.MouseEventHandler<HTMLDivElement> = (
+    e
+  ) => {
+    setStep(parseInt(e.currentTarget.id));
   };
 
   const handleAddonsCheck = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const newChecked = [...checked];
+    const newChecked = [...addonsChecked];
     newChecked[index] = !newChecked[index];
-    setChecked(newChecked);
-
-    console.log(e.target);
+    setAddonsChecked(newChecked);
 
     if (e.target.checked === true) {
       dispatch(
@@ -71,16 +69,16 @@ const View: React.FC = () => {
   return (
     <div id="container" className={viewStyles.container}>
       <div id="view-wrapper" className={viewStyles.viewWrapper}>
-        <Sidebar navigate={handleStepNavigation} />
+        <Sidebar navigate={handleSidebarNavigation} step={step} />
         <Form
           prev={handlePrevStep}
           next={handleNextStep}
-          confirm={handleConfirm}
+          confirm={handleFormConfirm}
           step={step}
           formData={formData}
-          handleChange={handleChange}
+          handleChange={handleInfoFromChange}
           handleCheck={handleAddonsCheck}
-          checked={checked}
+          checked={addonsChecked}
         />
       </div>
     </div>

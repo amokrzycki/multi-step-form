@@ -1,7 +1,5 @@
 import infoStyles from "./info.module.css";
-import Button from "../../layout/Button/Button";
-import Headline from "../../layout/Headline/Headline";
-import Wrapper from "../../layout/Wrapper/Wrapper";
+import { Button, Headline, Wrapper } from "../../layout";
 
 type Props = {
   handleNextStep: () => void;

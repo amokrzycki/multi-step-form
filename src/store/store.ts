@@ -1,13 +1,8 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { formDataReducer, stepReducer } from "./reducers";
-
-const rootReducer = combineReducers({
-  formData: formDataReducer,
-  step: stepReducer,
-});
+import { configureStore } from "@reduxjs/toolkit";
+import { formDataReducer } from "./reducers";
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: formDataReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,11 +1,8 @@
-import buttonStyles from "../../layout/Button/button.module.css";
-import Button from "../../layout/Button/Button";
-import Headline from "../../layout/Headline/Headline";
-import Wrapper from "../../layout/Wrapper/Wrapper";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import summaryStyles from "./summary.module.css";
 import BillingEnum from "../../enums/BillingEnum";
+import { buttonStyles, Button, Headline, Wrapper } from "../../layout";
 
 type Props = {
   handleConfirm: () => void;
@@ -13,7 +10,7 @@ type Props = {
 };
 
 const Summary = (props: Props) => {
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state);
   const billingType = formData.billing === BillingEnum[0] ? "mo" : "yr";
 
   return (
@@ -24,7 +21,7 @@ const Summary = (props: Props) => {
       />
       <div className={summaryStyles.summaryWrapper}>
         <div className={summaryStyles.planInfo}>
-          <div>
+          <div id="plan-type">
             <p>{`${formData.plan} (${formData.billing})`} </p>
             <button className={summaryStyles.changeButton}>Change</button>
           </div>

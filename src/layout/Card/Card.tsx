@@ -10,13 +10,12 @@ type Props = {
 };
 
 const Card = (props: Props) => {
+  const billingType = props.billing === BillingEnum[0] ? "mo" : "yr";
   return (
     <div id={props.id?.toString()} className={cardStyles.cardWrapper}>
       <img src={props.src} alt={props.title} />
       <p className={cardStyles.title}>{props.title}</p>
-      <p className={cardStyles.price}>{`${props.price}/${
-        props.billing === BillingEnum[0] ? "mo" : "yr"
-      }`}</p>
+      <p className={cardStyles.price}>{`${props.price}/${billingType}`}</p>
       {props.billing === BillingEnum[1] ? (
         <p className={cardStyles.dealText}>2 months free</p>
       ) : (

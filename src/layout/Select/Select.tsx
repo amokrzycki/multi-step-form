@@ -5,13 +5,14 @@ type Props = {
   name: string;
   description: string;
   price: number;
-  change?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  checked?: boolean;
+  change: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked: boolean;
   value: string;
   billing: string;
 };
 
 const Select = (props: Props) => {
+  const billingType = props.billing === BillingEnum[0] ? "mo" : "yr";
   return (
     <div
       className={`${selectStyles.selectWrapper} ${
@@ -30,9 +31,7 @@ const Select = (props: Props) => {
           <p className={selectStyles.name}>{props.name}</p>
           <p className={selectStyles.desc}>{props.description}</p>
         </div>
-        <p className={selectStyles.price}>{`+${props.price}/${
-          props.billing === BillingEnum[0] ? "mo" : "yr"
-        }`}</p>
+        <p className={selectStyles.price}>{`+${props.price}/${billingType}`}</p>
       </div>
     </div>
   );

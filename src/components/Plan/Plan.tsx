@@ -1,16 +1,18 @@
-import buttonStyles from "../../layout/Button/button.module.css";
-import Button from "../../layout/Button/Button";
-import Card from "../../layout/Card/Card";
-import planStyles from "./plan.module.css";
-import Headline from "../../layout/Headline/Headline";
-import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
-import Wrapper from "../../layout/Wrapper/Wrapper";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { setFormData } from "../../store/actions";
-import cardStyles from "../../layout/Card/card.module.css";
-import React from "react";
 import BillingEnum from "../../enums/BillingEnum";
+import planStyles from "./plan.module.css";
+import {
+  buttonStyles,
+  cardStyles,
+  Button,
+  Card,
+  Headline,
+  ClickableDiv,
+  Wrapper,
+} from "../../layout";
 
 type Props = {
   handleNextStep: () => void;
@@ -46,7 +48,7 @@ const plansMonthly = [
 ];
 
 const Plan = (props: Props) => {
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state);
   const dispatch: AppDispatch = useDispatch();
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {

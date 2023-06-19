@@ -1,15 +1,17 @@
 import React from "react";
-import Button from "../../layout/Button/Button";
-import buttonStyles from "../../layout/Button/button.module.css";
-import Headline from "../../layout/Headline/Headline";
-import Select from "../../layout/Select/Select";
-import Wrapper from "../../layout/Wrapper/Wrapper";
-import addonsStyles from "./addons.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { setFormData } from "../../store/actions";
+import {
+  Button,
+  buttonStyles,
+  Headline,
+  Select,
+  Wrapper,
+  selectStyles,
+} from "../../layout/";
+import addonsStyles from "./addons.module.css";
 import BillingEnum from "../../enums/BillingEnum";
-import selectStyles from "../../layout/Select/select.module.css";
 
 type Props = {
   handleNextStep: () => void;
@@ -24,10 +26,21 @@ const addonsTypes = [
   "Customizable profile",
 ] as const;
 
+// function calculates the total price of all the addons selected
+const calculateTotal: () => number[] = () => {
+  const checkedAddons = document.getElementsByClassName(selectStyles.active);
+  const prices: number[] = [];
+  for (let i = 0; i < checkedAddons.length; i++) {
+    prices.push(parseFloat(checkedAddons[i].children[1].children[1].innerHTML));
+  }
+  return prices;
+};
+
 const Addons = (props: Props) => {
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state);
   const dispatch: AppDispatch = useDispatch();
-  const addons = [
+  // list of addons
+  const addonsList = [
     {
       name: "Online service",
       description: "Access to multiplayer games",
@@ -58,7 +71,7 @@ const Addons = (props: Props) => {
         description="Add-ons help enchance your gaming experience"
       />
       <div className={addonsStyles.addonsPickWrapper}>
-        {addons.map((addon, index) => (
+        {addonsList.map((addon, index) => (
           <Select
             key={index}
             name={addon.name}
@@ -87,16 +100,7 @@ const Addons = (props: Props) => {
           color="hsl(213, 96%, 18%)"
           textColor="white"
           click={() => {
-            const checkedAddons = document.getElementsByClassName(
-              selectStyles.active
-            );
-            const prices: number[] = [];
-            for (let i = 0; i < checkedAddons.length; i++) {
-              prices.push(
-                parseFloat(checkedAddons[i].children[1].children[1].innerHTML)
-              );
-            }
-
+            const prices = calculateTotal();
             dispatch(
               setFormData({
                 ...formData,
@@ -105,7 +109,6 @@ const Addons = (props: Props) => {
                   formData.billingPrice + prices.reduce((a, b) => a + b, 0),
               })
             );
-
             props.handleNextStep();
           }}
         />
