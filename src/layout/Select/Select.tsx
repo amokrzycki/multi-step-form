@@ -20,6 +20,7 @@ const Select = (props: Props) => {
       }`}
     >
       <input
+        id={props.price.toString()}
         type="checkbox"
         onChange={props.change}
         checked={props.checked}

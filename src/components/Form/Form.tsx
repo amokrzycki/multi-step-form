@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import FormInterface from "../../interfaces/FormInterface";
 import {
   Info,
@@ -19,6 +19,7 @@ type Props = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCheck: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean[];
+  setProperlyFilled: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Form: React.FC<Props> = ({
@@ -30,13 +31,33 @@ const Form: React.FC<Props> = ({
   handleChange,
   handleCheck,
   checked,
+  setProperlyFilled,
 }: Props) => {
   const [billingTypeChecked, setBillingTypeChecked] = React.useState(false);
+  const [tempData, setTempData] = React.useState({
+    name: "",
+    email: "",
+    number: "",
+  });
+
+  const handleTempData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTempData({
+      ...tempData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const stepElements = [
     {
       number: 1,
-      component: <Info handleNextStep={next} change={handleChange} />,
+      component: (
+        <Info
+          handleNextStep={next}
+          change={handleChange}
+          tempData={tempData}
+          handleTempData={handleTempData}
+        />
+      ),
     },
     {
       number: 2,
@@ -59,6 +80,7 @@ const Form: React.FC<Props> = ({
           change={handleCheck}
           checked={checked}
           formData={formData}
+          setProperlyFilled={setProperlyFilled}
         />
       ),
     },

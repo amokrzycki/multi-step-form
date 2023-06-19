@@ -2,14 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { setFormData } from "../../store/actions";
-import {
-  Button,
-  buttonStyles,
-  Headline,
-  Select,
-  Wrapper,
-  selectStyles,
-} from "../../layout/";
+import { Button, buttonStyles, Headline, Select, Wrapper } from "../../layout/";
 import addonsStyles from "./addons.module.css";
 import BillingEnum from "../../enums/BillingEnum";
 import FormInterface from "../../interfaces/FormInterface";
@@ -20,6 +13,7 @@ type Props = {
   checked: boolean[];
   change: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
   formData: FormInterface;
+  setProperlyFilled: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const addonsTypes = [
@@ -28,22 +22,13 @@ const addonsTypes = [
   "Customizable profile",
 ] as const;
 
-// function calculates the total price of all the addons selected
-const calculateTotal: () => number[] = () => {
-  const checkedAddons = document.getElementsByClassName(selectStyles.active);
-  const prices: number[] = [];
-  for (let i = 0; i < checkedAddons.length; i++) {
-    prices.push(parseFloat(checkedAddons[i].children[1].children[1].innerHTML));
-  }
-  return prices;
-};
-
 const Addons = ({
   handleNextStep,
   handlePrevStep,
   checked,
   change,
   formData,
+  setProperlyFilled,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   // list of addons
@@ -107,13 +92,13 @@ const Addons = ({
           color="hsl(213, 96%, 18%)"
           textColor="white"
           click={() => {
-            const prices = calculateTotal();
+            setProperlyFilled(true);
             dispatch(
               setFormData({
                 ...formData,
-                ["prices"]: [...formData.prices, ...prices],
                 ["total"]:
-                  formData.billingPrice + prices.reduce((a, b) => a + b, 0),
+                  formData.billingPrice +
+                  formData.addonsPrices.reduce((a, b) => a + b, 0),
               })
             );
             handleNextStep();

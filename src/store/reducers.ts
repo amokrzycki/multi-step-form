@@ -16,7 +16,7 @@ const initialState: AppState = {
     billingPrice: 0,
     plan: "",
     addons: [],
-    prices: [],
+    addonsPrices: [],
     total: 0,
   },
 };

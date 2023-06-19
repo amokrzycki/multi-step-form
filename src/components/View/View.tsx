@@ -15,7 +15,7 @@ const View: React.FC = () => {
     billingPrice: useSelector((state: RootState) => state.billingPrice),
     plan: useSelector((state: RootState) => state.plan),
     addons: useSelector((state: RootState) => state.addons),
-    prices: useSelector((state: RootState) => state.prices),
+    addonsPrices: useSelector((state: RootState) => state.addonsPrices),
     total: useSelector((state: RootState) => state.total),
   };
   const dispatch: AppDispatch = useDispatch();
@@ -24,6 +24,7 @@ const View: React.FC = () => {
     false,
     false,
   ]);
+  const [properlyFilled, setProperlyFilled] = React.useState(false);
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -47,7 +48,20 @@ const View: React.FC = () => {
   const handleSidebarNavigation: React.MouseEventHandler<HTMLDivElement> = (
     e
   ) => {
-    setStep(parseInt(e.currentTarget.id));
+    if (properlyFilled) {
+      setStep(parseInt(e.currentTarget.id));
+      // If the user navigates to the summary step, the total price is calculated
+      if (e.currentTarget.id === "4") {
+        dispatch(
+          setFormData({
+            ...formData,
+            ["total"]:
+              formData.billingPrice +
+              formData.addonsPrices.reduce((a, b) => a + b, 0),
+          })
+        );
+      }
+    }
   };
 
   const handleAddonsCheck = (
@@ -63,6 +77,7 @@ const View: React.FC = () => {
         setFormData({
           ...formData,
           [e.target.name]: [...formData.addons, e.target.value],
+          ["addonsPrices"]: [...formData.addonsPrices, parseInt(e.target.id)],
         })
       );
     } else {
@@ -71,6 +86,9 @@ const View: React.FC = () => {
           ...formData,
           [e.target.name]: formData.addons.filter(
             (addon) => addon !== e.target.value
+          ),
+          ["addonsPrices"]: formData.addonsPrices.filter(
+            (price) => price !== parseInt(e.target.id)
           ),
         })
       );
@@ -90,6 +108,7 @@ const View: React.FC = () => {
           handleChange={handleInfoFromChange}
           handleCheck={handleAddonsCheck}
           checked={addonsChecked}
+          setProperlyFilled={setProperlyFilled}
         />
       </div>
     </div>

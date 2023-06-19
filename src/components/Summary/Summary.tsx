@@ -41,7 +41,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
                 <p>{addon}</p>
                 <p
                   className={summaryStyles.price}
-                >{`+$${formData.prices[index]}/${billingType}`}</p>
+                >{`+$${formData.addonsPrices[index]}/${billingType}`}</p>
               </div>
             ))
           )}
