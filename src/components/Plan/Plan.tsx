@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 import { setFormData } from "../../store/actions";
 import BillingEnum from "../../enums/BillingEnum";
 import planStyles from "./plan.module.css";
@@ -13,12 +13,14 @@ import {
   ClickableDiv,
   Wrapper,
 } from "../../layout";
+import FormInterface from "../../interfaces/FormInterface";
 
 type Props = {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   checked: boolean;
   billingUpdate: (value: boolean) => void;
+  formData: FormInterface;
 };
 
 const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
@@ -47,8 +49,13 @@ const plansMonthly = [
   },
 ];
 
-const Plan = (props: Props) => {
-  const formData = useSelector((state: RootState) => state);
+const Plan = ({
+  handleNextStep,
+  handlePrevStep,
+  checked,
+  billingUpdate,
+  formData,
+}: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -69,11 +76,11 @@ const Plan = (props: Props) => {
   };
 
   const handleSwitch: React.ChangeEventHandler<HTMLLabelElement> = () => {
-    props.billingUpdate(!props.checked);
+    billingUpdate(!checked);
     dispatch(
       setFormData({
         ...formData,
-        ["billing"]: !props.checked ? BillingEnum[1] : BillingEnum[0],
+        ["billing"]: !checked ? BillingEnum[1] : BillingEnum[0],
       })
     );
   };
@@ -90,7 +97,7 @@ const Plan = (props: Props) => {
             <Card
               src={plan.src}
               title={plan.title}
-              price={!props.checked ? plan.priceMonthly : plan.priceYearly}
+              price={!checked ? plan.priceMonthly : plan.priceYearly}
               id={plan.type[index]}
               billing={formData.billing}
             />
@@ -98,14 +105,14 @@ const Plan = (props: Props) => {
         ))}
       </div>
       <div className={planStyles.switchWrapper}>
-        <p className={!props.checked ? planStyles.active : planStyles.inactive}>
+        <p className={!checked ? planStyles.active : planStyles.inactive}>
           Monthly
         </p>
         <label className={planStyles.switch} onChange={handleSwitch}>
-          <input type="checkbox" defaultChecked={props.checked} />
+          <input type="checkbox" defaultChecked={checked} />
           <span className={`${planStyles.slider} ${planStyles.round}`}></span>
         </label>
-        <p className={props.checked ? planStyles.active : planStyles.inactive}>
+        <p className={checked ? planStyles.active : planStyles.inactive}>
           Yearly
         </p>
       </div>
@@ -114,7 +121,7 @@ const Plan = (props: Props) => {
           text="Go back"
           color="transparent"
           textColor="hsl(231, 11%, 63%)"
-          click={props.handlePrevStep}
+          click={handlePrevStep}
         />
         <Button
           text="Next Step"
@@ -126,7 +133,7 @@ const Plan = (props: Props) => {
                 .innerHTML
             );
             dispatch(setFormData({ ...formData, ["billingPrice"]: price }));
-            props.handleNextStep();
+            handleNextStep();
           }}
         />
       </div>

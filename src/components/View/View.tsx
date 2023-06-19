@@ -3,10 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { setFormData } from "../../store/actions";
 import { RootState, AppDispatch } from "../../store/store";
 import { Sidebar, Form, viewStyles } from "../index";
+import FormInterface from "../../interfaces/FormInterface";
 
 const View: React.FC = () => {
   const [step, setStep] = React.useState<number>(1);
-  const formData = useSelector((state: RootState) => state);
+  const formData: FormInterface = {
+    name: useSelector((state: RootState) => state.name),
+    email: useSelector((state: RootState) => state.email),
+    number: useSelector((state: RootState) => state.number),
+    billing: useSelector((state: RootState) => state.billing),
+    billingPrice: useSelector((state: RootState) => state.billingPrice),
+    plan: useSelector((state: RootState) => state.plan),
+    addons: useSelector((state: RootState) => state.addons),
+    prices: useSelector((state: RootState) => state.prices),
+    total: useSelector((state: RootState) => state.total),
+  };
   const dispatch: AppDispatch = useDispatch();
   const [addonsChecked, setAddonsChecked] = React.useState<boolean[]>([
     false,

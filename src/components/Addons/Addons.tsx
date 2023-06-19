@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 import { setFormData } from "../../store/actions";
 import {
   Button,
@@ -12,12 +12,14 @@ import {
 } from "../../layout/";
 import addonsStyles from "./addons.module.css";
 import BillingEnum from "../../enums/BillingEnum";
+import FormInterface from "../../interfaces/FormInterface";
 
 type Props = {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   checked: boolean[];
   change: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
+  formData: FormInterface;
 };
 
 const addonsTypes = [
@@ -36,8 +38,13 @@ const calculateTotal: () => number[] = () => {
   return prices;
 };
 
-const Addons = (props: Props) => {
-  const formData = useSelector((state: RootState) => state);
+const Addons = ({
+  handleNextStep,
+  handlePrevStep,
+  checked,
+  change,
+  formData,
+}: Props) => {
   const dispatch: AppDispatch = useDispatch();
   // list of addons
   const addonsList = [
@@ -81,8 +88,8 @@ const Addons = (props: Props) => {
                 ? addon.priceMonthly
                 : addon.priceYearly
             }
-            checked={props.checked[index]}
-            change={(e) => props.change(index, e)}
+            checked={checked[index]}
+            change={(e) => change(index, e)}
             value={addon.value[index]}
             billing={formData.billing}
           />
@@ -93,7 +100,7 @@ const Addons = (props: Props) => {
           text="Go back"
           color="transparent"
           textColor="hsl(231, 11%, 63%)"
-          click={props.handlePrevStep}
+          click={handlePrevStep}
         />
         <Button
           text="Next Step"
@@ -109,7 +116,7 @@ const Addons = (props: Props) => {
                   formData.billingPrice + prices.reduce((a, b) => a + b, 0),
               })
             );
-            props.handleNextStep();
+            handleNextStep();
           }}
         />
       </div>

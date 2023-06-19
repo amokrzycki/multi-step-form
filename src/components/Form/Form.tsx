@@ -21,24 +21,32 @@ type Props = {
   checked: boolean[];
 };
 
-const Form: React.FC<Props> = (props: Props) => {
+const Form: React.FC<Props> = ({
+  prev,
+  next,
+  confirm,
+  step,
+  formData,
+  handleChange,
+  handleCheck,
+  checked,
+}: Props) => {
   const [billingTypeChecked, setBillingTypeChecked] = React.useState(false);
 
   const stepElements = [
     {
       number: 1,
-      component: (
-        <Info handleNextStep={props.next} change={props.handleChange} />
-      ),
+      component: <Info handleNextStep={next} change={handleChange} />,
     },
     {
       number: 2,
       component: (
         <Plan
-          handleNextStep={props.next}
-          handlePrevStep={props.prev}
+          handleNextStep={next}
+          handlePrevStep={prev}
           checked={billingTypeChecked}
           billingUpdate={setBillingTypeChecked}
+          formData={formData}
         />
       ),
     },
@@ -46,25 +54,30 @@ const Form: React.FC<Props> = (props: Props) => {
       number: 3,
       component: (
         <Addons
-          handleNextStep={props.next}
-          handlePrevStep={props.prev}
-          change={props.handleCheck}
-          checked={props.checked}
+          handleNextStep={next}
+          handlePrevStep={prev}
+          change={handleCheck}
+          checked={checked}
+          formData={formData}
         />
       ),
     },
     {
       number: 4,
       component: (
-        <Summary handleConfirm={props.confirm} handlePrevStep={props.prev} />
+        <Summary
+          handleConfirm={confirm}
+          handlePrevStep={prev}
+          formData={formData}
+        />
       ),
     },
     { number: 5, component: <Confirmation /> },
   ];
 
   const renderStep = () => {
-    const step = stepElements.find((s) => s.number === props.step);
-    return step ? step.component : <Fallback />;
+    const stepNumber = stepElements.find((s) => s.number === step);
+    return stepNumber ? stepNumber.component : <Fallback />;
   };
 
   return (
