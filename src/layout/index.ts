@@ -13,3 +13,4 @@ export { default as headlineStyles } from "./Headline/headline.module.css";
 export { default as selectStyles } from "./Select/select.module.css";
 export { default as stepStyles } from "./Step/step.module.css";
 export { default as wrapperStyles } from "./Wrapper/wrapper.module.css";
+export { default as Label } from "./Label/Label";

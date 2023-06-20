@@ -39,6 +39,11 @@ const Form: React.FC<Props> = ({
     email: "",
     number: "",
   });
+  const [inputValid, setInputValid] = React.useState({
+    name: true,
+    email: true,
+    number: true,
+  });
 
   const handleTempData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempData({
@@ -56,6 +61,8 @@ const Form: React.FC<Props> = ({
           change={handleChange}
           tempData={tempData}
           handleTempData={handleTempData}
+          inputValid={inputValid}
+          setInputValid={setInputValid}
         />
       ),
     },
