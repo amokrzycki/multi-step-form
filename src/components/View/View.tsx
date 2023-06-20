@@ -4,9 +4,10 @@ import { setFormData } from "../../store/actions";
 import { RootState, AppDispatch } from "../../store/store";
 import { Sidebar, Form, viewStyles } from "../index";
 import FormInterface from "../../interfaces/FormInterface";
+import Alert from "../Alert/Alert";
 
 const View: React.FC = () => {
-  const [step, setStep] = React.useState<number>(2);
+  const [step, setStep] = React.useState<number>(1);
   const formData: FormInterface = {
     name: useSelector((state: RootState) => state.name),
     email: useSelector((state: RootState) => state.email),
@@ -25,6 +26,8 @@ const View: React.FC = () => {
     false,
   ]);
   const [properlyFilled, setProperlyFilled] = React.useState(false);
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [succesOpen, setSuccesOpen] = React.useState(false);
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -49,17 +52,21 @@ const View: React.FC = () => {
     e
   ) => {
     if (properlyFilled) {
-      setStep(parseInt(e.currentTarget.id));
-      // If the user navigates to the summary step, the total price is calculated
-      if (e.currentTarget.id === "4") {
-        dispatch(
-          setFormData({
-            ...formData,
-            ["total"]:
-              formData.billingPrice +
-              formData.addonsPrices.reduce((a, b) => a + b, 0),
-          })
-        );
+      if (step === 5) {
+        setSuccesOpen(true);
+      } else {
+        setStep(parseInt(e.currentTarget.id));
+        // If the user navigates to the summary step, the total price is calculated
+        if (e.currentTarget.id === "4") {
+          dispatch(
+            setFormData({
+              ...formData,
+              ["total"]:
+                formData.billingPrice +
+                formData.addonsPrices.reduce((a, b) => a + b, 0),
+            })
+          );
+        }
       }
     }
   };
@@ -109,8 +116,16 @@ const View: React.FC = () => {
           handleCheck={handleAddonsCheck}
           checked={addonsChecked}
           setProperlyFilled={setProperlyFilled}
+          alertOpen={alertOpen}
+          setAlertOpen={setAlertOpen}
         />
       </div>
+      <Alert
+        type="success"
+        text="Form was submitted successfully!"
+        open={succesOpen}
+        set={setSuccesOpen}
+      />
     </div>
   );
 };

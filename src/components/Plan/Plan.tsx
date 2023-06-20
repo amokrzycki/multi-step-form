@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { setFormData } from "../../store/actions";
@@ -24,6 +24,8 @@ type Props = {
   formData: FormInterface;
   activePlan: string;
   setActivePlan: (value: string) => void;
+  alertOpen: boolean;
+  setAlertOpen: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
@@ -60,9 +62,10 @@ const Plan = ({
   formData,
   activePlan,
   setActivePlan,
+  alertOpen,
+  setAlertOpen,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-  const [warningOpen, setWarningOpen] = React.useState(false);
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     setActivePlan(e.currentTarget.children[0].id);
@@ -137,7 +140,7 @@ const Plan = ({
           textColor="white"
           click={() => {
             if (formData.plan === "") {
-              setWarningOpen(true);
+              setAlertOpen(true);
               return;
             } else {
               const price = parseFloat(
@@ -153,8 +156,8 @@ const Plan = ({
       <Alert
         type="warning"
         text="Please select a plan"
-        open={warningOpen}
-        set={setWarningOpen}
+        open={alertOpen}
+        set={setAlertOpen}
       />
     </Wrapper>
   );

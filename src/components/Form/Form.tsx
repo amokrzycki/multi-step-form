@@ -20,6 +20,8 @@ type Props = {
   handleCheck: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean[];
   setProperlyFilled: Dispatch<React.SetStateAction<boolean>>;
+  alertOpen: boolean;
+  setAlertOpen: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Form: React.FC<Props> = ({
@@ -32,6 +34,8 @@ const Form: React.FC<Props> = ({
   handleCheck,
   checked,
   setProperlyFilled,
+  alertOpen,
+  setAlertOpen,
 }: Props) => {
   const [billingTypeChecked, setBillingTypeChecked] = React.useState(false);
   const [tempData, setTempData] = React.useState({
@@ -78,6 +82,8 @@ const Form: React.FC<Props> = ({
           formData={formData}
           activePlan={activePlanId}
           setActivePlan={setActivePlanId}
+          alertOpen={alertOpen}
+          setAlertOpen={setAlertOpen}
         />
       ),
     },
