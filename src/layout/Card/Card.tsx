@@ -7,12 +7,19 @@ type Props = {
   price: number;
   id?: string;
   billing: string;
+  active?: boolean;
 };
 
 const Card = (props: Props) => {
   const billingType = props.billing === BillingEnum[0] ? "mo" : "yr";
+
   return (
-    <div id={props.id?.toString()} className={cardStyles.cardWrapper}>
+    <div
+      id={props.id?.toString()}
+      className={`${cardStyles.cardWrapper} ${
+        props.active ? cardStyles.active : ""
+      }`}
+    >
       <img src={props.src} alt={props.title} />
       <p className={cardStyles.title}>{props.title}</p>
       <p className={cardStyles.price}>{`${props.price}/${billingType}`}</p>

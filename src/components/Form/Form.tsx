@@ -44,6 +44,7 @@ const Form: React.FC<Props> = ({
     email: true,
     number: true,
   });
+  const [activePlanId, setActivePlanId] = React.useState("");
 
   const handleTempData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempData({
@@ -75,6 +76,8 @@ const Form: React.FC<Props> = ({
           checked={billingTypeChecked}
           billingUpdate={setBillingTypeChecked}
           formData={formData}
+          activePlan={activePlanId}
+          setActivePlan={setActivePlanId}
         />
       ),
     },

@@ -6,7 +6,7 @@ import { Sidebar, Form, viewStyles } from "../index";
 import FormInterface from "../../interfaces/FormInterface";
 
 const View: React.FC = () => {
-  const [step, setStep] = React.useState<number>(1);
+  const [step, setStep] = React.useState<number>(2);
   const formData: FormInterface = {
     name: useSelector((state: RootState) => state.name),
     email: useSelector((state: RootState) => state.email),

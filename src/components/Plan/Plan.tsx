@@ -14,6 +14,7 @@ import {
   Wrapper,
 } from "../../layout";
 import FormInterface from "../../interfaces/FormInterface";
+import Alert from "../Alert/Alert";
 
 type Props = {
   handleNextStep: () => void;
@@ -21,6 +22,8 @@ type Props = {
   checked: boolean;
   billingUpdate: (value: boolean) => void;
   formData: FormInterface;
+  activePlan: string;
+  setActivePlan: (value: string) => void;
 };
 
 const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
@@ -55,10 +58,14 @@ const Plan = ({
   checked,
   billingUpdate,
   formData,
+  activePlan,
+  setActivePlan,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [warningOpen, setWarningOpen] = React.useState(false);
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    setActivePlan(e.currentTarget.children[0].id);
     const activeElements = document.getElementsByClassName(cardStyles.active);
 
     for (let i = 0; i < activeElements.length; i++) {
@@ -100,6 +107,7 @@ const Plan = ({
               price={!checked ? plan.priceMonthly : plan.priceYearly}
               id={plan.type[index]}
               billing={formData.billing}
+              active={activePlan === plan.type[index]}
             />
           </ClickableDiv>
         ))}
@@ -128,15 +136,26 @@ const Plan = ({
           color="hsl(213, 96%, 18%)"
           textColor="white"
           click={() => {
-            const price = parseFloat(
-              document.getElementsByClassName(cardStyles.active)[0].children[2]
-                .innerHTML
-            );
-            dispatch(setFormData({ ...formData, ["billingPrice"]: price }));
-            handleNextStep();
+            if (formData.plan === "") {
+              setWarningOpen(true);
+              return;
+            } else {
+              const price = parseFloat(
+                document.getElementsByClassName(cardStyles.active)[0]
+                  .children[2].innerHTML
+              );
+              dispatch(setFormData({ ...formData, ["billingPrice"]: price }));
+              handleNextStep();
+            }
           }}
         />
       </div>
+      <Alert
+        type="warning"
+        text="Please select a plan"
+        open={warningOpen}
+        set={setWarningOpen}
+      />
     </Wrapper>
   );
 };
