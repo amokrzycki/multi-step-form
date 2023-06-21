@@ -2,10 +2,14 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { setFormData } from "../../store/actions";
-import { Button, buttonStyles, Headline, Select, Wrapper } from "../../layout/";
 import addonsStyles from "./addons.module.css";
 import BillingEnum from "../../enums/BillingEnum";
 import FormType from "../../types/FormType";
+import Wrapper from "../../layout/Wrapper/Wrapper";
+import Headline from "../../layout/Headline/Headline";
+import Select from "../../layout/Select/Select";
+import buttonStyles from "../../layout/Button/button.module.css";
+import Button from "../../layout/Button/Button";
 
 interface Props {
   handleNextStep: () => void;

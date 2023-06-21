@@ -1,14 +1,12 @@
 import React, { Dispatch } from "react";
 import FormType from "../../types/FormType";
-import {
-  Info,
-  Plan,
-  Addons,
-  Summary,
-  Confirmation,
-  formStyles,
-  Fallback,
-} from "../index";
+import Info from "../Info/Info";
+import Plan from "../Plan/Plan";
+import Addons from "../Addons/Addons";
+import Summary from "../Summary/Summary";
+import Confirmation from "../Confirmation/Confirmation";
+import Fallback from "../Fallback/Fallback";
+import formStyles from "./form.module.css";
 
 interface Props {
   prev: () => void;

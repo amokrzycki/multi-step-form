@@ -2,9 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setFormData } from "../../store/actions";
 import { RootState, AppDispatch } from "../../store/store";
-import { Sidebar, Form, viewStyles } from "../index";
 import FormType from "../../types/FormType";
 import Alert from "../Alert/Alert";
+import viewStyles from "./view.module.css";
+import Sidebar from "../Sidebar/Sidebar";
+import Form from "../Form/Form";
 
 const View: React.FC = () => {
   const [step, setStep] = React.useState<number>(1);

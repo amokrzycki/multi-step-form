@@ -1,7 +1,10 @@
 import summaryStyles from "./summary.module.css";
 import BillingEnum from "../../enums/BillingEnum";
-import { buttonStyles, Button, Headline, Wrapper } from "../../layout";
 import FormType from "../../types/FormType";
+import Wrapper from "../../layout/Wrapper/Wrapper";
+import Headline from "../../layout/Headline/Headline";
+import buttonStyles from "../../layout/Button/button.module.css";
+import Button from "../../layout/Button/Button";
 
 interface Props {
   handleConfirm: () => void;

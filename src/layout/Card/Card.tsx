@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Card = (props: Props) => {
-  const billingType = props.billing === BillingEnum[0] ? "mo" : "yr";
+  const billingType = props.billing === BillingEnum.Monthly ? "mo" : "yr";
 
   return (
     <div
@@ -23,7 +23,7 @@ const Card = (props: Props) => {
       <img src={props.src} alt={props.title} />
       <p className={cardStyles.title}>{props.title}</p>
       <p className={cardStyles.price}>{`${props.price}/${billingType}`}</p>
-      {props.billing === BillingEnum[1] ? (
+      {props.billing === BillingEnum.Yearly ? (
         <p className={cardStyles.dealText}>2 months free</p>
       ) : (
         ""

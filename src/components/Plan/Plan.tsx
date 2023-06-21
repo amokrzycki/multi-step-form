@@ -4,17 +4,18 @@ import { AppDispatch } from "../../store/store";
 import { setFormData } from "../../store/actions";
 import BillingEnum from "../../enums/BillingEnum";
 import planStyles from "./plan.module.css";
-import {
-  buttonStyles,
-  cardStyles,
-  Button,
-  Card,
-  Headline,
-  ClickableDiv,
-  Wrapper,
-} from "../../layout";
 import FormType from "../../types/FormType";
 import Alert from "../Alert/Alert";
+import cardStyles from "../../layout/Card/card.module.css";
+import Wrapper from "../../layout/Wrapper/Wrapper";
+import Headline from "../../layout/Headline/Headline";
+import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
+import Card from "../../layout/Card/Card";
+import buttonStyles from "../../layout/Button/button.module.css";
+import Button from "../../layout/Button/Button";
+import iconAdvanced from "./iconAdvanced.svg";
+import iconPro from "./iconPro.svg";
+import iconArcade from "./iconArcade.svg";
 
 interface Props {
   handleNextStep: () => void;
@@ -32,21 +33,21 @@ const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
 
 const plansMonthly = [
   {
-    src: "../../assets/images/icon-arcade.svg",
+    src: iconArcade,
     title: "Arcade",
     priceMonthly: 9,
     priceYearly: 90,
     type: PlanEnum,
   },
   {
-    src: "../../assets/images/icon-advanced.svg",
+    src: iconAdvanced,
     title: "Advanced",
     priceMonthly: 12,
     priceYearly: 120,
     type: PlanEnum,
   },
   {
-    src: "../../assets/images/icon-pro.svg",
+    src: iconPro,
     title: "Pro",
     priceMonthly: 15,
     priceYearly: 150,

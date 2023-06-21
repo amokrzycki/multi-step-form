@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Select = (props: Props) => {
-  const billingType = props.billing === BillingEnum[0] ? "mo" : "yr";
+  const billingType = props.billing === BillingEnum.Monthly ? "mo" : "yr";
   return (
     <div
       className={`${selectStyles.selectWrapper} ${

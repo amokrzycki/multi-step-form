@@ -1,5 +1,8 @@
+import Button from "../../layout/Button/Button";
+import Headline from "../../layout/Headline/Headline";
+import Label from "../../layout/Label/Label";
+import Wrapper from "../../layout/Wrapper/Wrapper";
 import infoStyles from "./info.module.css";
-import { Button, Headline, Label, Wrapper } from "../../layout";
 import React, { Dispatch } from "react";
 
 interface Props {
