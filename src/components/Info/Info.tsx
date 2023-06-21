@@ -2,7 +2,7 @@ import infoStyles from "./info.module.css";
 import { Button, Headline, Label, Wrapper } from "../../layout";
 import React, { Dispatch } from "react";
 
-type Props = {
+interface Props {
   tempData: { name: string; email: string; number: string };
   handleTempData: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleNextStep: () => void;
@@ -11,7 +11,7 @@ type Props = {
   setInputValid: Dispatch<
     React.SetStateAction<{ name: boolean; email: boolean; number: boolean }>
   >;
-};
+}
 
 const Info = ({
   tempData,

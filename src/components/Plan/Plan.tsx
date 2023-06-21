@@ -13,20 +13,20 @@ import {
   ClickableDiv,
   Wrapper,
 } from "../../layout";
-import FormInterface from "../../interfaces/FormInterface";
+import FormType from "../../types/FormType";
 import Alert from "../Alert/Alert";
 
-type Props = {
+interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   checked: boolean;
   billingUpdate: (value: boolean) => void;
-  formData: FormInterface;
+  formData: FormType;
   activePlan: string;
   setActivePlan: (value: string) => void;
   alertOpen: boolean;
   setAlertOpen: Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
 
@@ -90,7 +90,7 @@ const Plan = ({
     dispatch(
       setFormData({
         ...formData,
-        ["billing"]: !checked ? BillingEnum[1] : BillingEnum[0],
+        ["billing"]: !checked ? BillingEnum.Yearly : BillingEnum.Monthly,
       })
     );
   };

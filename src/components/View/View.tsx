@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { setFormData } from "../../store/actions";
 import { RootState, AppDispatch } from "../../store/store";
 import { Sidebar, Form, viewStyles } from "../index";
-import FormInterface from "../../interfaces/FormInterface";
+import FormType from "../../types/FormType";
 import Alert from "../Alert/Alert";
 
 const View: React.FC = () => {
   const [step, setStep] = React.useState<number>(1);
-  const formData: FormInterface = {
+  const formData: FormType = {
     name: useSelector((state: RootState) => state.name),
     email: useSelector((state: RootState) => state.email),
     number: useSelector((state: RootState) => state.number),

@@ -1,5 +1,5 @@
 import React, { Dispatch } from "react";
-import FormInterface from "../../interfaces/FormInterface";
+import FormType from "../../types/FormType";
 import {
   Info,
   Plan,
@@ -10,19 +10,19 @@ import {
   Fallback,
 } from "../index";
 
-type Props = {
+interface Props {
   prev: () => void;
   next: () => void;
   confirm: () => void;
   step: number;
-  formData: FormInterface;
+  formData: FormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCheck: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean[];
   setProperlyFilled: Dispatch<React.SetStateAction<boolean>>;
   alertOpen: boolean;
   setAlertOpen: Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 const Form: React.FC<Props> = ({
   prev,

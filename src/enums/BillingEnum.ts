@@ -1,5 +1,5 @@
 enum BillingEnum {
-  Monthly,
-  Yearly,
+  Monthly = "Monthly",
+  Yearly = "Yearly",
 }
 export default BillingEnum;

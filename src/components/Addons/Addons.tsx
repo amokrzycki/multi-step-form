@@ -5,16 +5,16 @@ import { setFormData } from "../../store/actions";
 import { Button, buttonStyles, Headline, Select, Wrapper } from "../../layout/";
 import addonsStyles from "./addons.module.css";
 import BillingEnum from "../../enums/BillingEnum";
-import FormInterface from "../../interfaces/FormInterface";
+import FormType from "../../types/FormType";
 
-type Props = {
+interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   checked: boolean[];
   change: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
-  formData: FormInterface;
+  formData: FormType;
   setProperlyFilled: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 const addonsTypes = [
   "Online service",
@@ -69,7 +69,7 @@ const Addons = ({
             name={addon.name}
             description={addon.description}
             price={
-              formData.billing === BillingEnum[0]
+              formData.billing === BillingEnum.Monthly
                 ? addon.priceMonthly
                 : addon.priceYearly
             }

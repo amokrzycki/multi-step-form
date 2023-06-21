@@ -1,4 +1,4 @@
-interface FormInterface {
+interface FormType {
   name: string;
   email: string;
   number: string;
@@ -9,5 +9,4 @@ interface FormInterface {
   addonsPrices: number[];
   total: number;
 }
-
-export default FormInterface;
+export default FormType;

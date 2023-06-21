@@ -1,16 +1,16 @@
 import summaryStyles from "./summary.module.css";
 import BillingEnum from "../../enums/BillingEnum";
 import { buttonStyles, Button, Headline, Wrapper } from "../../layout";
-import FormInterface from "../../interfaces/FormInterface";
+import FormType from "../../types/FormType";
 
-type Props = {
+interface Props {
   handleConfirm: () => void;
   handlePrevStep: () => void;
-  formData: FormInterface;
-};
+  formData: FormType;
+}
 
 const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
-  const billingType = formData.billing === BillingEnum[0] ? "mo" : "yr";
+  const billingType = formData.billing === BillingEnum.Monthly ? "mo" : "yr";
 
   return (
     <Wrapper>
@@ -49,7 +49,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
       </div>
       <div className={summaryStyles.totalWrapper}>
         <p className={summaryStyles.totalText}>{`Total (per ${
-          formData.billing === BillingEnum[0] ? "month" : "year"
+          formData.billing === BillingEnum.Monthly ? "month" : "year"
         })`}</p>
         <p
           className={summaryStyles.totalPrice}

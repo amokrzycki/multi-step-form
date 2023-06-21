@@ -1,10 +1,10 @@
 import sidebarStyles from "./sidebar.module.css";
 import Step from "../../layout/Step/Step";
 
-type Props = {
+interface Props {
   step: number;
   navigate: React.MouseEventHandler<HTMLDivElement>;
-};
+}
 
 const stepsList = [
   {
