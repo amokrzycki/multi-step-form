@@ -16,6 +16,10 @@ interface Props {
   >;
 }
 
+const nameExpression = /^[a-zA-Z]+ [a-zA-Z]+$/;
+const emailExpression = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+const phoneExpression = /^\+[1-9]{1}[0-9]{1,14}$/;
+
 const Info = ({
   tempData,
   handleTempData,
@@ -24,16 +28,50 @@ const Info = ({
   inputValid,
   setInputValid,
 }: Props) => {
-  const nameExpression = /^[a-zA-Z]+ [a-zA-Z]+$/;
-  const emailExpression = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  const phoneExpression = /^\+[1-9]{1}[0-9]{1,14}$/;
-
   const validateInputs = () => {
     setInputValid({
       name: nameExpression.test(tempData.name),
       email: emailExpression.test(tempData.email),
       number: phoneExpression.test(tempData.number),
     });
+  };
+
+  const handleNextStepClick = () => {
+    validateInputs();
+    if (Object.values(inputValid).every((el) => el === true)) {
+      handleNextStep();
+    }
+  };
+
+  const validateAndChange = (
+    expression: RegExp,
+    value: string,
+    stateKey: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setInputValid({
+      ...inputValid,
+      [stateKey]: expression.test(value),
+    });
+    if (expression.test(value)) {
+      change(e);
+    }
+  };
+
+  const onBlurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    switch (e.target.name) {
+      case "name":
+        validateAndChange(nameExpression, tempData.name, e.target.name, e);
+        break;
+      case "email":
+        validateAndChange(emailExpression, tempData.email, e.target.name, e);
+        break;
+      case "number":
+        validateAndChange(phoneExpression, tempData.number, e.target.name, e);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -51,13 +89,7 @@ const Info = ({
       <input
         type="text"
         name="name"
-        onBlur={() => {
-          change;
-          setInputValid({
-            ...inputValid,
-            name: nameExpression.test(tempData.name),
-          });
-        }}
+        onBlur={onBlurHandler}
         placeholder="e.g Stephen King"
         onChange={handleTempData}
         value={tempData.name}
@@ -73,13 +105,7 @@ const Info = ({
       <input
         type="text"
         name="email"
-        onBlur={() => {
-          change;
-          setInputValid({
-            ...inputValid,
-            email: emailExpression.test(tempData.email),
-          });
-        }}
+        onBlur={onBlurHandler}
         placeholder="e.g stephenking@lorem.com"
         onChange={handleTempData}
         value={tempData.email}
@@ -94,13 +120,7 @@ const Info = ({
       <input
         type="text"
         name="number"
-        onBlur={() => {
-          change;
-          setInputValid({
-            ...inputValid,
-            number: phoneExpression.test(tempData.number),
-          });
-        }}
+        onBlur={onBlurHandler}
         placeholder="e.g +1234567890"
         onChange={handleTempData}
         value={tempData.number}
@@ -112,12 +132,7 @@ const Info = ({
           color="hsl(213, 96%, 18%)"
           textColor="white"
           alignSelf="end"
-          click={() => {
-            validateInputs();
-            if (inputValid.name && inputValid.email && inputValid.number) {
-              handleNextStep();
-            }
-          }}
+          click={handleNextStepClick}
         />
       </div>
     </Wrapper>

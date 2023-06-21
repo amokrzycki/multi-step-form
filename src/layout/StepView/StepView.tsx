@@ -1,6 +1,6 @@
 import Circle from "../Circle/Circle";
 import ClickableDiv from "../ClickableDiv/ClickableDiv";
-import stepStyles from "./step.module.css";
+import stepStyles from "./stepView.module.css";
 
 type Props = {
   number: string;
@@ -10,7 +10,7 @@ type Props = {
   navigate: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const Step = (props: Props) => {
+const StepView = (props: Props) => {
   return (
     <ClickableDiv onClick={props.navigate} id={props.number}>
       <Circle number={props.number} filled={props.filled} />
@@ -22,4 +22,4 @@ const Step = (props: Props) => {
   );
 };
 
-export default Step;
+export default StepView;

@@ -1,5 +1,5 @@
 import sidebarStyles from "./sidebar.module.css";
-import Step from "../../layout/Step/Step";
+import StepView from "../../layout/StepView/StepView";
 
 interface Props {
   step: number;
@@ -33,7 +33,7 @@ const Sidebar = (props: Props) => {
   return (
     <div id="sidebar-wrapper" className={sidebarStyles.sidebarWrapper}>
       {stepsList.map((step) => (
-        <Step
+        <StepView
           key={step.number}
           number={step.number}
           title={step.title}

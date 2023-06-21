@@ -2,16 +2,18 @@ import React, { Dispatch } from "react";
 import FormType from "../../types/FormType";
 import Info from "../Info/Info";
 import Plan from "../Plan/Plan";
-import Addons from "../Addons/Addons";
 import Summary from "../Summary/Summary";
 import Confirmation from "../Confirmation/Confirmation";
 import Fallback from "../Fallback/Fallback";
 import formStyles from "./form.module.css";
+import { setStep } from "../../store/actions";
+import { AppDispatch } from "../../store/store";
+import { useDispatch } from "react-redux";
+import Addons from "../Addons/Addons";
 
 interface Props {
   prev: () => void;
   next: () => void;
-  confirm: () => void;
   step: number;
   formData: FormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,7 +27,6 @@ interface Props {
 const Form: React.FC<Props> = ({
   prev,
   next,
-  confirm,
   step,
   formData,
   handleChange,
@@ -35,6 +36,7 @@ const Form: React.FC<Props> = ({
   alertOpen,
   setAlertOpen,
 }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
   const [billingTypeChecked, setBillingTypeChecked] = React.useState(false);
   const [tempData, setTempData] = React.useState({
     name: "",
@@ -53,6 +55,11 @@ const Form: React.FC<Props> = ({
       ...tempData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleFormConfirm = () => {
+    dispatch(setStep(step + 1));
+    console.log(formData);
   };
 
   const stepElements = [
@@ -102,7 +109,7 @@ const Form: React.FC<Props> = ({
       number: 4,
       component: (
         <Summary
-          handleConfirm={confirm}
+          handleConfirm={handleFormConfirm}
           handlePrevStep={prev}
           formData={formData}
         />

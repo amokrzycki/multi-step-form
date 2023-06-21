@@ -1,7 +1,6 @@
 import React, { Dispatch } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { setFormData } from "../../store/actions";
 import BillingEnum from "../../enums/BillingEnum";
 import planStyles from "./plan.module.css";
 import FormType from "../../types/FormType";
@@ -16,6 +15,7 @@ import Button from "../../layout/Button/Button";
 import iconAdvanced from "./iconAdvanced.svg";
 import iconPro from "./iconPro.svg";
 import iconArcade from "./iconArcade.svg";
+import { setBilling, setBillingPrice, setPlan } from "../../store/actions";
 
 interface Props {
   handleNextStep: () => void;
@@ -78,22 +78,26 @@ const Plan = ({
 
     e.currentTarget.children[0].classList.add(`${cardStyles.active}`);
 
-    dispatch(
-      setFormData({
-        ...formData,
-        ["plan"]: e.currentTarget.children[0].id,
-      })
-    );
+    dispatch(setPlan(e.currentTarget.children[0].id));
   };
 
   const handleSwitch: React.ChangeEventHandler<HTMLLabelElement> = () => {
     billingUpdate(!checked);
-    dispatch(
-      setFormData({
-        ...formData,
-        ["billing"]: !checked ? BillingEnum.Yearly : BillingEnum.Monthly,
-      })
-    );
+    dispatch(setBilling(!checked ? BillingEnum.Monthly : BillingEnum.Yearly));
+  };
+
+  const handleNextStepClick = () => {
+    if (formData.plan === "") {
+      setAlertOpen(true);
+      return;
+    } else {
+      const price = parseFloat(
+        document.getElementsByClassName(cardStyles.active)[0].children[2]
+          .innerHTML
+      );
+      dispatch(setBillingPrice(price));
+      handleNextStep();
+    }
   };
 
   return (
@@ -139,19 +143,7 @@ const Plan = ({
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={() => {
-            if (formData.plan === "") {
-              setAlertOpen(true);
-              return;
-            } else {
-              const price = parseFloat(
-                document.getElementsByClassName(cardStyles.active)[0]
-                  .children[2].innerHTML
-              );
-              dispatch(setFormData({ ...formData, ["billingPrice"]: price }));
-              handleNextStep();
-            }
-          }}
+          click={handleNextStepClick}
         />
       </div>
       <Alert

@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { formDataReducer } from "./reducers";
+import { appReducer } from "./reducers";
 
 export const store = configureStore({
-  reducer: formDataReducer,
+  reducer: appReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
