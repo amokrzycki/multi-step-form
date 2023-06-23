@@ -14,8 +14,6 @@ import { setTotal } from "../../store/actions";
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
-  checked: boolean[];
-  change: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
   formData: FormType;
   setProperlyFilled: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -29,8 +27,6 @@ enum AddonsEnum {
 const Addons = ({
   handleNextStep,
   handlePrevStep,
-  checked,
-  change,
   formData,
   setProperlyFilled,
 }: Props) => {
@@ -87,8 +83,8 @@ const Addons = ({
                 ? addon.priceMonthly
                 : addon.priceYearly
             }
-            checked={checked[index]}
-            change={(e) => change(index, e)}
+            checked={true}
+            change={(e) => console.log(e)}
             value={addon.value}
             billing={formData.billing}
           />

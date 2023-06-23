@@ -25,7 +25,7 @@ const initialState: AppState = {
   addons: [],
   addonsPrices: [],
   total: 0,
-  step: 1,
+  step: 2,
 };
 
 export const appReducer: Reducer<AppState, AppAction> = (

@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  addAddon,
-  setAddonsPrices,
   setEmail,
   setName,
   setNumber,
@@ -30,22 +28,8 @@ const View: React.FC = () => {
     total: useSelector((state: RootState) => state.total),
   };
   const dispatch: AppDispatch = useDispatch();
-  const [addonsChecked, setAddonsChecked] = React.useState<boolean[]>([
-    false,
-    false,
-    false,
-  ]);
   const [properlyFilled, setProperlyFilled] = React.useState(false);
-  const [alertOpen, setAlertOpen] = React.useState(false);
   const [succesOpen, setSuccesOpen] = React.useState(false);
-
-  const handleNextStep = () => {
-    dispatch(setStep(step + 1));
-  };
-
-  const handlePrevStep = () => {
-    dispatch(setStep(step - 1));
-  };
 
   const handleInfoFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -81,35 +65,15 @@ const View: React.FC = () => {
       }
     }
   };
-  // ! To refactor
-  const handleAddonsCheck = (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newChecked = [...addonsChecked];
-    newChecked[index] = !newChecked[index];
-    setAddonsChecked(newChecked);
-    dispatch(addAddon(e.target.value));
-    dispatch(
-      setAddonsPrices([...formData.addonsPrices, parseInt(e.target.id)])
-    );
-  };
 
   return (
     <div id="container" className={viewStyles.container}>
       <div id="view-wrapper" className={viewStyles.viewWrapper}>
         <Sidebar navigate={handleSidebarNavigation} step={step} />
         <Form
-          prev={handlePrevStep}
-          next={handleNextStep}
-          step={step}
           formData={formData}
           handleChange={handleInfoFromChange}
-          handleCheck={handleAddonsCheck}
-          checked={addonsChecked}
           setProperlyFilled={setProperlyFilled}
-          alertOpen={alertOpen}
-          setAlertOpen={setAlertOpen}
         />
       </div>
       <Alert

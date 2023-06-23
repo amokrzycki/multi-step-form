@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import BillingEnum from "../../enums/BillingEnum";
@@ -24,12 +24,13 @@ interface Props {
   billingUpdate: (value: boolean) => void;
   formData: FormType;
   activePlan: string;
-  setActivePlan: (value: string) => void;
-  alertOpen: boolean;
-  setAlertOpen: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PlanEnum = ["Arcade", "Advanced", "Pro"] as const;
+enum PlanEnum {
+  Arcade = "Arcade",
+  Advanced = "Advanced",
+  Pro = "Pro",
+}
 
 const plansMonthly = [
   {
@@ -37,21 +38,21 @@ const plansMonthly = [
     title: "Arcade",
     priceMonthly: 9,
     priceYearly: 90,
-    type: PlanEnum,
+    type: PlanEnum.Arcade,
   },
   {
     src: iconAdvanced,
     title: "Advanced",
     priceMonthly: 12,
     priceYearly: 120,
-    type: PlanEnum,
+    type: PlanEnum.Advanced,
   },
   {
     src: iconPro,
     title: "Pro",
     priceMonthly: 15,
     priceYearly: 150,
-    type: PlanEnum,
+    type: PlanEnum.Pro,
   },
 ];
 
@@ -62,14 +63,11 @@ const Plan = ({
   billingUpdate,
   formData,
   activePlan,
-  setActivePlan,
-  alertOpen,
-  setAlertOpen,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [alertOpen, setAlertOpen] = React.useState(false);
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    setActivePlan(e.currentTarget.children[0].id);
     const activeElements = document.getElementsByClassName(cardStyles.active);
 
     for (let i = 0; i < activeElements.length; i++) {
@@ -113,7 +111,7 @@ const Plan = ({
               src={plan.src}
               title={plan.title}
               price={!checked ? plan.priceMonthly : plan.priceYearly}
-              id={plan.type[index]}
+              id={plan.type}
               billing={formData.billing}
               active={activePlan === plan.type[index]}
             />
