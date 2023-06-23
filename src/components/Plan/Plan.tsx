@@ -1,11 +1,10 @@
-import React from "react";
+import React, { Dispatch, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import BillingEnum from "../../enums/BillingEnum";
 import planStyles from "./plan.module.css";
 import FormType from "../../types/FormType";
 import Alert from "../Alert/Alert";
-import cardStyles from "../../layout/Card/card.module.css";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
 import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
@@ -21,9 +20,8 @@ interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   checked: boolean;
-  billingUpdate: (value: boolean) => void;
+  billingUpdate: Dispatch<React.SetStateAction<boolean>>;
   formData: FormType;
-  activePlan: string;
 }
 
 enum PlanEnum {
@@ -62,38 +60,66 @@ const Plan = ({
   checked,
   billingUpdate,
   formData,
-  activePlan,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [alertOpen, setAlertOpen] = React.useState(false);
+  const stateUpdatedRef = useRef(false);
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const activeElements = document.getElementsByClassName(cardStyles.active);
-
-    for (let i = 0; i < activeElements.length; i++) {
-      activeElements[i].classList.remove(cardStyles.active);
+  const handleBillingPrice = () => {
+    switch (formData.plan) {
+      case PlanEnum.Arcade:
+        dispatch(
+          setBillingPrice(
+            checked ? plansMonthly[0].priceYearly : plansMonthly[0].priceMonthly
+          )
+        );
+        break;
+      case PlanEnum.Advanced:
+        dispatch(
+          setBillingPrice(
+            checked ? plansMonthly[1].priceYearly : plansMonthly[1].priceMonthly
+          )
+        );
+        break;
+      case PlanEnum.Pro:
+        dispatch(
+          setBillingPrice(
+            checked ? plansMonthly[2].priceYearly : plansMonthly[2].priceMonthly
+          )
+        );
+        break;
+      default:
+        break;
     }
+  };
 
-    e.currentTarget.children[0].classList.add(`${cardStyles.active}`);
-
+  const handlePlanClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     dispatch(setPlan(e.currentTarget.children[0].id));
   };
 
-  const handleSwitch: React.ChangeEventHandler<HTMLLabelElement> = () => {
-    billingUpdate(!checked);
-    dispatch(setBilling(!checked ? BillingEnum.Monthly : BillingEnum.Yearly));
+  const handleBillingSwitch: React.ChangeEventHandler<
+    HTMLLabelElement
+  > = () => {
+    billingUpdate((prevState) => {
+      const newState = !prevState;
+      stateUpdatedRef.current = true;
+      return newState;
+    });
   };
+
+  useEffect(() => {
+    if (stateUpdatedRef.current) {
+      dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
+      stateUpdatedRef.current = false;
+    }
+  }, [checked, dispatch]);
 
   const handleNextStepClick = () => {
     if (formData.plan === "") {
       setAlertOpen(true);
       return;
     } else {
-      const price = parseFloat(
-        document.getElementsByClassName(cardStyles.active)[0].children[2]
-          .innerHTML
-      );
-      dispatch(setBillingPrice(price));
+      handleBillingPrice();
       handleNextStep();
     }
   };
@@ -106,14 +132,14 @@ const Plan = ({
       />
       <div className={planStyles.optionsWrapper}>
         {plansMonthly.map((plan, index) => (
-          <ClickableDiv key={index} onClick={handleClick}>
+          <ClickableDiv key={index} onClick={handlePlanClick}>
             <Card
               src={plan.src}
               title={plan.title}
-              price={!checked ? plan.priceMonthly : plan.priceYearly}
+              price={checked ? plan.priceYearly : plan.priceMonthly}
               id={plan.type}
               billing={formData.billing}
-              active={activePlan === plan.type[index]}
+              isActive={formData.plan === plan.type}
             />
           </ClickableDiv>
         ))}
@@ -122,7 +148,7 @@ const Plan = ({
         <p className={!checked ? planStyles.active : planStyles.inactive}>
           Monthly
         </p>
-        <label className={planStyles.switch} onChange={handleSwitch}>
+        <label className={planStyles.switch} onChange={handleBillingSwitch}>
           <input type="checkbox" defaultChecked={checked} />
           <span className={`${planStyles.slider} ${planStyles.round}`}></span>
         </label>

@@ -1,14 +1,14 @@
 import BillingEnum from "../../enums/BillingEnum";
 import cardStyles from "./card.module.css";
 
-type Props = {
+interface Props {
   src: string;
   title: string;
   price: number;
   id?: string;
   billing: string;
-  active?: boolean;
-};
+  isActive?: boolean;
+}
 
 const Card = (props: Props) => {
   const billingType = props.billing === BillingEnum.Monthly ? "mo" : "yr";
@@ -17,7 +17,7 @@ const Card = (props: Props) => {
     <div
       id={props.id?.toString()}
       className={`${cardStyles.cardWrapper} ${
-        props.active ? cardStyles.active : ""
+        props.isActive ? cardStyles.active : ""
       }`}
     >
       <img src={props.src} alt={props.title} />

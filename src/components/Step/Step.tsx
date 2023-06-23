@@ -82,7 +82,6 @@ function Step({
           checked={billingTypeChecked}
           billingUpdate={setBillingTypeChecked}
           formData={formData}
-          activePlan={formData.plan}
         />
       ),
     },
