@@ -34,12 +34,14 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
         <hr className={summaryStyles.line} />
         <div
           className={summaryStyles.addonsInfo}
-          style={formData.addons.length === 0 ? { alignItems: "center" } : {}}
+          style={
+            formData.addonsSelected.length === 0 ? { alignItems: "center" } : {}
+          }
         >
-          {formData.addons.length === 0 ? (
+          {formData.addonsSelected.length === 0 ? (
             <p className={summaryStyles.emptyAddons}>No addons</p>
           ) : (
-            formData.addons.map((addon, index) => (
+            formData.addonsSelected.map((addon, index) => (
               <div key={index} className={summaryStyles.addonsElements}>
                 <p>{addon}</p>
                 <p

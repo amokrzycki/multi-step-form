@@ -23,7 +23,8 @@ const View: React.FC = () => {
     billing: useSelector((state: RootState) => state.billing),
     billingPrice: useSelector((state: RootState) => state.billingPrice),
     plan: useSelector((state: RootState) => state.plan),
-    addons: useSelector((state: RootState) => state.addons),
+    addonsStates: useSelector((state: RootState) => state.addonsStates),
+    addonsSelected: useSelector((state: RootState) => state.addonsSelected),
     addonsPrices: useSelector((state: RootState) => state.addonsPrices),
     total: useSelector((state: RootState) => state.total),
   };

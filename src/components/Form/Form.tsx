@@ -24,6 +24,11 @@ const Form: React.FC<Props> = ({
     email: true,
     number: true,
   });
+  const [addonsChecked, setAddonsChecked] = React.useState([
+    false,
+    false,
+    false,
+  ]);
 
   const handleTempData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempData({
@@ -43,6 +48,8 @@ const Form: React.FC<Props> = ({
       billingTypeChecked={billingTypeChecked}
       setBillingTypeChecked={setBillingTypeChecked}
       setProperlyFilled={setProperlyFilled}
+      addonsChecked={addonsChecked}
+      setAddonsChecked={setAddonsChecked}
     />
   );
 };

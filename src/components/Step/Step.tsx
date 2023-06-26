@@ -31,6 +31,8 @@ interface Props {
   billingTypeChecked: boolean;
   setBillingTypeChecked: Dispatch<React.SetStateAction<boolean>>;
   setProperlyFilled: Dispatch<React.SetStateAction<boolean>>;
+  addonsChecked: boolean[];
+  setAddonsChecked: Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 function Step({
@@ -43,6 +45,8 @@ function Step({
   billingTypeChecked,
   setBillingTypeChecked,
   setProperlyFilled,
+  addonsChecked,
+  setAddonsChecked,
 }: Props) {
   const step = useSelector((state: RootState) => state.step);
   const dispatch: AppDispatch = useDispatch();
@@ -54,6 +58,7 @@ function Step({
   const handlePrevStep = () => {
     dispatch(setStep(step - 1));
   };
+
   const handleFormConfirm = () => {
     dispatch(setStep(step + 1));
     console.log(formData);
@@ -93,6 +98,8 @@ function Step({
           handlePrevStep={handlePrevStep}
           formData={formData}
           setProperlyFilled={setProperlyFilled}
+          addonsChecked={addonsChecked}
+          setAddonsChecked={setAddonsChecked}
         />
       ),
     },

@@ -10,7 +10,8 @@ export enum ActionTypes {
   SET_PLAN = "SET_PLAN",
   ADD_ADDON = "ADD_ADDON",
   REMOVE_ADDON = "REMOVE_ADDON",
-  SET_ADDONS_PRICES = "SET_ADDONS_PRICES",
+  ADD_ADDON_PRICE = "ADD_ADDON_PRICE",
+  REMOVE_ADDON_PRICE = "REMOVE_ADDON_PRICE",
   SET_TOTAL = "SET_TOTAL",
   SET_STEP = "SET_STEP",
 }
@@ -48,9 +49,13 @@ export interface RemoveAddonAction extends Action<ActionTypes.REMOVE_ADDON> {
   payload: string;
 }
 
-export interface SetAddonsPricesAction
-  extends Action<ActionTypes.SET_ADDONS_PRICES> {
-  payload: number[];
+export interface AddAddonPrice extends Action<ActionTypes.ADD_ADDON_PRICE> {
+  payload: number;
+}
+
+export interface RemoveAddonPrice
+  extends Action<ActionTypes.REMOVE_ADDON_PRICE> {
+  payload: number;
 }
 
 export interface SetTotalAction extends Action<ActionTypes.SET_TOTAL> {
@@ -70,7 +75,8 @@ export type AppAction =
   | SetPlanAction
   | AddAddonAction
   | RemoveAddonAction
-  | SetAddonsPricesAction
+  | AddAddonPrice
+  | RemoveAddonPrice
   | SetTotalAction
   | SetStepAction;
 
@@ -130,10 +136,17 @@ export function removeAddon(addon: string): RemoveAddonAction {
   };
 }
 
-export function setAddonsPrices(prices: number[]): SetAddonsPricesAction {
+export function addAddonPrice(price: number): AddAddonPrice {
   return {
-    type: ActionTypes.SET_ADDONS_PRICES,
-    payload: prices,
+    type: ActionTypes.ADD_ADDON_PRICE,
+    payload: price,
+  };
+}
+
+export function removeAddonPrice(price: number): RemoveAddonPrice {
+  return {
+    type: ActionTypes.REMOVE_ADDON_PRICE,
+    payload: price,
   };
 }
 
