@@ -1,5 +1,6 @@
 import BillingEnum from "../../enums/BillingEnum";
 import cardStyles from "./card.module.css";
+import classNames from "classnames";
 
 interface Props {
   src: string;
@@ -16,9 +17,9 @@ const Card = (props: Props) => {
   return (
     <div
       id={props.id?.toString()}
-      className={`${cardStyles.cardWrapper} ${
-        props.isActive ? cardStyles.active : ""
-      }`}
+      className={classNames(cardStyles.cardWrapper, {
+        [cardStyles.active]: props.isActive,
+      })}
     >
       <img src={props.src} alt={props.title} />
       <p className={cardStyles.title}>{props.title}</p>

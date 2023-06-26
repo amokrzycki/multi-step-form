@@ -13,6 +13,7 @@ export interface AppState {
   addonsPrices: number[];
   total: number;
   step: number;
+  lastStep: number;
 }
 
 const initialState: AppState = {
@@ -25,7 +26,8 @@ const initialState: AppState = {
   addonsSelected: [],
   addonsPrices: [],
   total: 0,
-  step: 3,
+  step: 1,
+  lastStep: 1,
 };
 
 export const appReducer: Reducer<AppState, AppAction> = (
@@ -79,6 +81,8 @@ export const appReducer: Reducer<AppState, AppAction> = (
       return { ...state, total: action.payload };
     case ActionTypes.SET_STEP:
       return { ...state, step: action.payload };
+    case ActionTypes.SET_LAST_STEP:
+      return { ...state, lastStep: action.payload };
     default:
       return state;
   }

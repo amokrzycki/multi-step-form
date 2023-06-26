@@ -28,6 +28,35 @@ const Info = ({
   inputValid,
   setInputValid,
 }: Props) => {
+  const inputList = [
+    {
+      name: "name",
+      labelText: "Name",
+      placeholder: "e.g Stephen King",
+      valid: inputValid.name,
+      errorText: "Please provide properly name!",
+      value: tempData.name,
+      style: { borderColor: inputValid.name ? "" : "hsl(0, 100%, 74%)" },
+    },
+    {
+      name: "email",
+      labelText: "Email Address",
+      placeholder: "e.g stephenking@lorem.com",
+      valid: inputValid.email,
+      errorText: "Please provide properly email address!",
+      value: tempData.email,
+      style: { borderColor: inputValid.email ? "" : "hsl(0, 100%, 74%)" },
+    },
+    {
+      name: "number",
+      labelText: "Phone Number",
+      placeholder: "e.g +1234567890",
+      valid: inputValid.number,
+      errorText: "Please provide properly phone number!",
+      value: tempData.number,
+      style: { borderColor: inputValid.number ? "" : "hsl(0, 100%, 74%)" },
+    },
+  ];
   const validateInputs = () => {
     setInputValid({
       name: nameExpression.test(tempData.name),
@@ -80,52 +109,26 @@ const Info = ({
         title="Personal info"
         description="Please provide your name, email address, and phone number."
       />
-      <Label
-        name="name"
-        labelText="Name"
-        valid={inputValid.name}
-        errorText="Please provide properly name!"
-      />
-      <input
-        type="text"
-        name="name"
-        onBlur={onBlurHandler}
-        placeholder="e.g Stephen King"
-        onChange={handleTempData}
-        value={tempData.name}
-        style={{ borderColor: inputValid.name ? "" : "hsl(0, 100%, 74%)" }}
-        autoFocus
-      />
-      <Label
-        name="email"
-        labelText="Email Address"
-        valid={inputValid.email}
-        errorText="Please provide properly email address!"
-      />
-      <input
-        type="text"
-        name="email"
-        onBlur={onBlurHandler}
-        placeholder="e.g stephenking@lorem.com"
-        onChange={handleTempData}
-        value={tempData.email}
-        style={{ borderColor: inputValid.email ? "" : "hsl(0, 100%, 74%)" }}
-      />
-      <Label
-        name="number"
-        labelText="Phone Number"
-        valid={inputValid.number}
-        errorText="Please provide properly phone number!"
-      />
-      <input
-        type="text"
-        name="number"
-        onBlur={onBlurHandler}
-        placeholder="e.g +1234567890"
-        onChange={handleTempData}
-        value={tempData.number}
-        style={{ borderColor: inputValid.number ? "" : "hsl(0, 100%, 74%)" }}
-      />
+      {inputList.map((input, index) => (
+        <React.Fragment key={index}>
+          <Label
+            name={input.name}
+            labelText={input.labelText}
+            errorText={input.errorText}
+            valid={input.valid}
+          />
+          <input
+            key={index}
+            type="text"
+            name={input.name}
+            placeholder={input.placeholder}
+            onChange={handleTempData}
+            value={input.value}
+            onBlur={onBlurHandler}
+            style={input.style}
+          />
+        </React.Fragment>
+      ))}
       <div className={infoStyles.navWrapper}>
         <Button
           text="Next Step"

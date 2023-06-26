@@ -21,7 +21,6 @@ interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   formData: FormType;
-  setProperlyFilled: React.Dispatch<React.SetStateAction<boolean>>;
   addonsChecked: boolean[];
   setAddonsChecked: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
@@ -36,14 +35,12 @@ const Addons = ({
   handleNextStep,
   handlePrevStep,
   formData,
-  setProperlyFilled,
   addonsChecked,
   setAddonsChecked,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleClick = () => {
-    setProperlyFilled(true);
     dispatch(
       setTotal(
         formData.billingPrice + formData.addonsPrices.reduce((a, b) => a + b, 0)

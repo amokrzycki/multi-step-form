@@ -15,6 +15,7 @@ import iconAdvanced from "./iconAdvanced.svg";
 import iconPro from "./iconPro.svg";
 import iconArcade from "./iconArcade.svg";
 import { setBilling, setBillingPrice, setPlan } from "../../store/actions";
+import classNames from "classnames";
 
 interface Props {
   handleNextStep: () => void;
@@ -150,7 +151,9 @@ const Plan = ({
         </p>
         <label className={planStyles.switch} onChange={handleBillingSwitch}>
           <input type="checkbox" defaultChecked={checked} />
-          <span className={`${planStyles.slider} ${planStyles.round}`}></span>
+          <span
+            className={classNames(planStyles.slider, planStyles.round)}
+          ></span>
         </label>
         <p className={checked ? planStyles.active : planStyles.inactive}>
           Yearly

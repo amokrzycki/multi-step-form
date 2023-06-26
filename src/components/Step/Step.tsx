@@ -1,8 +1,8 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useEffect } from "react";
 import formStyles from "../Form/form.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { setStep } from "../../store/actions";
+import { setLastStep, setStep } from "../../store/actions";
 import Addons from "../Addons/Addons";
 import Confirmation from "../Confirmation/Confirmation";
 import Fallback from "../Fallback/Fallback";
@@ -30,7 +30,6 @@ interface Props {
   >;
   billingTypeChecked: boolean;
   setBillingTypeChecked: Dispatch<React.SetStateAction<boolean>>;
-  setProperlyFilled: Dispatch<React.SetStateAction<boolean>>;
   addonsChecked: boolean[];
   setAddonsChecked: Dispatch<React.SetStateAction<boolean[]>>;
 }
@@ -44,10 +43,10 @@ function Step({
   setInputValid,
   billingTypeChecked,
   setBillingTypeChecked,
-  setProperlyFilled,
   addonsChecked,
   setAddonsChecked,
 }: Props) {
+  const lastStep = useSelector((state: RootState) => state.lastStep);
   const step = useSelector((state: RootState) => state.step);
   const dispatch: AppDispatch = useDispatch();
 
@@ -63,6 +62,12 @@ function Step({
     dispatch(setStep(step + 1));
     console.log(formData);
   };
+
+  useEffect(() => {
+    if (step > lastStep) {
+      dispatch(setLastStep(step));
+    }
+  }, [dispatch, lastStep, step]);
 
   const stepElements = [
     {
@@ -97,7 +102,6 @@ function Step({
           handleNextStep={handleNextStep}
           handlePrevStep={handlePrevStep}
           formData={formData}
-          setProperlyFilled={setProperlyFilled}
           addonsChecked={addonsChecked}
           setAddonsChecked={setAddonsChecked}
         />

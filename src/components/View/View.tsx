@@ -16,6 +16,7 @@ import Form from "../Form/Form";
 
 const View: React.FC = () => {
   const step = useSelector((state: RootState) => state.step);
+  const lastStep = useSelector((state: RootState) => state.lastStep);
   const formData: FormType = {
     name: useSelector((state: RootState) => state.name),
     email: useSelector((state: RootState) => state.email),
@@ -23,14 +24,12 @@ const View: React.FC = () => {
     billing: useSelector((state: RootState) => state.billing),
     billingPrice: useSelector((state: RootState) => state.billingPrice),
     plan: useSelector((state: RootState) => state.plan),
-    addonsStates: useSelector((state: RootState) => state.addonsStates),
     addonsSelected: useSelector((state: RootState) => state.addonsSelected),
     addonsPrices: useSelector((state: RootState) => state.addonsPrices),
     total: useSelector((state: RootState) => state.total),
   };
   const dispatch: AppDispatch = useDispatch();
-  const [properlyFilled, setProperlyFilled] = React.useState(false);
-  const [succesOpen, setSuccesOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   const handleInfoFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -49,21 +48,21 @@ const View: React.FC = () => {
   const handleSidebarNavigation: React.MouseEventHandler<HTMLDivElement> = (
     e
   ) => {
-    if (properlyFilled) {
-      if (step === 5) {
-        setSuccesOpen(true);
-      } else {
-        dispatch(setStep(parseInt(e.currentTarget.id)));
-        // If the user navigates to the summary step, the total price is calculated
-        if (e.currentTarget.id === "4") {
-          dispatch(
-            setTotal(
-              formData.billingPrice +
-                formData.addonsPrices.reduce((a, b) => a + b, 0)
-            )
-          );
-        }
-      }
+    if (step === 5) {
+      setSuccessOpen(true);
+      return;
+    }
+
+    if (parseFloat(e.currentTarget.id) <= lastStep) {
+      dispatch(setStep(parseInt(e.currentTarget.id)));
+    }
+
+    if (e.currentTarget.id === "4") {
+      const totalPrice =
+        formData.billingPrice +
+        formData.addonsPrices.reduce((a, b) => a + b, 0);
+
+      dispatch(setTotal(totalPrice));
     }
   };
 
@@ -71,17 +70,13 @@ const View: React.FC = () => {
     <div id="container" className={viewStyles.container}>
       <div id="view-wrapper" className={viewStyles.viewWrapper}>
         <Sidebar navigate={handleSidebarNavigation} step={step} />
-        <Form
-          formData={formData}
-          handleChange={handleInfoFromChange}
-          setProperlyFilled={setProperlyFilled}
-        />
+        <Form formData={formData} handleChange={handleInfoFromChange} />
       </div>
       <Alert
         type="success"
         text="Form was submitted successfully!"
-        open={succesOpen}
-        set={setSuccesOpen}
+        open={successOpen}
+        set={setSuccessOpen}
       />
     </div>
   );

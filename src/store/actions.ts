@@ -14,6 +14,7 @@ export enum ActionTypes {
   REMOVE_ADDON_PRICE = "REMOVE_ADDON_PRICE",
   SET_TOTAL = "SET_TOTAL",
   SET_STEP = "SET_STEP",
+  SET_LAST_STEP = "SET_LAST_STEP",
 }
 
 export interface SetNameAction extends Action<ActionTypes.SET_NAME> {
@@ -66,6 +67,10 @@ export interface SetStepAction extends Action<ActionTypes.SET_STEP> {
   payload: number;
 }
 
+export interface SetLastStepAction extends Action<ActionTypes.SET_LAST_STEP> {
+  payload: number;
+}
+
 export type AppAction =
   | SetNameAction
   | SetEmailAction
@@ -77,6 +82,7 @@ export type AppAction =
   | RemoveAddonAction
   | AddAddonPrice
   | RemoveAddonPrice
+  | SetLastStepAction
   | SetTotalAction
   | SetStepAction;
 
@@ -161,5 +167,12 @@ export function setStep(step: number): SetStepAction {
   return {
     type: ActionTypes.SET_STEP,
     payload: step,
+  };
+}
+
+export function setLastStep(lastStep: number): SetLastStepAction {
+  return {
+    type: ActionTypes.SET_LAST_STEP,
+    payload: lastStep,
   };
 }

@@ -1,18 +1,13 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import FormType from "../../types/FormType";
 import Step from "../Step/Step";
 
 interface Props {
   formData: FormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setProperlyFilled: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Form: React.FC<Props> = ({
-  formData,
-  handleChange,
-  setProperlyFilled,
-}: Props) => {
+const Form: React.FC<Props> = ({ formData, handleChange }: Props) => {
   const [billingTypeChecked, setBillingTypeChecked] = React.useState(false);
   const [tempData, setTempData] = React.useState({
     name: "",
@@ -47,7 +42,6 @@ const Form: React.FC<Props> = ({
       setInputValid={setInputValid}
       billingTypeChecked={billingTypeChecked}
       setBillingTypeChecked={setBillingTypeChecked}
-      setProperlyFilled={setProperlyFilled}
       addonsChecked={addonsChecked}
       setAddonsChecked={setAddonsChecked}
     />
