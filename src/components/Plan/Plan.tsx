@@ -1,10 +1,9 @@
-import React, { Dispatch, useEffect, useRef } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import BillingEnum from "../../enums/BillingEnum";
 import planStyles from "./plan.module.css";
 import FormType from "../../types/FormType";
-import Alert from "../Alert/Alert";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
 import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
@@ -20,8 +19,6 @@ import classNames from "classnames";
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
-  checked: boolean;
-  billingUpdate: Dispatch<React.SetStateAction<boolean>>;
   formData: FormType;
 }
 
@@ -31,7 +28,7 @@ enum PlanEnum {
   Pro = "Pro",
 }
 
-const plansMonthly = [
+const plans = [
   {
     src: iconArcade,
     title: "Arcade",
@@ -55,37 +52,30 @@ const plansMonthly = [
   },
 ];
 
-const Plan = ({
-  handleNextStep,
-  handlePrevStep,
-  checked,
-  billingUpdate,
-  formData,
-}: Props) => {
+const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
+  let checked = formData.billing === BillingEnum.Yearly;
   const dispatch: AppDispatch = useDispatch();
-  const [alertOpen, setAlertOpen] = React.useState(false);
-  const stateUpdatedRef = useRef(false);
 
   const handleBillingPrice = () => {
     switch (formData.plan) {
       case PlanEnum.Arcade:
         dispatch(
           setBillingPrice(
-            checked ? plansMonthly[0].priceYearly : plansMonthly[0].priceMonthly
+            checked ? plans[0].priceYearly : plans[0].priceMonthly
           )
         );
         break;
       case PlanEnum.Advanced:
         dispatch(
           setBillingPrice(
-            checked ? plansMonthly[1].priceYearly : plansMonthly[1].priceMonthly
+            checked ? plans[1].priceYearly : plans[1].priceMonthly
           )
         );
         break;
       case PlanEnum.Pro:
         dispatch(
           setBillingPrice(
-            checked ? plansMonthly[2].priceYearly : plansMonthly[2].priceMonthly
+            checked ? plans[2].priceYearly : plans[2].priceMonthly
           )
         );
         break;
@@ -101,28 +91,13 @@ const Plan = ({
   const handleBillingSwitch: React.ChangeEventHandler<
     HTMLLabelElement
   > = () => {
-    billingUpdate((prevState) => {
-      const newState = !prevState;
-      stateUpdatedRef.current = true;
-      return newState;
-    });
+    checked = !checked;
+    dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
   };
 
-  useEffect(() => {
-    if (stateUpdatedRef.current) {
-      dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
-      stateUpdatedRef.current = false;
-    }
-  }, [checked, dispatch]);
-
   const handleNextStepClick = () => {
-    if (formData.plan === "") {
-      setAlertOpen(true);
-      return;
-    } else {
-      handleBillingPrice();
-      handleNextStep();
-    }
+    handleBillingPrice();
+    handleNextStep();
   };
 
   return (
@@ -132,7 +107,7 @@ const Plan = ({
         description="You have the option of monthly or yearly billing"
       />
       <div className={planStyles.optionsWrapper}>
-        {plansMonthly.map((plan, index) => (
+        {plans.map((plan, index) => (
           <ClickableDiv key={index} onClick={handlePlanClick}>
             <Card
               src={plan.src}
@@ -171,14 +146,9 @@ const Plan = ({
           color="hsl(213, 96%, 18%)"
           textColor="white"
           click={handleNextStepClick}
+          disabled={formData.plan === ""}
         />
       </div>
-      <Alert
-        type="warning"
-        text="Please select a plan"
-        open={alertOpen}
-        set={setAlertOpen}
-      />
     </Wrapper>
   );
 };

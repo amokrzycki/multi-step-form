@@ -9,35 +9,21 @@ import Headline from "../../layout/Headline/Headline";
 import Select from "../../layout/Select/Select";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
-import {
-  addAddon,
-  removeAddon,
-  setTotal,
-  addAddonPrice,
-  removeAddonPrice,
-} from "../../store/actions";
+import { setTotal } from "../../store/actions";
 
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   formData: FormType;
-  addonsChecked: boolean[];
-  setAddonsChecked: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 enum AddonsEnum {
-  ONLINE_SERIVCE = "Online Service",
+  ONLINE_SERVICE = "Online Service",
   LARGER_STORAGE = "Larger Storage",
   CUSTOMIZABLE_PROFILE = "Customizable Profile",
 }
 
-const Addons = ({
-  handleNextStep,
-  handlePrevStep,
-  formData,
-  addonsChecked,
-  setAddonsChecked,
-}: Props) => {
+const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleClick = () => {
@@ -55,7 +41,7 @@ const Addons = ({
       description: "Access to multiplayer games",
       priceMonthly: 1,
       priceYearly: 10,
-      value: AddonsEnum.ONLINE_SERIVCE,
+      value: AddonsEnum.ONLINE_SERVICE,
     },
     {
       name: "Larger storage",
@@ -75,37 +61,10 @@ const Addons = ({
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.checked) {
-      onUncheck(e);
+      console.log(e.currentTarget.value);
     } else {
-      onCheck(e);
+      console.log(e.currentTarget.value);
     }
-  };
-
-  const onCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const index = addonsList.findIndex((el) => el.value === e.target.value);
-    const newChecked = [...addonsChecked];
-    // Adding addon to the list
-    dispatch(addAddon(e.currentTarget.value));
-    newChecked[index] = !newChecked[index];
-    setAddonsChecked(newChecked);
-    const addonsPrice =
-      formData.billing === BillingEnum.Monthly
-        ? addonsList[index].priceMonthly
-        : addonsList[index].priceYearly;
-    dispatch(addAddonPrice(addonsPrice));
-  };
-
-  const onUncheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const index = addonsList.findIndex((el) => el.value === e.target.value);
-    const newChecked = [...addonsChecked];
-    newChecked[index] = !newChecked[index];
-    setAddonsChecked(newChecked);
-    dispatch(removeAddon(e.currentTarget.value));
-    const addonsPrice =
-      formData.billing === BillingEnum.Monthly
-        ? addonsList[index].priceMonthly
-        : addonsList[index].priceYearly;
-    dispatch(removeAddonPrice(addonsPrice));
   };
 
   return (
@@ -125,7 +84,7 @@ const Addons = ({
                 ? addon.priceMonthly
                 : addon.priceYearly
             }
-            checked={addonsChecked[index]}
+            checked={false}
             change={handleSelect}
             value={addon.value}
             billing={formData.billing}

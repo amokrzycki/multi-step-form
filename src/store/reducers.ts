@@ -68,13 +68,11 @@ export const appReducer: Reducer<AppState, AppAction> = (
       return {
         ...state,
         addonsPrices: state.addonsPrices.filter((price, index) => {
-          if (
+          return !(
             price === action.payload &&
             index === state.addonsPrices.indexOf(action.payload)
-          ) {
-            return false; // Exclude the first occurrence of action.payload
-          }
-          return true; // Include all other elements
+          );
+          // Include all other elements
         }),
       };
     case ActionTypes.SET_TOTAL:

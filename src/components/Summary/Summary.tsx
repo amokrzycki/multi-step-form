@@ -22,6 +22,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
         description="Double-check everything looks OK before confirming"
       />
       <div className={summaryStyles.summaryWrapper}>
+        {/* PLAN DISPLAYING */}
         <div className={summaryStyles.planInfo}>
           <div id="plan-type">
             <p>{`${formData.plan} (${formData.billing})`} </p>
@@ -32,6 +33,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
           >{`$${formData.billingPrice}/${billingType}`}</p>
         </div>
         <hr className={summaryStyles.line} />
+        {/* ADDONS DISPLAYING */}
         <div
           className={summaryStyles.addonsInfo}
           style={
@@ -60,6 +62,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
           className={summaryStyles.totalPrice}
         >{`$${formData.total}/${billingType}`}</p>
       </div>
+      {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"

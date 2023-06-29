@@ -1,15 +1,21 @@
 .navigationWrapper {
-  display: flex;
-  justify-content: space-between;
-  height: -webkit-fill-available;
-  align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    height: -webkit-fill-available;
+    align-items: flex-end;
 }
 
 .button {
-  width: 8em;
-  height: 3.5em;
-  border-radius: 0.6em;
-  font-family: "Ubuntu", sans-serif;
-  font-weight: 500;
-  cursor: pointer;
+    width: 8em;
+    height: 3.5em;
+    border-radius: 0.6em;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.disabled {
+    background-color: #e0e0e0 !important;
+    color: #9e9e9e !important;
+    cursor: not-allowed;
 }

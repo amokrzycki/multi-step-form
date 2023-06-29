@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from "react";
+import { useEffect } from "react";
 import formStyles from "../Form/form.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -12,40 +12,10 @@ import Info from "../Info/Info";
 import FormType from "../../types/FormType";
 
 interface Props {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  tempData: {
-    name: string;
-    email: string;
-    number: string;
-  };
-  handleTempData: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formData: FormType;
-  inputValid: {
-    name: boolean;
-    email: boolean;
-    number: boolean;
-  };
-  setInputValid: Dispatch<
-    React.SetStateAction<{ name: boolean; email: boolean; number: boolean }>
-  >;
-  billingTypeChecked: boolean;
-  setBillingTypeChecked: Dispatch<React.SetStateAction<boolean>>;
-  addonsChecked: boolean[];
-  setAddonsChecked: Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-function Step({
-  handleChange,
-  tempData,
-  handleTempData,
-  formData,
-  inputValid,
-  setInputValid,
-  billingTypeChecked,
-  setBillingTypeChecked,
-  addonsChecked,
-  setAddonsChecked,
-}: Props) {
+function Step({ formData }: Props) {
   const lastStep = useSelector((state: RootState) => state.lastStep);
   const step = useSelector((state: RootState) => state.step);
   const dispatch: AppDispatch = useDispatch();
@@ -58,7 +28,7 @@ function Step({
     dispatch(setStep(step - 1));
   };
 
-  const handleFormConfirm = () => {
+  const handleSubmit = () => {
     dispatch(setStep(step + 1));
     console.log(formData);
   };
@@ -72,16 +42,7 @@ function Step({
   const stepElements = [
     {
       number: 1,
-      component: (
-        <Info
-          handleNextStep={handleNextStep}
-          change={handleChange}
-          tempData={tempData}
-          handleTempData={handleTempData}
-          inputValid={inputValid}
-          setInputValid={setInputValid}
-        />
-      ),
+      component: <Info handleNextStep={handleNextStep} />,
     },
     {
       number: 2,
@@ -89,8 +50,6 @@ function Step({
         <Plan
           handleNextStep={handleNextStep}
           handlePrevStep={handlePrevStep}
-          checked={billingTypeChecked}
-          billingUpdate={setBillingTypeChecked}
           formData={formData}
         />
       ),
@@ -102,8 +61,6 @@ function Step({
           handleNextStep={handleNextStep}
           handlePrevStep={handlePrevStep}
           formData={formData}
-          addonsChecked={addonsChecked}
-          setAddonsChecked={setAddonsChecked}
         />
       ),
     },
@@ -111,7 +68,7 @@ function Step({
       number: 4,
       component: (
         <Summary
-          handleConfirm={handleFormConfirm}
+          handleConfirm={handleSubmit}
           handlePrevStep={handlePrevStep}
           formData={formData}
         />
