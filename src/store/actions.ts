@@ -8,6 +8,7 @@ export enum ActionTypes {
   SET_PLAN = "SET_PLAN",
   ADD_ADDON = "ADD_ADDON",
   REMOVE_ADDON = "REMOVE_ADDON",
+  RESET_ADDONS = "RESET_ADDONS",
   ADD_ADDON_PRICE = "ADD_ADDON_PRICE",
   REMOVE_ADDON_PRICE = "REMOVE_ADDON_PRICE",
   SET_TOTAL = "SET_TOTAL",
@@ -44,6 +45,8 @@ export interface RemoveAddonAction extends Action<ActionTypes.REMOVE_ADDON> {
   payload: string;
 }
 
+export interface ResetAddonsAction extends Action<ActionTypes.RESET_ADDONS> {}
+
 export interface AddAddonPrice extends Action<ActionTypes.ADD_ADDON_PRICE> {
   payload: number;
 }
@@ -76,6 +79,7 @@ export type AppAction =
   | RemoveAddonPrice
   | SetLastStepAction
   | SetTotalAction
+  | ResetAddonsAction
   | SetStepAction;
 
 export function setUserData(
@@ -125,6 +129,12 @@ export function removeAddon(addon: string): RemoveAddonAction {
   return {
     type: ActionTypes.REMOVE_ADDON,
     payload: addon,
+  };
+}
+
+export function resetAddons(): ResetAddonsAction {
+  return {
+    type: ActionTypes.RESET_ADDONS,
   };
 }
 

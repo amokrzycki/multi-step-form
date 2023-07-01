@@ -46,9 +46,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
             formData.addonsSelected.map((addon, index) => (
               <div key={index} className={summaryStyles.addonsElements}>
                 <p>{addon}</p>
-                <p
-                  className={summaryStyles.price}
-                >{`+$${formData.addonsPrices[index]}/${billingType}`}</p>
+                <p className={summaryStyles.price}>{`+$xd/${billingType}`}</p>
               </div>
             ))
           )}

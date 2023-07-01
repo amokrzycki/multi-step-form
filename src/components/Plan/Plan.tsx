@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import BillingEnum from "../../enums/BillingEnum";
@@ -13,19 +13,20 @@ import Button from "../../layout/Button/Button";
 import iconAdvanced from "./iconAdvanced.svg";
 import iconPro from "./iconPro.svg";
 import iconArcade from "./iconArcade.svg";
-import { setBilling, setBillingPrice, setPlan } from "../../store/actions";
+import {
+  resetAddons,
+  setBilling,
+  setBillingPrice,
+  setPlan,
+} from "../../store/actions";
 import classNames from "classnames";
+import PlanEnum from "../../enums/PlanEnum.ts";
+import usePlanPrice from "../../hooks/usePlanPrice.ts";
 
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   formData: FormType;
-}
-
-enum PlanEnum {
-  Arcade = "Arcade",
-  Advanced = "Advanced",
-  Pro = "Pro",
 }
 
 const plans = [
@@ -55,34 +56,12 @@ const plans = [
 const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   let checked = formData.billing === BillingEnum.Yearly;
   const dispatch: AppDispatch = useDispatch();
+  const getPrice = usePlanPrice(formData.plan);
+  const billingPrice = getPrice();
 
-  const handleBillingPrice = () => {
-    switch (formData.plan) {
-      case PlanEnum.Arcade:
-        dispatch(
-          setBillingPrice(
-            checked ? plans[0].priceYearly : plans[0].priceMonthly
-          )
-        );
-        break;
-      case PlanEnum.Advanced:
-        dispatch(
-          setBillingPrice(
-            checked ? plans[1].priceYearly : plans[1].priceMonthly
-          )
-        );
-        break;
-      case PlanEnum.Pro:
-        dispatch(
-          setBillingPrice(
-            checked ? plans[2].priceYearly : plans[2].priceMonthly
-          )
-        );
-        break;
-      default:
-        break;
-    }
-  };
+  useEffect(() => {
+    dispatch(setBillingPrice(billingPrice));
+  }, [billingPrice, dispatch]);
 
   const handlePlanClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     dispatch(setPlan(e.currentTarget.children[0].id));
@@ -93,17 +72,13 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   > = () => {
     checked = !checked;
     dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
-  };
-
-  const handleNextStepClick = () => {
-    handleBillingPrice();
-    handleNextStep();
+    dispatch(resetAddons());
   };
 
   return (
     <Wrapper>
       <Headline
-        title="CheckInput your plan"
+        title="Select your plan"
         description="You have the option of monthly or yearly billing"
       />
       <div className={planStyles.optionsWrapper}>
@@ -145,7 +120,7 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={handleNextStepClick}
+          click={handleNextStep}
           disabled={formData.plan === ""}
         />
       </div>

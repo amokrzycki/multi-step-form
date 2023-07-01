@@ -6,7 +6,6 @@ interface FormType {
   billingPrice: number;
   plan: string;
   addonsSelected: string[];
-  addonsPrices: number[];
   total: number;
 }
 

@@ -13,7 +13,6 @@ const Form: React.FC = () => {
     billingPrice: useSelector((state: RootState) => state.billingPrice),
     plan: useSelector((state: RootState) => state.plan),
     addonsSelected: useSelector((state: RootState) => state.addonsSelected),
-    addonsPrices: useSelector((state: RootState) => state.addonsPrices),
     total: useSelector((state: RootState) => state.total),
   };
 

@@ -9,7 +9,7 @@ import Headline from "../../layout/Headline/Headline";
 import CheckInput from "../../layout/CheckInput/CheckInput.tsx";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
-import { setTotal } from "../../store/actions";
+import { addAddon, removeAddon } from "../../store/actions";
 
 interface Props {
   handleNextStep: () => void;
@@ -25,15 +25,6 @@ enum AddonsEnum {
 
 const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(
-      setTotal(
-        formData.billingPrice + formData.addonsPrices.reduce((a, b) => a + b, 0)
-      )
-    );
-    handleNextStep();
-  };
   // list of addons
   const addonsList = [
     {
@@ -61,9 +52,9 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.checked) {
-      console.log(e.currentTarget.value);
+      dispatch(removeAddon(e.currentTarget.value));
     } else {
-      console.log(e.currentTarget.value);
+      dispatch(addAddon(e.currentTarget.value));
     }
   };
 
@@ -84,7 +75,7 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
                 ? addon.priceMonthly
                 : addon.priceYearly
             }
-            checked={false}
+            checked={formData.addonsSelected.includes(addon.value)}
             change={handleSelect}
             value={addon.value}
             billing={formData.billing}
@@ -102,7 +93,7 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={handleClick}
+          click={handleNextStep}
         />
       </div>
     </Wrapper>
