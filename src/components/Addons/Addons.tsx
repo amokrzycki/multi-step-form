@@ -6,7 +6,7 @@ import BillingEnum from "../../enums/BillingEnum";
 import FormType from "../../types/FormType";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
-import Select from "../../layout/Select/Select";
+import CheckInput from "../../layout/CheckInput/CheckInput.tsx";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
 import { setTotal } from "../../store/actions";
@@ -75,7 +75,7 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
       />
       <div className={addonsStyles.addonsPickWrapper}>
         {addonsList.map((addon, index) => (
-          <Select
+          <CheckInput
             key={index}
             name={addon.name}
             description={addon.description}

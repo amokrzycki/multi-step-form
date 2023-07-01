@@ -15,7 +15,7 @@ const stepsList = [
   {
     number: "2",
     title: "Step 2",
-    description: "Select Plan",
+    description: "CheckInput Plan",
   },
   {
     number: "3",

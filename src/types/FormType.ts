@@ -9,4 +9,5 @@ interface FormType {
   addonsPrices: number[];
   total: number;
 }
+
 export default FormType;

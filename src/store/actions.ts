@@ -2,9 +2,7 @@ import { Action } from "redux";
 import BillingEnum from "../enums/BillingEnum";
 
 export enum ActionTypes {
-  SET_NAME = "SET_NAME",
-  SET_EMAIL = "SET_EMAIL",
-  SET_NUMBER = "SET_NUMBER",
+  SET_USER_DATA = "SET_USER_DATA",
   SET_BILLING = "SET_BILLING",
   SET_BILLING_PRICE = "SET_BILLING_PRICE",
   SET_PLAN = "SET_PLAN",
@@ -17,16 +15,12 @@ export enum ActionTypes {
   SET_LAST_STEP = "SET_LAST_STEP",
 }
 
-export interface SetNameAction extends Action<ActionTypes.SET_NAME> {
-  payload: string;
-}
-
-export interface SetEmailAction extends Action<ActionTypes.SET_EMAIL> {
-  payload: string;
-}
-
-export interface SetNumberAction extends Action<ActionTypes.SET_NUMBER> {
-  payload: string;
+export interface SetUserDataAction extends Action<ActionTypes.SET_USER_DATA> {
+  payload: {
+    name: string;
+    email: string;
+    number: string;
+  };
 }
 
 export interface SetBillingAction extends Action<ActionTypes.SET_BILLING> {
@@ -72,9 +66,7 @@ export interface SetLastStepAction extends Action<ActionTypes.SET_LAST_STEP> {
 }
 
 export type AppAction =
-  | SetNameAction
-  | SetEmailAction
-  | SetNumberAction
+  | SetUserDataAction
   | SetBillingAction
   | SetBillingPriceAction
   | SetPlanAction
@@ -86,24 +78,18 @@ export type AppAction =
   | SetTotalAction
   | SetStepAction;
 
-export function setName(name: string): SetNameAction {
+export function setUserData(
+  name: string,
+  email: string,
+  number: string
+): SetUserDataAction {
   return {
-    type: ActionTypes.SET_NAME,
-    payload: name,
-  };
-}
-
-export function setEmail(email: string): SetEmailAction {
-  return {
-    type: ActionTypes.SET_EMAIL,
-    payload: email,
-  };
-}
-
-export function setNumber(number: string): SetNumberAction {
-  return {
-    type: ActionTypes.SET_NUMBER,
-    payload: number,
+    type: ActionTypes.SET_USER_DATA,
+    payload: {
+      name,
+      email,
+      number,
+    },
   };
 }
 

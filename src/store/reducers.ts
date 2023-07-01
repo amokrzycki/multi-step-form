@@ -35,12 +35,13 @@ export const appReducer: Reducer<AppState, AppAction> = (
   action
 ) => {
   switch (action.type) {
-    case ActionTypes.SET_NAME:
-      return { ...state, name: action.payload };
-    case ActionTypes.SET_EMAIL:
-      return { ...state, email: action.payload };
-    case ActionTypes.SET_NUMBER:
-      return { ...state, number: action.payload };
+    case ActionTypes.SET_USER_DATA:
+      return {
+        ...state,
+        name: action.payload.name,
+        email: action.payload.email,
+        number: action.payload.number,
+      };
     case ActionTypes.SET_BILLING:
       return { ...state, billing: action.payload };
     case ActionTypes.SET_BILLING_PRICE:

@@ -22,6 +22,7 @@ export const FormInput: React.FC<Props> = ({
   style,
   placeholder,
   autoFocus,
+  onChange,
 }: Props) => {
   return (
     <>
@@ -38,6 +39,7 @@ export const FormInput: React.FC<Props> = ({
         value={value}
         style={style}
         autoFocus={autoFocus}
+        onChange={onChange}
       />
     </>
   );

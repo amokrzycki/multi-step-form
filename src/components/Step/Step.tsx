@@ -42,7 +42,7 @@ function Step({ formData }: Props) {
   const stepElements = [
     {
       number: 1,
-      component: <Info handleNextStep={handleNextStep} />,
+      component: <Info handleNextStep={handleNextStep} formData={formData}/>,
     },
     {
       number: 2,

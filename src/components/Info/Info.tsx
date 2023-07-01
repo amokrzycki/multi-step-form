@@ -3,33 +3,36 @@ import Headline from "../../layout/Headline/Headline";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import infoStyles from "./info.module.css";
 import React from "react";
-import { setEmail, setName, setNumber } from "../../store/actions.ts";
 import { AppDispatch } from "../../store/store.ts";
 import { useDispatch } from "react-redux";
 import { FormInput } from "../../layout/FormInput/FormInput.tsx";
+import { setUserData } from "../../store/actions.ts";
+import FormType from "../../types/FormType.ts";
+import useValidator from "../../hooks/useValidator.ts";
 
 interface Props {
   handleNextStep: () => void;
+  formData: FormType;
 }
 
-// const nameExpression = /^[a-zA-Z]+ [a-zA-Z]+$/;
-// const emailExpression = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-// const phoneExpression = /^\+[1-9][0-9]{1,14}$/;
-
-const Info = ({ handleNextStep }: Props) => {
+const Info = ({ handleNextStep, formData }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-  const handleInfoFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const { name, value } = e.currentTarget;
-    if (name === "name") {
-      dispatch(setName(value));
-    }
-    if (name === "email") {
-      dispatch(setEmail(value));
-    }
-    if (name === "number") {
-      dispatch(setNumber(value));
-    }
+  const { validName, validEmail, validNumber } = useValidator(formData);
+  const isFormValid = validName && validEmail && validNumber;
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      setUserData(e.currentTarget.value, formData.email, formData.number)
+    );
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      setUserData(formData.name, e.currentTarget.value, formData.number)
+    );
+  };
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setUserData(formData.name, formData.email, e.currentTarget.value));
   };
 
   return (
@@ -42,30 +45,31 @@ const Info = ({ handleNextStep }: Props) => {
         name="name"
         labelText="Name"
         placeholder="e.g Stephen King"
-        valid={true}
+        valid={validName}
         errorText="Please provide properly name!"
-        value={""}
-        onChange={handleInfoFormChange}
+        value={formData.name}
+        onChange={handleNameChange}
         autoFocus={true}
       />
       <FormInput
         name="email"
         labelText="Email Address"
         placeholder="e.g stephenking@lorem.com"
-        valid={true}
+        valid={validEmail}
         errorText="Please provide properly email address!"
-        value={""}
-        onChange={handleInfoFormChange}
+        value={formData.email}
+        onChange={handleEmailChange}
       />
       <FormInput
         name="number"
         labelText="Phone Number"
         placeholder="e.g +1234567890"
-        valid={true}
+        valid={validNumber}
         errorText="Please provide properly phone number!"
-        value={""}
-        onChange={handleInfoFormChange}
+        value={formData.number}
+        onChange={handleNumberChange}
       />
+      {/* NAVIGATION */}
       <div className={infoStyles.navWrapper}>
         <Button
           text="Next Step"
@@ -73,7 +77,7 @@ const Info = ({ handleNextStep }: Props) => {
           textColor="white"
           alignSelf="end"
           click={handleNextStep}
-          disabled={false}
+          disabled={!isFormValid}
         />
       </div>
     </Wrapper>

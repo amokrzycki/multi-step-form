@@ -103,7 +103,7 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   return (
     <Wrapper>
       <Headline
-        title="Select your plan"
+        title="CheckInput your plan"
         description="You have the option of monthly or yearly billing"
       />
       <div className={planStyles.optionsWrapper}>
