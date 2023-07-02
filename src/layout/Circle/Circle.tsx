@@ -1,4 +1,5 @@
 import circleStyles from "./circle.module.css";
+import classNames from "classnames";
 
 type Props = {
   number: string;
@@ -6,11 +7,12 @@ type Props = {
 };
 
 const Circle = (props: Props) => {
-  const classes = `${circleStyles.circle} ${
-    props.filled ? circleStyles.filled : ""
-  }`;
   return (
-    <div className={classes}>
+    <div
+      className={classNames(circleStyles.circle, {
+        [circleStyles.filled]: props.filled,
+      })}
+    >
       <span className={circleStyles.number}>{props.number}</span>
     </div>
   );

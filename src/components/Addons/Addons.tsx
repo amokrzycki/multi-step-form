@@ -6,66 +6,35 @@ import BillingEnum from "../../enums/BillingEnum";
 import FormType from "../../types/FormType";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
-import Select from "../../layout/Select/Select";
+import CheckInput from "../../layout/CheckInput/CheckInput.tsx";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
-import {
-  addAddon,
-  removeAddon,
-  setTotal,
-  addAddonPrice,
-  removeAddonPrice,
-} from "../../store/actions";
+import { addAddon, removeAddon } from "../../store/actions";
+import AddonsEnum from "../../enums/AddonsEnum.ts";
 
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   formData: FormType;
-  addonsChecked: boolean[];
-  setAddonsChecked: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-enum AddonsEnum {
-  ONLINE_SERIVCE = "Online Service",
-  LARGER_STORAGE = "Larger Storage",
-  CUSTOMIZABLE_PROFILE = "Customizable Profile",
-}
-
-const Addons = ({
-  handleNextStep,
-  handlePrevStep,
-  formData,
-  addonsChecked,
-  setAddonsChecked,
-}: Props) => {
+const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(
-      setTotal(
-        formData.billingPrice + formData.addonsPrices.reduce((a, b) => a + b, 0)
-      )
-    );
-    handleNextStep();
-  };
   // list of addons
   const addonsList = [
     {
-      name: "Online service",
       description: "Access to multiplayer games",
       priceMonthly: 1,
       priceYearly: 10,
-      value: AddonsEnum.ONLINE_SERIVCE,
+      value: AddonsEnum.ONLINE_SERVICE,
     },
     {
-      name: "Larger storage",
       description: "Extra 1TB of cloud save",
       priceMonthly: 2,
       priceYearly: 20,
       value: AddonsEnum.LARGER_STORAGE,
     },
     {
-      name: "Customizable Profile",
       description: "Custom theme on your profile",
       priceMonthly: 2,
       priceYearly: 20,
@@ -75,37 +44,10 @@ const Addons = ({
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.checked) {
-      onUncheck(e);
+      dispatch(removeAddon(e.currentTarget.value));
     } else {
-      onCheck(e);
+      dispatch(addAddon(e.currentTarget.value));
     }
-  };
-
-  const onCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const index = addonsList.findIndex((el) => el.value === e.target.value);
-    const newChecked = [...addonsChecked];
-    // Adding addon to the list
-    dispatch(addAddon(e.currentTarget.value));
-    newChecked[index] = !newChecked[index];
-    setAddonsChecked(newChecked);
-    const addonsPrice =
-      formData.billing === BillingEnum.Monthly
-        ? addonsList[index].priceMonthly
-        : addonsList[index].priceYearly;
-    dispatch(addAddonPrice(addonsPrice));
-  };
-
-  const onUncheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const index = addonsList.findIndex((el) => el.value === e.target.value);
-    const newChecked = [...addonsChecked];
-    newChecked[index] = !newChecked[index];
-    setAddonsChecked(newChecked);
-    dispatch(removeAddon(e.currentTarget.value));
-    const addonsPrice =
-      formData.billing === BillingEnum.Monthly
-        ? addonsList[index].priceMonthly
-        : addonsList[index].priceYearly;
-    dispatch(removeAddonPrice(addonsPrice));
   };
 
   return (
@@ -115,23 +57,25 @@ const Addons = ({
         description="Add-ons help enchance your gaming experience"
       />
       <div className={addonsStyles.addonsPickWrapper}>
+        {/* ADDONS LIST */}
         {addonsList.map((addon, index) => (
-          <Select
+          <CheckInput
             key={index}
-            name={addon.name}
+            name={addon.value}
             description={addon.description}
             price={
               formData.billing === BillingEnum.Monthly
                 ? addon.priceMonthly
                 : addon.priceYearly
             }
-            checked={addonsChecked[index]}
+            checked={formData.addonsSelected.includes(addon.value)}
             change={handleSelect}
             value={addon.value}
             billing={formData.billing}
           />
         ))}
       </div>
+      {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"
@@ -143,7 +87,7 @@ const Addons = ({
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={handleClick}
+          click={handleNextStep}
         />
       </div>
     </Wrapper>

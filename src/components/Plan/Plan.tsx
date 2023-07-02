@@ -1,10 +1,9 @@
-import React, { Dispatch, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import BillingEnum from "../../enums/BillingEnum";
 import planStyles from "./plan.module.css";
 import FormType from "../../types/FormType";
-import Alert from "../Alert/Alert";
 import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
 import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
@@ -14,24 +13,23 @@ import Button from "../../layout/Button/Button";
 import iconAdvanced from "./iconAdvanced.svg";
 import iconPro from "./iconPro.svg";
 import iconArcade from "./iconArcade.svg";
-import { setBilling, setBillingPrice, setPlan } from "../../store/actions";
-import classNames from "classnames";
+import {
+  resetAddons,
+  setBilling,
+  setBillingPrice,
+  setPlan,
+} from "../../store/actions";
+import PlanEnum from "../../enums/PlanEnum.ts";
+import usePlanPrice from "../../hooks/usePlanPrice.ts";
+import BillingSwitch from "../../layout/BillingSwitch/BillingSwitch.tsx";
 
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
-  checked: boolean;
-  billingUpdate: Dispatch<React.SetStateAction<boolean>>;
   formData: FormType;
 }
 
-enum PlanEnum {
-  Arcade = "Arcade",
-  Advanced = "Advanced",
-  Pro = "Pro",
-}
-
-const plansMonthly = [
+const plans = [
   {
     src: iconArcade,
     title: "Arcade",
@@ -55,44 +53,15 @@ const plansMonthly = [
   },
 ];
 
-const Plan = ({
-  handleNextStep,
-  handlePrevStep,
-  checked,
-  billingUpdate,
-  formData,
-}: Props) => {
+const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
+  let checked = formData.billing === BillingEnum.Yearly;
   const dispatch: AppDispatch = useDispatch();
-  const [alertOpen, setAlertOpen] = React.useState(false);
-  const stateUpdatedRef = useRef(false);
+  const getPrice = usePlanPrice(formData.plan);
+  const billingPrice = getPrice();
 
-  const handleBillingPrice = () => {
-    switch (formData.plan) {
-      case PlanEnum.Arcade:
-        dispatch(
-          setBillingPrice(
-            checked ? plansMonthly[0].priceYearly : plansMonthly[0].priceMonthly
-          )
-        );
-        break;
-      case PlanEnum.Advanced:
-        dispatch(
-          setBillingPrice(
-            checked ? plansMonthly[1].priceYearly : plansMonthly[1].priceMonthly
-          )
-        );
-        break;
-      case PlanEnum.Pro:
-        dispatch(
-          setBillingPrice(
-            checked ? plansMonthly[2].priceYearly : plansMonthly[2].priceMonthly
-          )
-        );
-        break;
-      default:
-        break;
-    }
-  };
+  useEffect(() => {
+    dispatch(setBillingPrice(billingPrice));
+  }, [billingPrice, dispatch]);
 
   const handlePlanClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     dispatch(setPlan(e.currentTarget.children[0].id));
@@ -101,28 +70,9 @@ const Plan = ({
   const handleBillingSwitch: React.ChangeEventHandler<
     HTMLLabelElement
   > = () => {
-    billingUpdate((prevState) => {
-      const newState = !prevState;
-      stateUpdatedRef.current = true;
-      return newState;
-    });
-  };
-
-  useEffect(() => {
-    if (stateUpdatedRef.current) {
-      dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
-      stateUpdatedRef.current = false;
-    }
-  }, [checked, dispatch]);
-
-  const handleNextStepClick = () => {
-    if (formData.plan === "") {
-      setAlertOpen(true);
-      return;
-    } else {
-      handleBillingPrice();
-      handleNextStep();
-    }
+    checked = !checked;
+    dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
+    dispatch(resetAddons());
   };
 
   return (
@@ -131,8 +81,9 @@ const Plan = ({
         title="Select your plan"
         description="You have the option of monthly or yearly billing"
       />
+      {/* PLAN OPTIONS */}
       <div className={planStyles.optionsWrapper}>
-        {plansMonthly.map((plan, index) => (
+        {plans.map((plan, index) => (
           <ClickableDiv key={index} onClick={handlePlanClick}>
             <Card
               src={plan.src}
@@ -145,20 +96,9 @@ const Plan = ({
           </ClickableDiv>
         ))}
       </div>
-      <div className={planStyles.switchWrapper}>
-        <p className={!checked ? planStyles.active : planStyles.inactive}>
-          Monthly
-        </p>
-        <label className={planStyles.switch} onChange={handleBillingSwitch}>
-          <input type="checkbox" defaultChecked={checked} />
-          <span
-            className={classNames(planStyles.slider, planStyles.round)}
-          ></span>
-        </label>
-        <p className={checked ? planStyles.active : planStyles.inactive}>
-          Yearly
-        </p>
-      </div>
+      {/* BILLING TYPE SWITCH */}
+      <BillingSwitch checked={checked} handleSwitch={handleBillingSwitch} />
+      {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"
@@ -170,15 +110,10 @@ const Plan = ({
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={handleNextStepClick}
+          click={handleNextStep}
+          disabled={formData.plan === ""}
         />
       </div>
-      <Alert
-        type="warning"
-        text="Please select a plan"
-        open={alertOpen}
-        set={setAlertOpen}
-      />
     </Wrapper>
   );
 };

@@ -10,7 +10,6 @@ export interface AppState {
   billingPrice: number;
   plan: string;
   addonsSelected: string[];
-  addonsPrices: number[];
   total: number;
   step: number;
   lastStep: number;
@@ -24,7 +23,6 @@ const initialState: AppState = {
   billingPrice: 0,
   plan: "",
   addonsSelected: [],
-  addonsPrices: [],
   total: 0,
   step: 1,
   lastStep: 1,
@@ -35,12 +33,13 @@ export const appReducer: Reducer<AppState, AppAction> = (
   action
 ) => {
   switch (action.type) {
-    case ActionTypes.SET_NAME:
-      return { ...state, name: action.payload };
-    case ActionTypes.SET_EMAIL:
-      return { ...state, email: action.payload };
-    case ActionTypes.SET_NUMBER:
-      return { ...state, number: action.payload };
+    case ActionTypes.SET_USER_DATA:
+      return {
+        ...state,
+        name: action.payload.name,
+        email: action.payload.email,
+        number: action.payload.number,
+      };
     case ActionTypes.SET_BILLING:
       return { ...state, billing: action.payload };
     case ActionTypes.SET_BILLING_PRICE:
@@ -59,23 +58,20 @@ export const appReducer: Reducer<AppState, AppAction> = (
           (addon) => addon !== action.payload
         ),
       };
+    case ActionTypes.RESET_ADDONS:
+      return {
+        ...state,
+        addonsSelected: [],
+      };
     case ActionTypes.ADD_ADDON_PRICE:
       return {
         ...state,
-        addonsPrices: [...state.addonsPrices, action.payload],
+        total: state.total + action.payload,
       };
     case ActionTypes.REMOVE_ADDON_PRICE:
       return {
         ...state,
-        addonsPrices: state.addonsPrices.filter((price, index) => {
-          if (
-            price === action.payload &&
-            index === state.addonsPrices.indexOf(action.payload)
-          ) {
-            return false; // Exclude the first occurrence of action.payload
-          }
-          return true; // Include all other elements
-        }),
+        total: state.total - action.payload,
       };
     case ActionTypes.SET_TOTAL:
       return { ...state, total: action.payload };

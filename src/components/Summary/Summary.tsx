@@ -5,6 +5,7 @@ import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
+import useTotalPrice from "../../hooks/useTotalPrice.ts";
 
 interface Props {
   handleConfirm: () => void;
@@ -14,6 +15,7 @@ interface Props {
 
 const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
   const billingType = formData.billing === BillingEnum.Monthly ? "mo" : "yr";
+  const { totalPrice, addonsPrices } = useTotalPrice();
 
   return (
     <Wrapper>
@@ -22,6 +24,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
         description="Double-check everything looks OK before confirming"
       />
       <div className={summaryStyles.summaryWrapper}>
+        {/* PLAN DISPLAYING */}
         <div className={summaryStyles.planInfo}>
           <div id="plan-type">
             <p>{`${formData.plan} (${formData.billing})`} </p>
@@ -32,6 +35,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
           >{`$${formData.billingPrice}/${billingType}`}</p>
         </div>
         <hr className={summaryStyles.line} />
+        {/* ADDONS DISPLAYING */}
         <div
           className={summaryStyles.addonsInfo}
           style={
@@ -46,7 +50,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
                 <p>{addon}</p>
                 <p
                   className={summaryStyles.price}
-                >{`+$${formData.addonsPrices[index]}/${billingType}`}</p>
+                >{`+$${addonsPrices[index]}/${billingType}`}</p>
               </div>
             ))
           )}
@@ -58,8 +62,9 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
         })`}</p>
         <p
           className={summaryStyles.totalPrice}
-        >{`$${formData.total}/${billingType}`}</p>
+        >{`$${totalPrice}/${billingType}`}</p>
       </div>
+      {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"

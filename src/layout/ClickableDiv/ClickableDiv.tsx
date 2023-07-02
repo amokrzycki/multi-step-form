@@ -1,7 +1,7 @@
 import React from "react";
 
 type ClickableDivProps = {
-  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onClick: React.MouseEventHandler<HTMLDivElement> | undefined;
   children: React.ReactNode;
   id?: string;
 };

@@ -2,14 +2,13 @@ import { Action } from "redux";
 import BillingEnum from "../enums/BillingEnum";
 
 export enum ActionTypes {
-  SET_NAME = "SET_NAME",
-  SET_EMAIL = "SET_EMAIL",
-  SET_NUMBER = "SET_NUMBER",
+  SET_USER_DATA = "SET_USER_DATA",
   SET_BILLING = "SET_BILLING",
   SET_BILLING_PRICE = "SET_BILLING_PRICE",
   SET_PLAN = "SET_PLAN",
   ADD_ADDON = "ADD_ADDON",
   REMOVE_ADDON = "REMOVE_ADDON",
+  RESET_ADDONS = "RESET_ADDONS",
   ADD_ADDON_PRICE = "ADD_ADDON_PRICE",
   REMOVE_ADDON_PRICE = "REMOVE_ADDON_PRICE",
   SET_TOTAL = "SET_TOTAL",
@@ -17,16 +16,12 @@ export enum ActionTypes {
   SET_LAST_STEP = "SET_LAST_STEP",
 }
 
-export interface SetNameAction extends Action<ActionTypes.SET_NAME> {
-  payload: string;
-}
-
-export interface SetEmailAction extends Action<ActionTypes.SET_EMAIL> {
-  payload: string;
-}
-
-export interface SetNumberAction extends Action<ActionTypes.SET_NUMBER> {
-  payload: string;
+export interface SetUserDataAction extends Action<ActionTypes.SET_USER_DATA> {
+  payload: {
+    name: string;
+    email: string;
+    number: string;
+  };
 }
 
 export interface SetBillingAction extends Action<ActionTypes.SET_BILLING> {
@@ -50,6 +45,8 @@ export interface RemoveAddonAction extends Action<ActionTypes.REMOVE_ADDON> {
   payload: string;
 }
 
+export interface ResetAddonsAction extends Action<ActionTypes.RESET_ADDONS> {}
+
 export interface AddAddonPrice extends Action<ActionTypes.ADD_ADDON_PRICE> {
   payload: number;
 }
@@ -72,9 +69,7 @@ export interface SetLastStepAction extends Action<ActionTypes.SET_LAST_STEP> {
 }
 
 export type AppAction =
-  | SetNameAction
-  | SetEmailAction
-  | SetNumberAction
+  | SetUserDataAction
   | SetBillingAction
   | SetBillingPriceAction
   | SetPlanAction
@@ -84,26 +79,21 @@ export type AppAction =
   | RemoveAddonPrice
   | SetLastStepAction
   | SetTotalAction
+  | ResetAddonsAction
   | SetStepAction;
 
-export function setName(name: string): SetNameAction {
+export function setUserData(
+  name: string,
+  email: string,
+  number: string
+): SetUserDataAction {
   return {
-    type: ActionTypes.SET_NAME,
-    payload: name,
-  };
-}
-
-export function setEmail(email: string): SetEmailAction {
-  return {
-    type: ActionTypes.SET_EMAIL,
-    payload: email,
-  };
-}
-
-export function setNumber(number: string): SetNumberAction {
-  return {
-    type: ActionTypes.SET_NUMBER,
-    payload: number,
+    type: ActionTypes.SET_USER_DATA,
+    payload: {
+      name,
+      email,
+      number,
+    },
   };
 }
 
@@ -139,6 +129,12 @@ export function removeAddon(addon: string): RemoveAddonAction {
   return {
     type: ActionTypes.REMOVE_ADDON,
     payload: addon,
+  };
+}
+
+export function resetAddons(): ResetAddonsAction {
+  return {
+    type: ActionTypes.RESET_ADDONS,
   };
 }
 

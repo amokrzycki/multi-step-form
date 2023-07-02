@@ -4,7 +4,7 @@ import thanks from "./thanks.svg";
 const Confirmation = () => {
   return (
     <Wrapper>
-      <img src={thanks} style={{ height: "6em" }} />
+      <img src={thanks} style={{ height: "6em" }} alt="Thank you check!" />
       <h1>Thank you!</h1>
       <p>
         Thanks for confirming your subscription! We hope you have

@@ -1,5 +1,6 @@
 import BillingEnum from "../../enums/BillingEnum";
-import selectStyles from "./select.module.css";
+import checkInputStyles from "./checkInput.module.css";
+import React from "react";
 
 type Props = {
   name: string;
@@ -11,12 +12,12 @@ type Props = {
   billing: string;
 };
 
-const Select = (props: Props) => {
+const CheckInput = (props: Props) => {
   const billingType = props.billing === BillingEnum.Monthly ? "mo" : "yr";
   return (
     <div
-      className={`${selectStyles.selectWrapper} ${
-        props.checked ? selectStyles.active : ""
+      className={`${checkInputStyles.checkInputWrapper} ${
+        props.checked ? checkInputStyles.active : ""
       }`}
     >
       <input
@@ -27,15 +28,15 @@ const Select = (props: Props) => {
         value={props.value}
         name="addons"
       />
-      <div className={`${selectStyles.infoWrapper}`}>
-        <div className={selectStyles.textWrapper}>
-          <p className={selectStyles.name}>{props.name}</p>
-          <p className={selectStyles.desc}>{props.description}</p>
+      <div className={`${checkInputStyles.infoWrapper}`}>
+        <div className={checkInputStyles.textWrapper}>
+          <p className={checkInputStyles.name}>{props.name}</p>
+          <p className={checkInputStyles.desc}>{props.description}</p>
         </div>
-        <p className={selectStyles.price}>{`+${props.price}/${billingType}`}</p>
+        <p className={checkInputStyles.price}>{`+${props.price}/${billingType}`}</p>
       </div>
     </div>
   );
 };
 
-export default Select;
+export default CheckInput;
