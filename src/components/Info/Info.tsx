@@ -41,6 +41,7 @@ const Info = ({ handleNextStep, formData }: Props) => {
         title="Personal info"
         description="Please provide your name, email address, and phone number."
       />
+      {/* FORM */}
       <FormInput
         name="name"
         labelText="Name"

@@ -5,6 +5,7 @@ import Wrapper from "../../layout/Wrapper/Wrapper";
 import Headline from "../../layout/Headline/Headline";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
+import useTotalPrice from "../../hooks/useTotalPrice.ts";
 
 interface Props {
   handleConfirm: () => void;
@@ -14,6 +15,7 @@ interface Props {
 
 const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
   const billingType = formData.billing === BillingEnum.Monthly ? "mo" : "yr";
+  const { totalPrice, addonsPrices } = useTotalPrice();
 
   return (
     <Wrapper>
@@ -46,7 +48,9 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
             formData.addonsSelected.map((addon, index) => (
               <div key={index} className={summaryStyles.addonsElements}>
                 <p>{addon}</p>
-                <p className={summaryStyles.price}>{`+$xd/${billingType}`}</p>
+                <p
+                  className={summaryStyles.price}
+                >{`+$${addonsPrices[index]}/${billingType}`}</p>
               </div>
             ))
           )}
@@ -58,7 +62,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
         })`}</p>
         <p
           className={summaryStyles.totalPrice}
-        >{`$${formData.total}/${billingType}`}</p>
+        >{`$${totalPrice}/${billingType}`}</p>
       </div>
       {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>

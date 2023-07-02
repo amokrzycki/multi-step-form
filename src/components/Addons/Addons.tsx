@@ -10,6 +10,7 @@ import CheckInput from "../../layout/CheckInput/CheckInput.tsx";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
 import { addAddon, removeAddon } from "../../store/actions";
+import AddonsEnum from "../../enums/AddonsEnum.ts";
 
 interface Props {
   handleNextStep: () => void;
@@ -17,32 +18,23 @@ interface Props {
   formData: FormType;
 }
 
-enum AddonsEnum {
-  ONLINE_SERVICE = "Online Service",
-  LARGER_STORAGE = "Larger Storage",
-  CUSTOMIZABLE_PROFILE = "Customizable Profile",
-}
-
 const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   // list of addons
   const addonsList = [
     {
-      name: "Online service",
       description: "Access to multiplayer games",
       priceMonthly: 1,
       priceYearly: 10,
       value: AddonsEnum.ONLINE_SERVICE,
     },
     {
-      name: "Larger storage",
       description: "Extra 1TB of cloud save",
       priceMonthly: 2,
       priceYearly: 20,
       value: AddonsEnum.LARGER_STORAGE,
     },
     {
-      name: "Customizable Profile",
       description: "Custom theme on your profile",
       priceMonthly: 2,
       priceYearly: 20,
@@ -65,10 +57,11 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
         description="Add-ons help enchance your gaming experience"
       />
       <div className={addonsStyles.addonsPickWrapper}>
+        {/* ADDONS LIST */}
         {addonsList.map((addon, index) => (
           <CheckInput
             key={index}
-            name={addon.name}
+            name={addon.value}
             description={addon.description}
             price={
               formData.billing === BillingEnum.Monthly
@@ -82,6 +75,7 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
           />
         ))}
       </div>
+      {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"

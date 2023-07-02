@@ -19,9 +19,9 @@ import {
   setBillingPrice,
   setPlan,
 } from "../../store/actions";
-import classNames from "classnames";
 import PlanEnum from "../../enums/PlanEnum.ts";
 import usePlanPrice from "../../hooks/usePlanPrice.ts";
+import BillingSwitch from "../../layout/BillingSwitch/BillingSwitch.tsx";
 
 interface Props {
   handleNextStep: () => void;
@@ -81,6 +81,7 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
         title="Select your plan"
         description="You have the option of monthly or yearly billing"
       />
+      {/* PLAN OPTIONS */}
       <div className={planStyles.optionsWrapper}>
         {plans.map((plan, index) => (
           <ClickableDiv key={index} onClick={handlePlanClick}>
@@ -95,20 +96,9 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
           </ClickableDiv>
         ))}
       </div>
-      <div className={planStyles.switchWrapper}>
-        <p className={!checked ? planStyles.active : planStyles.inactive}>
-          Monthly
-        </p>
-        <label className={planStyles.switch} onChange={handleBillingSwitch}>
-          <input type="checkbox" defaultChecked={checked} />
-          <span
-            className={classNames(planStyles.slider, planStyles.round)}
-          ></span>
-        </label>
-        <p className={checked ? planStyles.active : planStyles.inactive}>
-          Yearly
-        </p>
-      </div>
+      {/* BILLING TYPE SWITCH */}
+      <BillingSwitch checked={checked} handleSwitch={handleBillingSwitch} />
+      {/* NAVIGATION */}
       <div className={buttonStyles.navigationWrapper}>
         <Button
           text="Go back"
