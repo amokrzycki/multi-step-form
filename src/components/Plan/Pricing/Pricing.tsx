@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import BillingEnum from "../../enums/BillingEnum";
-import planStyles from "./plan.module.css";
-import FormType from "../../types/FormType";
-import Wrapper from "../../layout/Wrapper/Wrapper";
-import Headline from "../../layout/Headline/Headline";
-import ClickableDiv from "../../layout/ClickableDiv/ClickableDiv";
-import Card from "../../layout/Card/Card";
-import buttonStyles from "../../layout/Button/button.module.css";
-import Button from "../../layout/Button/Button";
+import { AppDispatch } from "../../../store/store.ts";
+import BillingEnum from "../../../enums/BillingEnum.ts";
+import pricingStyles from "./pricing.module.css";
+import FormType from "../../../types/FormType.ts";
+import Wrapper from "../../common/layout/Wrapper/Wrapper.tsx";
+import Headline from "../../common/layout/Headline/Headline.tsx";
+import ClickableDiv from "../../common/layout/ClickableDiv/ClickableDiv.tsx";
+import Card from "../Card/Card.tsx";
+import buttonStyles from "../../common/layout/Button/button.module.css";
+import Button from "../../common/layout/Button/Button.tsx";
 import iconAdvanced from "./iconAdvanced.svg";
 import iconPro from "./iconPro.svg";
 import iconArcade from "./iconArcade.svg";
@@ -18,10 +18,10 @@ import {
   setBilling,
   setBillingPrice,
   setPlan,
-} from "../../store/appSlice.ts";
-import PlanEnum from "../../enums/PlanEnum.ts";
-import usePlanPrice from "../../hooks/usePlanPrice.ts";
-import BillingSwitch from "../../layout/BillingSwitch/BillingSwitch.tsx";
+} from "../../../store/appSlice.ts";
+import PlanEnum from "../../../enums/PlanEnum.ts";
+import usePlanPrice from "../../../hooks/usePlanPrice.ts";
+import BillingSwitch from "../BillingSwitch/BillingSwitch.tsx";
 
 interface Props {
   handleNextStep: () => void;
@@ -53,7 +53,7 @@ const plans = [
   },
 ];
 
-const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
+const Pricing = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   let checked = formData.billing === BillingEnum.Yearly;
   const dispatch: AppDispatch = useDispatch();
   const getPrice = usePlanPrice();
@@ -82,7 +82,7 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
         description="You have the option of monthly or yearly billing"
       />
       {/* PLAN OPTIONS */}
-      <div className={planStyles.optionsWrapper}>
+      <div className={pricingStyles.optionsWrapper}>
         {plans.map((plan, index) => (
           <ClickableDiv key={index} onClick={handlePlanClick}>
             <Card
@@ -118,4 +118,4 @@ const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   );
 };
 
-export default Plan;
+export default Pricing;

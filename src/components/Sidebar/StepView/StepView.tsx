@@ -1,5 +1,5 @@
-import Circle from "../Circle/Circle";
-import ClickableDiv from "../ClickableDiv/ClickableDiv";
+import Circle from "../Circle/Circle.tsx";
+import ClickableDiv from "../../common/layout/ClickableDiv/ClickableDiv.tsx";
 import stepStyles from "./stepView.module.css";
 import React from "react";
 

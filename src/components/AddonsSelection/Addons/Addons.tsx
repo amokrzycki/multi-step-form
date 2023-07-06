@@ -1,16 +1,16 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch } from "../../../store/store.ts";
 import addonsStyles from "./addons.module.css";
-import BillingEnum from "../../enums/BillingEnum";
-import FormType from "../../types/FormType";
-import Wrapper from "../../layout/Wrapper/Wrapper";
-import Headline from "../../layout/Headline/Headline";
-import CheckInput from "../../layout/CheckInput/CheckInput.tsx";
-import buttonStyles from "../../layout/Button/button.module.css";
-import Button from "../../layout/Button/Button";
-import { addAddon, removeAddon } from "../../store/appSlice.ts";
-import AddonsEnum from "../../enums/AddonsEnum.ts";
+import BillingEnum from "../../../enums/BillingEnum.ts";
+import FormType from "../../../types/FormType.ts";
+import Wrapper from "../../common/layout/Wrapper/Wrapper.tsx";
+import Headline from "../../common/layout/Headline/Headline.tsx";
+import CheckInput from "../CheckInput/CheckInput.tsx";
+import buttonStyles from "../../common/layout/Button/button.module.css";
+import Button from "../../common/layout/Button/Button.tsx";
+import { addAddon, removeAddon } from "../../../store/appSlice.ts";
+import AddonsEnum from "../../../enums/AddonsEnum.ts";
 
 interface Props {
   handleNextStep: () => void;

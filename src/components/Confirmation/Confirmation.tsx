@@ -1,4 +1,4 @@
-import Wrapper from "../../layout/Wrapper/Wrapper";
+import Wrapper from "../common/layout/Wrapper/Wrapper";
 import thanks from "./thanks.svg";
 
 const Confirmation = () => {

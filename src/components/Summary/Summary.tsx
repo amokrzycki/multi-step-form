@@ -1,10 +1,10 @@
 import summaryStyles from "./summary.module.css";
 import BillingEnum from "../../enums/BillingEnum";
 import FormType from "../../types/FormType";
-import Wrapper from "../../layout/Wrapper/Wrapper";
-import Headline from "../../layout/Headline/Headline";
-import buttonStyles from "../../layout/Button/button.module.css";
-import Button from "../../layout/Button/Button";
+import Wrapper from "../common/layout/Wrapper/Wrapper";
+import Headline from "../common/layout/Headline/Headline";
+import buttonStyles from "../common/layout/Button/button.module.css";
+import Button from "../common/layout/Button/Button";
 import useTotalPrice from "../../hooks/useTotalPrice.ts";
 
 interface Props {

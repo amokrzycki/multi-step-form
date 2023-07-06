@@ -3,12 +3,12 @@ import stepStyles from "../Step/step.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { setLastStep, setNextStep, setPrevStep } from "../../store/appSlice.ts";
-import Addons from "../Addons/Addons";
+import Addons from "../AddonsSelection/Addons/Addons";
 import Confirmation from "../Confirmation/Confirmation";
 import Fallback from "../Fallback/Fallback";
-import Plan from "../Plan/Plan";
+import Pricing from "../Plan/Pricing/Pricing.tsx";
 import Summary from "../Summary/Summary";
-import Info from "../Info/Info";
+import PersonalInfo from "../Info/PersonalInfo/PersonalInfo.tsx";
 import FormType from "../../types/FormType";
 
 function Step() {
@@ -49,12 +49,14 @@ function Step() {
   const stepElements = [
     {
       number: 1,
-      component: <Info handleNextStep={handleNextStep} formData={formData} />,
+      component: (
+        <PersonalInfo handleNextStep={handleNextStep} formData={formData} />
+      ),
     },
     {
       number: 2,
       component: (
-        <Plan
+        <Pricing
           handleNextStep={handleNextStep}
           handlePrevStep={handlePrevStep}
           formData={formData}

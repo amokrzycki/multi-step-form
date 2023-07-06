@@ -1,10 +1,10 @@
 import sidebarStyles from "./sidebar.module.css";
-import StepView from "../../layout/StepView/StepView";
+import StepView from "./StepView/StepView";
 import React from "react";
 import { setStep } from "../../store/appSlice.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store.ts";
-import Alert from "../Alert/Alert.tsx";
+import Alert from "../common/Alert/Alert.tsx";
 
 const stepsList = [
   {
@@ -15,7 +15,7 @@ const stepsList = [
   {
     number: "2",
     title: "Step 2",
-    description: "Select Plan",
+    description: "Select Pricing",
   },
   {
     number: "3",

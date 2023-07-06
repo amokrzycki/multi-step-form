@@ -1,5 +1,5 @@
-import Headline from "../../layout/Headline/Headline";
-import Wrapper from "../../layout/Wrapper/Wrapper";
+import Headline from "../common/layout/Headline/Headline";
+import Wrapper from "../common/layout/Wrapper/Wrapper";
 
 const Fallback = () => {
   return (

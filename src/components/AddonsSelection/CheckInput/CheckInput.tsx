@@ -1,4 +1,4 @@
-import BillingEnum from "../../enums/BillingEnum";
+import BillingEnum from "../../../enums/BillingEnum.ts";
 import checkInputStyles from "./checkInput.module.css";
 import React from "react";
 
@@ -33,7 +33,9 @@ const CheckInput = (props: Props) => {
           <p className={checkInputStyles.name}>{props.name}</p>
           <p className={checkInputStyles.desc}>{props.description}</p>
         </div>
-        <p className={checkInputStyles.price}>{`+${props.price}/${billingType}`}</p>
+        <p
+          className={checkInputStyles.price}
+        >{`+${props.price}/${billingType}`}</p>
       </div>
     </div>
   );

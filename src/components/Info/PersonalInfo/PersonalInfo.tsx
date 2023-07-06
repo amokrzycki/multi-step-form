@@ -1,21 +1,21 @@
-import Button from "../../layout/Button/Button";
-import Headline from "../../layout/Headline/Headline";
-import Wrapper from "../../layout/Wrapper/Wrapper";
-import infoStyles from "./info.module.css";
+import Button from "../../common/layout/Button/Button.tsx";
+import Headline from "../../common/layout/Headline/Headline.tsx";
+import Wrapper from "../../common/layout/Wrapper/Wrapper.tsx";
+import infoStyles from "./personalInfo.module.css";
 import React from "react";
-import { AppDispatch } from "../../store/store.ts";
+import { AppDispatch } from "../../../store/store.ts";
 import { useDispatch } from "react-redux";
-import { FormInput } from "../../layout/FormInput/FormInput.tsx";
-import { setUserData } from "../../store/appSlice.ts";
-import FormType from "../../types/FormType.ts";
-import useValidator from "../../hooks/useValidator.ts";
+import { FormInput } from "../FormInput/FormInput.tsx";
+import { setUserData } from "../../../store/appSlice.ts";
+import FormType from "../../../types/FormType.ts";
+import useValidator from "../../../hooks/useValidator.ts";
 
 interface Props {
   handleNextStep: () => void;
   formData: FormType;
 }
 
-const Info = ({ handleNextStep, formData }: Props) => {
+const PersonalInfo = ({ handleNextStep, formData }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const { validName, validEmail, validNumber } = useValidator(formData);
   const isFormValid = validName && validEmail && validNumber;
@@ -99,4 +99,4 @@ const Info = ({ handleNextStep, formData }: Props) => {
   );
 };
 
-export default Info;
+export default PersonalInfo;

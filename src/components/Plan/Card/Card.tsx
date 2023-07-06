@@ -1,4 +1,4 @@
-import BillingEnum from "../../enums/BillingEnum";
+import BillingEnum from "../../../enums/BillingEnum.ts";
 import cardStyles from "./card.module.css";
 import classNames from "classnames";
 
