@@ -18,7 +18,7 @@ import {
   setBilling,
   setBillingPrice,
   setPlan,
-} from "../../store/actions";
+} from "../../store/appSlice.ts";
 import PlanEnum from "../../enums/PlanEnum.ts";
 import usePlanPrice from "../../hooks/usePlanPrice.ts";
 import BillingSwitch from "../../layout/BillingSwitch/BillingSwitch.tsx";
@@ -56,7 +56,7 @@ const plans = [
 const Plan = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   let checked = formData.billing === BillingEnum.Yearly;
   const dispatch: AppDispatch = useDispatch();
-  const getPrice = usePlanPrice(formData.plan);
+  const getPrice = usePlanPrice();
   const billingPrice = getPrice();
 
   useEffect(() => {

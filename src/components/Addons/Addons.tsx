@@ -9,7 +9,7 @@ import Headline from "../../layout/Headline/Headline";
 import CheckInput from "../../layout/CheckInput/CheckInput.tsx";
 import buttonStyles from "../../layout/Button/button.module.css";
 import Button from "../../layout/Button/Button";
-import { addAddon, removeAddon } from "../../store/actions";
+import { addAddon, removeAddon } from "../../store/appSlice.ts";
 import AddonsEnum from "../../enums/AddonsEnum.ts";
 
 interface Props {

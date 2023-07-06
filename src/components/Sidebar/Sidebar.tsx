@@ -1,7 +1,7 @@
 import sidebarStyles from "./sidebar.module.css";
 import StepView from "../../layout/StepView/StepView";
 import React from "react";
-import { setStep } from "../../store/actions.ts";
+import { setStep } from "../../store/appSlice.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store.ts";
 import Alert from "../Alert/Alert.tsx";

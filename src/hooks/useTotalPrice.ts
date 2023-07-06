@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store.ts";
 import { useEffect, useState } from "react";
 import BillingEnum from "../enums/BillingEnum.ts";
-import { setTotal } from "../store/actions.ts";
+import { setTotal } from "../store/appSlice.ts";
 import AddonsEnum from "../enums/AddonsEnum.ts";
 
 const useTotalPrice = () => {

@@ -4,8 +4,9 @@ import { useCallback } from "react";
 import PlanEnum from "../enums/PlanEnum.ts";
 import BillingEnum from "../enums/BillingEnum.ts";
 
-const usePlanPrice = (plan: string) => {
+const usePlanPrice = () => {
   const billing = useSelector((state: RootState) => state.billing);
+  const plan = useSelector((state: RootState) => state.plan);
 
   return useCallback(() => {
     const plans = [

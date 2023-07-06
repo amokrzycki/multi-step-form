@@ -6,7 +6,7 @@ import React from "react";
 import { AppDispatch } from "../../store/store.ts";
 import { useDispatch } from "react-redux";
 import { FormInput } from "../../layout/FormInput/FormInput.tsx";
-import { setUserData } from "../../store/actions.ts";
+import { setUserData } from "../../store/appSlice.ts";
 import FormType from "../../types/FormType.ts";
 import useValidator from "../../hooks/useValidator.ts";
 
@@ -21,18 +21,32 @@ const Info = ({ handleNextStep, formData }: Props) => {
   const isFormValid = validName && validEmail && validNumber;
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      setUserData(e.currentTarget.value, formData.email, formData.number)
+      setUserData({
+        name: e.currentTarget.value,
+        email: formData.email,
+        number: formData.number,
+      })
     );
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      setUserData(formData.name, e.currentTarget.value, formData.number)
+      setUserData({
+        name: formData.name,
+        email: e.currentTarget.value,
+        number: formData.number,
+      })
     );
   };
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserData(formData.name, formData.email, e.currentTarget.value));
+    dispatch(
+      setUserData({
+        name: formData.name,
+        email: formData.email,
+        number: e.currentTarget.value,
+      })
+    );
   };
 
   return (
