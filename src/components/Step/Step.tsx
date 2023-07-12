@@ -5,13 +5,20 @@ import { AppDispatch, RootState } from "../../store/store";
 import { setLastStep, setNextStep, setPrevStep } from "../../store/appSlice.ts";
 import Addons from "../AddonsSelection/Addons/Addons";
 import Confirmation from "../Confirmation/Confirmation";
-import Fallback from "../Fallback/Fallback";
 import Pricing from "../Plan/Pricing/Pricing.tsx";
 import Summary from "../Summary/Summary";
 import PersonalInfo from "../Info/PersonalInfo/PersonalInfo.tsx";
 import FormType from "../../types/FormType";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Navigate,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Fallback from "../Fallback/Fallback.tsx";
 
-function Step() {
+const Step = () => {
   const lastStep = useSelector((state: RootState) => state.lastStep);
   const step = useSelector((state: RootState) => state.step);
   const dispatch: AppDispatch = useDispatch();
@@ -28,15 +35,26 @@ function Step() {
   };
 
   const handleNextStep = () => {
-    dispatch(setNextStep());
+    router
+      .navigate(`/step${step + 1}`, { replace: true })
+      .then(() => dispatch(setNextStep()))
+      .catch((e) => console.log(e));
   };
 
   const handlePrevStep = () => {
-    dispatch(setPrevStep());
+    router
+      .navigate(`step${step - 1}`)
+      .then(() => {
+        dispatch(setPrevStep());
+      })
+      .catch((e) => console.log(e));
   };
 
   const handleSubmit = () => {
-    dispatch(setNextStep());
+    router
+      .navigate(`/step${step + 1}`, { replace: true })
+      .then(() => dispatch(setNextStep()))
+      .catch((e) => console.log(e));
     console.log(formData);
   };
 
@@ -46,56 +64,56 @@ function Step() {
     }
   }, [dispatch, lastStep, step]);
 
-  const stepElements = [
-    {
-      number: 1,
-      component: (
-        <PersonalInfo handleNextStep={handleNextStep} formData={formData} />
-      ),
-    },
-    {
-      number: 2,
-      component: (
-        <Pricing
-          handleNextStep={handleNextStep}
-          handlePrevStep={handlePrevStep}
-          formData={formData}
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route errorElement={<Fallback />}>
+        <Route
+          path="step1"
+          element={
+            <PersonalInfo handleNextStep={handleNextStep} formData={formData} />
+          }
         />
-      ),
-    },
-    {
-      number: 3,
-      component: (
-        <Addons
-          handleNextStep={handleNextStep}
-          handlePrevStep={handlePrevStep}
-          formData={formData}
+        <Route
+          path="step2"
+          element={
+            <Pricing
+              handleNextStep={handleNextStep}
+              handlePrevStep={handlePrevStep}
+              formData={formData}
+            />
+          }
         />
-      ),
-    },
-    {
-      number: 4,
-      component: (
-        <Summary
-          handleConfirm={handleSubmit}
-          handlePrevStep={handlePrevStep}
-          formData={formData}
+        <Route
+          path="step3"
+          element={
+            <Addons
+              handleNextStep={handleNextStep}
+              handlePrevStep={handlePrevStep}
+              formData={formData}
+            />
+          }
         />
-      ),
-    },
-    { number: 5, component: <Confirmation /> },
-  ];
-
-  const renderStep = () => {
-    const stepNumber = stepElements.find((s) => s.number === step);
-    return stepNumber ? stepNumber.component : <Fallback />;
-  };
+        <Route
+          path="step4"
+          element={
+            <Summary
+              handleConfirm={handleSubmit}
+              handlePrevStep={handlePrevStep}
+              formData={formData}
+            />
+          }
+        />
+        <Route path="step5" element={<Confirmation />} />
+        <Route path="*" element={<Navigate to="/step1" replace />} />
+      </Route>
+    )
+  );
 
   return (
     <div id="step-wrapper" className={stepStyles.formWrapper}>
-      {renderStep()}
+      <RouterProvider router={router} />
     </div>
   );
-}
+};
 
 export default Step;
