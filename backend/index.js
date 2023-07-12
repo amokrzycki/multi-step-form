@@ -1,28 +1,53 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri = `mongodb+srv://${username}:${password}@cluster0.hdv0aqt.mongodb.net/?retryWrites=true&w=majority`;
+require("dotenv").config();
+const express = require("express");
+const mongodb = require("mongodb");
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+const app = express();
+const port = 3000;
+
+const dbName = "users";
+const collectionName = "registered";
+
+const mongoURL = `mongodb+srv://${process.env.username}:${process.env.password}@${process.env.cluster}`;
+
+app.use(express.json());
+
+app.post("/register", async (req, res) => {
+  try {
+    let client = await mongodb.MongoClient.connect(mongoURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    let db = client.db(dbName);
+    let collection = db.collection(collectionName);
+    let result = await collection.insertOne(req.body);
+    console.log(result);
+    await client.close();
+    res.status(200).json({ message: "OK" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error" });
+  }
 });
 
-async function run() {
+app.get("/users", async (req, res) => {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
+    let client = await mongodb.MongoClient.connect(mongoURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    let db = client.db(dbName);
+    let collection = db.collection(collectionName);
+    let result = await collection.find({}).toArray();
+    console.log(result);
     await client.close();
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error" });
   }
-}
+});
 
-run().catch(console.dir);
+app.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}`);
+});
