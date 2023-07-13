@@ -8,25 +8,25 @@ const usePlanPrice = () => {
   const billing = useSelector((state: RootState) => state.billing);
   const plan = useSelector((state: RootState) => state.plan);
 
-  return useCallback(() => {
-    const plans = [
-      {
-        name: "Arcade",
-        priceMonthly: 9,
-        priceYearly: 90,
-      },
-      {
-        name: "Advanced",
-        priceMonthly: 12,
-        priceYearly: 120,
-      },
-      {
-        name: "Pro",
-        priceMonthly: 15,
-        priceYearly: 150,
-      },
-    ];
+  const plans = [
+    {
+      name: "Arcade",
+      priceMonthly: 9,
+      priceYearly: 90,
+    },
+    {
+      name: "Advanced",
+      priceMonthly: 12,
+      priceYearly: 120,
+    },
+    {
+      name: "Pro",
+      priceMonthly: 15,
+      priceYearly: 150,
+    },
+  ];
 
+  return useCallback(() => {
     switch (plan) {
       case PlanEnum.Arcade:
         return billing === BillingEnum.Yearly
