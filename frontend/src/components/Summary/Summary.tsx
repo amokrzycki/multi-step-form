@@ -6,16 +6,30 @@ import Headline from "../common/layout/Headline/Headline";
 import buttonStyles from "../common/layout/Button/button.module.css";
 import Button from "../common/layout/Button/Button";
 import useTotalPrice from "../../hooks/useTotalPrice.ts";
+import GetFormData from "../../hooks/getFormData.ts";
+import FormService from "../../services/FormService.ts";
+import { setNextStep } from "../../store/appSlice.ts";
+import { AppDispatch } from "../../store/store.ts";
+import { useDispatch } from "react-redux";
 
-interface Props {
-  handleConfirm: () => void;
-  handlePrevStep: () => void;
-  formData: FormType;
-}
-
-const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
+const Summary = () => {
+  const formData: FormType = GetFormData();
   const billingType = formData.billing === BillingEnum.Monthly ? "mo" : "yr";
   const { totalPrice, addonsPrices } = useTotalPrice();
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleConfirm = () => {
+    FormService.postFormData(formData).then((r) => {
+      if (r.status === 200) {
+        window.location.href = "/confirmation";
+      }
+    });
+  };
+
+  const handlePrevClick = () => {
+    dispatch(setNextStep());
+    window.history.back();
+  };
 
   return (
     <Wrapper>
@@ -70,7 +84,7 @@ const Summary = ({ handleConfirm, handlePrevStep, formData }: Props) => {
           text="Go back"
           color="transparent"
           textColor="hsl(231, 11%, 63%)"
-          click={handlePrevStep}
+          click={handlePrevClick}
         />
         <Button
           text="Confirm"

@@ -6,19 +6,20 @@ import React from "react";
 import { AppDispatch } from "../../../store/store.ts";
 import { useDispatch } from "react-redux";
 import { FormInput } from "../FormInput/FormInput.tsx";
-import { setUserData } from "../../../store/appSlice.ts";
-import FormType from "../../../types/FormType.ts";
+import { setNextStep, setUserData } from "../../../store/appSlice.ts";
 import useValidator from "../../../hooks/useValidator.ts";
+import GetFormData from "../../../hooks/getFormData.ts";
 
-interface Props {
-  handleNextStep: () => void;
-  formData: FormType;
-}
-
-const PersonalInfo = ({ handleNextStep, formData }: Props) => {
+const PersonalInfo = () => {
+  const formData = GetFormData();
   const dispatch: AppDispatch = useDispatch();
   const { validName, validEmail, validNumber } = useValidator(formData);
   const isFormValid = validName && validEmail && validNumber;
+
+  const handleNextClick = () => {
+    dispatch(setNextStep());
+  };
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
       setUserData({
@@ -91,8 +92,9 @@ const PersonalInfo = ({ handleNextStep, formData }: Props) => {
           color="hsl(213, 96%, 18%)"
           textColor="white"
           alignSelf="end"
-          click={handleNextStep}
           disabled={!isFormValid}
+          href="/step2"
+          click={handleNextClick}
         />
       </div>
     </Wrapper>

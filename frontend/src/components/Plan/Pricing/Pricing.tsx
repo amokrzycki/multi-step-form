@@ -10,50 +10,21 @@ import ClickableDiv from "../../common/layout/ClickableDiv/ClickableDiv.tsx";
 import Card from "../Card/Card.tsx";
 import buttonStyles from "../../common/layout/Button/button.module.css";
 import Button from "../../common/layout/Button/Button.tsx";
-import iconAdvanced from "./iconAdvanced.svg";
-import iconPro from "./iconPro.svg";
-import iconArcade from "./iconArcade.svg";
 import {
   resetAddons,
   setBilling,
   setBillingPrice,
+  setNextStep,
   setPlan,
+  setPrevStep,
 } from "../../../store/appSlice.ts";
-import PlanEnum from "../../../enums/PlanEnum.ts";
 import usePlanPrice from "../../../hooks/usePlanPrice.ts";
 import BillingSwitch from "../BillingSwitch/BillingSwitch.tsx";
+import GetFormData from "../../../hooks/getFormData.ts";
+import plans from "../../../constans/Plans.ts";
 
-interface Props {
-  handleNextStep: () => void;
-  handlePrevStep: () => void;
-  formData: FormType;
-}
-
-const plans = [
-  {
-    src: iconArcade,
-    title: "Arcade",
-    priceMonthly: 9,
-    priceYearly: 90,
-    type: PlanEnum.Arcade,
-  },
-  {
-    src: iconAdvanced,
-    title: "Advanced",
-    priceMonthly: 12,
-    priceYearly: 120,
-    type: PlanEnum.Advanced,
-  },
-  {
-    src: iconPro,
-    title: "Pro",
-    priceMonthly: 15,
-    priceYearly: 150,
-    type: PlanEnum.Pro,
-  },
-];
-
-const Pricing = ({ handleNextStep, handlePrevStep, formData }: Props) => {
+const Pricing = () => {
+  const formData: FormType = GetFormData();
   let checked = formData.billing === BillingEnum.Yearly;
   const dispatch: AppDispatch = useDispatch();
   const getPrice = usePlanPrice();
@@ -62,6 +33,15 @@ const Pricing = ({ handleNextStep, handlePrevStep, formData }: Props) => {
   useEffect(() => {
     dispatch(setBillingPrice(billingPrice));
   }, [billingPrice, dispatch]);
+
+  const handlePrevClick = () => {
+    dispatch(setPrevStep());
+    window.history.back();
+  };
+
+  const handleNextClick = () => {
+    dispatch(setNextStep());
+  };
 
   const handlePlanClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     dispatch(setPlan(e.currentTarget.children[0].id));
@@ -104,14 +84,15 @@ const Pricing = ({ handleNextStep, handlePrevStep, formData }: Props) => {
           text="Go back"
           color="transparent"
           textColor="hsl(231, 11%, 63%)"
-          click={handlePrevStep}
+          click={handlePrevClick}
         />
         <Button
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={handleNextStep}
           disabled={formData.plan === ""}
+          href="/step3"
+          click={handleNextClick}
         />
       </div>
     </Wrapper>

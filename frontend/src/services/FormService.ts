@@ -1,11 +1,12 @@
 import http from "../http-common";
+import FormType from "../types/FormType.ts";
 
-const getSteps = () => {
-  return http.get("/steps");
+const postFormData = (data: FormType) => {
+  return http.post("/register", data);
 };
 
 const FormService = {
-  getSteps,
+  postFormData,
 };
 
 export default FormService;

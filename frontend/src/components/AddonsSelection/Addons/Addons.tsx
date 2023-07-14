@@ -9,38 +9,27 @@ import Headline from "../../common/layout/Headline/Headline.tsx";
 import CheckInput from "../CheckInput/CheckInput.tsx";
 import buttonStyles from "../../common/layout/Button/button.module.css";
 import Button from "../../common/layout/Button/Button.tsx";
-import { addAddon, removeAddon } from "../../../store/appSlice.ts";
-import AddonsEnum from "../../../enums/AddonsEnum.ts";
+import {
+  addAddon,
+  removeAddon,
+  setNextStep,
+  setPrevStep,
+} from "../../../store/appSlice.ts";
+import GetFormData from "../../../hooks/getFormData.ts";
+import addonsList from "../../../constans/AddonsList.ts";
 
-interface Props {
-  handleNextStep: () => void;
-  handlePrevStep: () => void;
-  formData: FormType;
-}
-
-const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
+const Addons = () => {
+  const formData: FormType = GetFormData();
   const dispatch: AppDispatch = useDispatch();
-  // list of addons
-  const addonsList = [
-    {
-      description: "Access to multiplayer games",
-      priceMonthly: 1,
-      priceYearly: 10,
-      value: AddonsEnum.ONLINE_SERVICE,
-    },
-    {
-      description: "Extra 1TB of cloud save",
-      priceMonthly: 2,
-      priceYearly: 20,
-      value: AddonsEnum.LARGER_STORAGE,
-    },
-    {
-      description: "Custom theme on your profile",
-      priceMonthly: 2,
-      priceYearly: 20,
-      value: AddonsEnum.CUSTOMIZABLE_PROFILE,
-    },
-  ];
+
+  const handlePrevClick = () => {
+    dispatch(setPrevStep());
+    window.history.back();
+  };
+
+  const handleNextClick = () => {
+    dispatch(setNextStep());
+  };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.checked) {
@@ -81,13 +70,14 @@ const Addons = ({ handleNextStep, handlePrevStep, formData }: Props) => {
           text="Go back"
           color="transparent"
           textColor="hsl(231, 11%, 63%)"
-          click={handlePrevStep}
+          click={handlePrevClick}
         />
         <Button
           text="Next Step"
           color="hsl(213, 96%, 18%)"
           textColor="white"
-          click={handleNextStep}
+          href="/step4"
+          click={handleNextClick}
         />
       </div>
     </Wrapper>
