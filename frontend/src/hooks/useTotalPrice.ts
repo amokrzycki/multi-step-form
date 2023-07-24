@@ -8,8 +8,10 @@ import AddonsEnum from "../enums/AddonsEnum.ts";
 const useTotalPrice = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [addonsPrices, setAddonsPrices] = useState<number[]>([]);
-  const billing = useSelector((state: RootState) => state.billing);
-  const billingPrice = useSelector((state: RootState) => state.billingPrice);
+  const billing = useSelector((state: RootState) => state.planInfo.billing);
+  const billingPrice = useSelector(
+    (state: RootState) => state.planInfo.billingPrice
+  );
   const addonsSelected = useSelector(
     (state: RootState) => state.addonsSelected
   );

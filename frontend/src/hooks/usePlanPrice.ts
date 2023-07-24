@@ -5,28 +5,28 @@ import PlanEnum from "../enums/PlanEnum.ts";
 import BillingEnum from "../enums/BillingEnum.ts";
 
 const usePlanPrice = () => {
-  const billing = useSelector((state: RootState) => state.billing);
-  const plan = useSelector((state: RootState) => state.plan);
+  const billing = useSelector((state: RootState) => state.planInfo.billing);
+  const plan = useSelector((state: RootState) => state.planInfo.plan);
+
+  const plans = [
+    {
+      name: "Arcade",
+      priceMonthly: 9,
+      priceYearly: 90,
+    },
+    {
+      name: "Advanced",
+      priceMonthly: 12,
+      priceYearly: 120,
+    },
+    {
+      name: "Pro",
+      priceMonthly: 15,
+      priceYearly: 150,
+    },
+  ];
 
   return useCallback(() => {
-    const plans = [
-      {
-        name: "Arcade",
-        priceMonthly: 9,
-        priceYearly: 90,
-      },
-      {
-        name: "Advanced",
-        priceMonthly: 12,
-        priceYearly: 120,
-      },
-      {
-        name: "Pro",
-        priceMonthly: 15,
-        priceYearly: 150,
-      },
-    ];
-
     switch (plan) {
       case PlanEnum.Arcade:
         return billing === BillingEnum.Yearly

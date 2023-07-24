@@ -1,6 +1,6 @@
 import Circle from "../Circle/Circle.tsx";
-import ClickableDiv from "../../common/layout/ClickableDiv/ClickableDiv.tsx";
 import stepStyles from "./stepView.module.css";
+import ClickableDiv from "../../common/layout/ClickableDiv/ClickableDiv.tsx";
 import React from "react";
 
 type Props = {
@@ -8,15 +8,16 @@ type Props = {
   title: string;
   description: string;
   filled: boolean;
-  navigate: React.MouseEventHandler<HTMLDivElement>;
   disabled?: boolean;
+  click?: React.MouseEventHandler<HTMLDivElement> | undefined;
 };
 
 const StepView = (props: Props) => {
   return (
     <ClickableDiv
-      onClick={!props.disabled ? props.navigate : undefined}
       id={props.number}
+      onClick={props.click}
+      disabled={props.disabled}
     >
       <Circle number={props.number} filled={props.filled} />
       <div className={`${stepStyles.textContainer}`}>

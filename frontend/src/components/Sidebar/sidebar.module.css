@@ -1,18 +1,22 @@
 .sidebarWrapper {
-  width: 30%;
-  background-image: url(./bg-sidebar-desktop.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 1em;
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
+    width: 30%;
+    background-image: url(./bg-sidebar-desktop.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
 }
 
-.sidebarWrapper > div {
-  padding: 1em;
-  display: flex;
-  text-transform: uppercase;
-  width: fit-content;
+.sidebarWrapper > a > div {
+    padding: 1em;
+    display: flex;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+.sidebarWrapper > a {
+    text-decoration: none;
 }

@@ -2,12 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import BillingEnum from "../enums/BillingEnum";
 
 interface AppState {
-  name: string;
-  email: string;
-  number: string;
-  billing: BillingEnum;
-  billingPrice: number;
-  plan: string;
+  personalInfo: {
+    name: string;
+    email: string;
+    number: string;
+  };
+  planInfo: {
+    billing: BillingEnum;
+    billingPrice: number;
+    plan: string;
+  };
   addonsSelected: string[];
   total: number;
   step: number;
@@ -15,12 +19,16 @@ interface AppState {
 }
 
 const initialState: AppState = {
-  name: "",
-  email: "",
-  number: "",
-  billing: BillingEnum.Monthly,
-  billingPrice: 0,
-  plan: "",
+  personalInfo: {
+    name: "",
+    email: "",
+    number: "",
+  },
+  planInfo: {
+    billing: BillingEnum.Monthly,
+    billingPrice: 0,
+    plan: "",
+  },
   addonsSelected: [],
   total: 0,
   step: 1,
@@ -35,18 +43,21 @@ export const appSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; email: string; number: string }>
     ) => {
-      state.name = action.payload.name;
-      state.email = action.payload.email;
-      state.number = action.payload.number;
+      state.personalInfo.name = action.payload.name;
+      state.personalInfo.email = action.payload.email;
+      state.personalInfo.number = action.payload.number;
     },
-    setBilling: (state, action: PayloadAction<BillingEnum>) => {
-      state.billing = action.payload;
-    },
-    setBillingPrice: (state, action: PayloadAction<number>) => {
-      state.billingPrice = action.payload;
-    },
-    setPlan: (state, action: PayloadAction<string>) => {
-      state.plan = action.payload;
+    setPlanInfo: (
+      state,
+      action: PayloadAction<{
+        billing: BillingEnum;
+        billingPrice: number;
+        plan: string;
+      }>
+    ) => {
+      state.planInfo.billing = action.payload.billing;
+      state.planInfo.billingPrice = action.payload.billingPrice;
+      state.planInfo.plan = action.payload.plan;
     },
     addAddon: (state, action: PayloadAction<string>) => {
       state.addonsSelected.push(action.payload);
@@ -79,9 +90,7 @@ export const appSlice = createSlice({
 
 export const {
   setUserData,
-  setBilling,
-  setBillingPrice,
-  setPlan,
+  setPlanInfo,
   addAddon,
   removeAddon,
   resetAddons,
