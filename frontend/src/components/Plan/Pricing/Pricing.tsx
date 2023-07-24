@@ -12,10 +12,8 @@ import buttonStyles from "../../common/layout/Button/button.module.css";
 import Button from "../../common/layout/Button/Button.tsx";
 import {
   resetAddons,
-  setBilling,
-  setBillingPrice,
   setNextStep,
-  setPlan,
+  setPlanInfo,
   setPrevStep,
 } from "../../../store/appSlice.ts";
 import usePlanPrice from "../../../hooks/usePlanPrice.ts";
@@ -31,7 +29,13 @@ const Pricing = () => {
   const billingPrice = getPrice();
 
   useEffect(() => {
-    dispatch(setBillingPrice(billingPrice));
+    dispatch(
+      setPlanInfo({
+        billingPrice: billingPrice,
+        billing: formData.billing as BillingEnum,
+        plan: formData.plan,
+      })
+    );
   }, [billingPrice, dispatch]);
 
   const handlePrevClick = () => {
@@ -44,14 +48,26 @@ const Pricing = () => {
   };
 
   const handlePlanClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    dispatch(setPlan(e.currentTarget.children[0].id));
+    dispatch(
+      setPlanInfo({
+        billingPrice: formData.billingPrice,
+        billing: formData.billing as BillingEnum,
+        plan: e.currentTarget.children[0].id,
+      })
+    );
   };
 
   const handleBillingSwitch: React.ChangeEventHandler<
     HTMLLabelElement
   > = () => {
     checked = !checked;
-    dispatch(setBilling(checked ? BillingEnum.Yearly : BillingEnum.Monthly));
+    dispatch(
+      setPlanInfo({
+        billingPrice: billingPrice,
+        billing: checked ? BillingEnum.Yearly : BillingEnum.Monthly,
+        plan: formData.plan,
+      })
+    );
     dispatch(resetAddons());
   };
 

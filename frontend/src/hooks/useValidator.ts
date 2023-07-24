@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import FormType from "../types/FormType.ts";
 
 const useValidator = (formData: FormType) => {
-  const [validName, setValidName] = useState(true);
-  const [validEmail, setValidEmail] = useState(true);
-  const [validNumber, setValidNumber] = useState(true);
+  const [validName, setValidName] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validNumber, setValidNumber] = useState(false);
 
   useEffect(() => {
     // Validate name

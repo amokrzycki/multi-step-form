@@ -5,8 +5,8 @@ import PlanEnum from "../enums/PlanEnum.ts";
 import BillingEnum from "../enums/BillingEnum.ts";
 
 const usePlanPrice = () => {
-  const billing = useSelector((state: RootState) => state.billing);
-  const plan = useSelector((state: RootState) => state.plan);
+  const billing = useSelector((state: RootState) => state.planInfo.billing);
+  const plan = useSelector((state: RootState) => state.planInfo.plan);
 
   const plans = [
     {
