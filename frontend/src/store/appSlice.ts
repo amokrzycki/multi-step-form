@@ -3,9 +3,9 @@ import BillingEnum from "../enums/BillingEnum";
 
 interface AppState {
   personalInfo: {
-    name: string;
-    email: string;
-    number: string;
+    name: string | null;
+    email: string | null;
+    number: string | null;
   };
   planInfo: {
     billing: BillingEnum;
@@ -41,7 +41,11 @@ export const appSlice = createSlice({
   reducers: {
     setUserData: (
       state,
-      action: PayloadAction<{ name: string; email: string; number: string }>
+      action: PayloadAction<{
+        name: string | null;
+        email: string | null;
+        number: string | null;
+      }>
     ) => {
       state.personalInfo.name = action.payload.name;
       state.personalInfo.email = action.payload.email;

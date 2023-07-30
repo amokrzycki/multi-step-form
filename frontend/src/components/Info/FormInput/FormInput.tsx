@@ -11,6 +11,7 @@ interface Props {
   style?: React.CSSProperties;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   autoFocus?: boolean;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export const FormInput: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const FormInput: React.FC<Props> = ({
   placeholder,
   autoFocus,
   onChange,
+  onBlur,
 }: Props) => {
   return (
     <>
@@ -40,6 +42,7 @@ export const FormInput: React.FC<Props> = ({
         style={style}
         autoFocus={autoFocus}
         onChange={onChange}
+        onBlur={onBlur}
       />
     </>
   );

@@ -2,50 +2,40 @@ import Button from "../../common/layout/Button/Button.tsx";
 import Headline from "../../common/layout/Headline/Headline.tsx";
 import Wrapper from "../../common/layout/Wrapper/Wrapper.tsx";
 import infoStyles from "./personalInfo.module.css";
-import React from "react";
 import { AppDispatch } from "../../../store/store.ts";
 import { useDispatch } from "react-redux";
 import { FormInput } from "../FormInput/FormInput.tsx";
 import { setNextStep, setUserData } from "../../../store/appSlice.ts";
-import useValidator from "../../../hooks/useValidator.ts";
-import GetFormData from "../../../hooks/getFormData.ts";
+import useFormValidator from "../../../hooks/useFormValidator.ts";
+import useInputField from "../../../hooks/useInputField.ts";
+import getFormData from "../../../hooks/getFormData.ts";
 
 const PersonalInfo = () => {
-  const formData = GetFormData();
+  const formData = getFormData();
   const dispatch: AppDispatch = useDispatch();
-  const { validName, validEmail, validNumber } = useValidator(formData);
-  const isFormValid = validName && validEmail && validNumber;
+  const [nameValidator, emailValidator, numberValidator] = useFormValidator();
+  const nameInputField = useInputField(
+    formData.name ? formData.name : "",
+    nameValidator.validate
+  );
+  const emailInputField = useInputField(
+    formData.email ? formData.email : "",
+    emailValidator.validate
+  );
+  const numberInputField = useInputField(
+    formData.number ? formData.number : "",
+    numberValidator.validate
+  );
+  const isFormValid =
+    nameInputField.valid && emailInputField.valid && numberInputField.valid;
 
   const handleNextClick = () => {
     dispatch(setNextStep());
-  };
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
       setUserData({
-        name: e.currentTarget.value,
-        email: formData.email,
-        number: formData.number,
-      })
-    );
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      setUserData({
-        name: formData.name,
-        email: e.currentTarget.value,
-        number: formData.number,
-      })
-    );
-  };
-
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      setUserData({
-        name: formData.name,
-        email: formData.email,
-        number: e.currentTarget.value,
+        name: nameInputField.value,
+        email: emailInputField.value,
+        number: numberInputField.value,
       })
     );
   };
@@ -61,29 +51,29 @@ const PersonalInfo = () => {
         name="name"
         labelText="Name"
         placeholder="e.g Stephen King"
-        valid={validName}
+        valid={nameInputField.valid}
         errorText="Please provide properly name!"
-        value={formData.name}
-        onChange={handleNameChange}
+        value={nameInputField.value || ""}
+        onChange={(e) => nameInputField.handleChange(e.target.value)}
         autoFocus={true}
       />
       <FormInput
         name="email"
         labelText="Email Address"
         placeholder="e.g stephenking@lorem.com"
-        valid={validEmail}
+        valid={emailInputField.valid}
         errorText="Please provide properly email address!"
-        value={formData.email}
-        onChange={handleEmailChange}
+        value={emailInputField.value || ""}
+        onChange={(e) => emailInputField.handleChange(e.target.value)}
       />
       <FormInput
         name="number"
         labelText="Phone Number"
         placeholder="e.g +1234567890"
-        valid={validNumber}
+        valid={numberInputField.valid}
         errorText="Please provide properly phone number!"
-        value={formData.number}
-        onChange={handleNumberChange}
+        value={numberInputField.value || ""}
+        onChange={(e) => numberInputField.handleChange(e.target.value)}
       />
       {/* NAVIGATION */}
       <div className={infoStyles.navWrapper}>
