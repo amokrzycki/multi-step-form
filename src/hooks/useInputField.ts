@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 
-type ValidatorFn = (value: string | null) => boolean | "" | null;
+type ValidatorFn = (name: string | null) => "" | null | boolean;
 
-const useInputField = (
-  initialValue: string | null,
-  validatorFn: ValidatorFn
-) => {
-  const [value, setValue] = useState<string | null>(initialValue);
+const useInputField = (initialValue: string, validatorFn: ValidatorFn) => {
+  const [value, setValue] = useState<string>(initialValue);
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
@@ -17,7 +14,7 @@ const useInputField = (
     }
   }, [value, validatorFn]);
 
-  const handleChange = (newValue: string | null) => {
+  const handleChange = (newValue: string) => {
     setValue(newValue);
     if (validatorFn(value)) {
       setValid(true);

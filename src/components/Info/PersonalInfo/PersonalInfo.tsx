@@ -16,15 +16,15 @@ const PersonalInfo = () => {
   const [nameValidator, emailValidator, numberValidator] = useFormValidator();
   const nameInputField = useInputField(
     formData.name ? formData.name : "",
-    nameValidator.validate
+    nameValidator.validate,
   );
   const emailInputField = useInputField(
     formData.email ? formData.email : "",
-    emailValidator.validate
+    emailValidator.validate,
   );
   const numberInputField = useInputField(
     formData.number ? formData.number : "",
-    numberValidator.validate
+    numberValidator.validate,
   );
   const isFormValid =
     nameInputField.valid && emailInputField.valid && numberInputField.valid;
@@ -36,7 +36,7 @@ const PersonalInfo = () => {
         name: nameInputField.value,
         email: emailInputField.value,
         number: numberInputField.value,
-      })
+      }),
     );
   };
 

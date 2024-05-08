@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import Fallback from "../components/Fallback/Fallback.tsx";
 import View from "../components/View/View.tsx";
 import PersonalInfo from "../components/Info/PersonalInfo/PersonalInfo.tsx";
@@ -7,7 +7,7 @@ import Summary from "../components/Summary/Summary.tsx";
 import Addons from "../components/AddonsSelection/Addons/Addons.tsx";
 import Confirmation from "../components/Confirmation/Confirmation.tsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <View />,
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <Summary />,
       },
       {
-        path: "/confirmation",
+        path: "confirmation",
         element: <Confirmation />,
       },
       {

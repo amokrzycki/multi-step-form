@@ -3,9 +3,9 @@ import BillingEnum from "../enums/BillingEnum";
 
 interface AppState {
   personalInfo: {
-    name: string | null;
-    email: string | null;
-    number: string | null;
+    name: string;
+    email: string;
+    number: string;
   };
   planInfo: {
     billing: BillingEnum;
@@ -42,10 +42,10 @@ export const appSlice = createSlice({
     setUserData: (
       state,
       action: PayloadAction<{
-        name: string | null;
-        email: string | null;
-        number: string | null;
-      }>
+        name: string;
+        email: string;
+        number: string;
+      }>,
     ) => {
       state.personalInfo.name = action.payload.name;
       state.personalInfo.email = action.payload.email;
@@ -57,7 +57,7 @@ export const appSlice = createSlice({
         billing: BillingEnum;
         billingPrice: number;
         plan: string;
-      }>
+      }>,
     ) => {
       state.planInfo.billing = action.payload.billing;
       state.planInfo.billingPrice = action.payload.billingPrice;
@@ -68,7 +68,7 @@ export const appSlice = createSlice({
     },
     removeAddon: (state, action: PayloadAction<string>) => {
       state.addonsSelected = state.addonsSelected.filter(
-        (addon) => addon !== action.payload
+        (addon) => addon !== action.payload,
       );
     },
     resetAddons: (state) => {

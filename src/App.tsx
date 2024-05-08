@@ -4,18 +4,14 @@ import { RouterProvider } from "react-router-dom";
 import router from "./router/router.tsx";
 
 const App: React.FC = () => {
-  {
-    /* RETURN TO FIRST STEP AFTER REFRESH */
-  }
   useEffect(() => {
-    const currentPath = window.location.pathname;
-    const desiredPath = "/step1";
+    const desiredHash = "#/step1";
+    const currentHash = window.location.hash;
 
-    if (currentPath !== desiredPath) {
-      window.location.href = desiredPath;
+    if (currentHash !== desiredHash) {
+      window.location.hash = desiredHash;
     }
   }, []);
-
   return <RouterProvider router={router} />;
 };
 
