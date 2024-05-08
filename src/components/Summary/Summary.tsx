@@ -7,37 +7,24 @@ import buttonStyles from "../common/layout/Button/button.module.css";
 import Button from "../common/layout/Button/Button";
 import useTotalPrice from "../../hooks/useTotalPrice.ts";
 import GetFormData from "../../hooks/getFormData.ts";
-import FormService from "../../services/FormService.ts";
-import { setNextStep } from "../../store/appSlice.ts";
+import { setPrevStep } from "../../store/appSlice.ts";
 import { AppDispatch } from "../../store/store.ts";
 import { useDispatch } from "react-redux";
-import Alert from "../common/Alert/Alert.tsx";
-import { useState } from "react";
 import router from "../../router/router.tsx";
 
 const Summary = () => {
   const formData: FormType = GetFormData();
   const billingType = formData.billing === BillingEnum.Monthly ? "mo" : "yr";
   const { totalPrice, addonsPrices } = useTotalPrice();
-  const [error, setError] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const [errorText, setErrorText] = useState("");
 
   const handleConfirm = () => {
-    FormService.postFormData(formData)
-      .then((r) => {
-        if (r.status === 200) {
-          router.navigate("/confirmation");
-        }
-      })
-      .catch((e) => {
-        setErrorText(e.message);
-        setError(true);
-      });
+    console.log(formData);
+    router.navigate("/confirmation").then((r) => console.log(r));
   };
 
   const handlePrevClick = () => {
-    dispatch(setNextStep());
+    dispatch(setPrevStep());
     window.history.back();
   };
 
@@ -103,7 +90,6 @@ const Summary = () => {
           click={handleConfirm}
         />
       </div>
-      <Alert type="error" text={errorText} set={setError} open={error} />
     </Wrapper>
   );
 };
